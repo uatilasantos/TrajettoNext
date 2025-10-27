@@ -1,28 +1,50 @@
-import styles from './login.module.css';
+"use client";
+
+import Link from "next/link";
+import styles from "./login.module.css";
 
 export default function LoginPage() {
   return (
-  
     <div className={styles.loginContainer}>
-      <div className={styles.formCard}>
-        <h1 className={styles.title}>Fazer Login</h1>
+      {/* Lado com logo */}
+      <div className={styles.leftSide}>
+        <div className={styles.brand}>
+          <h1>TRAJETTO</h1>
+          <p>Conectando lugares, entregando confiança.</p>
+        </div>
+      </div>
 
-        <form>
-          <input
-            type="email"
-            placeholder="Seu E-mail"
-            className={styles.inputField}
-          />
-          <input
-            type="password"
-            placeholder="Sua Senha"
-            className={styles.inputField}
-          />
-          
-          <button type="submit">Entrar</button>
-        </form>
+      {/*formulário*/}
+      <div className={styles.rightSide}>
+        <div className={styles.formBox}>
+          <p className={styles.subtitle}>
+            Ainda não tem conta?{" "}
+            <a href="#" className={styles.linkHighlight}>Criar conta</a>
+          </p>
+
+          <h2 className={styles.title}>Faça login em sua conta</h2>
+
+          <form className={styles.form}>
+            <label>E-mail</label>
+            <input type="email" placeholder="seuemail@exemplo.com" required />
+
+            <label>Senha</label>
+            <input type="password" placeholder="Digite sua senha" required />
+
+            <div className={styles.actions}>
+              <a href="#" className={styles.smallLink}>Esqueci minha senha</a>
+            </div>
+
+            <button type="submit" className={styles.loginButton}>
+              Entrar 
+            </button>
+
+            <Link href="/" className={styles.backLink}>
+               Voltar para página inicial
+            </Link>
+          </form>
+        </div>
       </div>
     </div>
   );
 }
-
