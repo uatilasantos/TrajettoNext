@@ -1,0 +1,79 @@
+.dashboardContainer {
+  display: flex;
+  min-height: 100vh;
+  background: #f4f6f8;
+}
+
+/* menu lateral*/
+.sidebar {
+  width: 260px;
+  background: #000066;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 1.5rem;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+  position: fixed;
+  height: 100vh;
+}
+
+.sidebar h3 {
+  font-size: 1.4rem;
+  margin-bottom: 2rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar li {
+  margin: 1rem 0;
+}
+
+.sidebar a {
+  color: #ddd;
+  text-decoration: none;
+  font-weight: 500;
+  display: block;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  transition: background 0.3s, color 0.3s;
+}
+
+.sidebar a:hover {
+  background: #ebebeb;
+  color: #000000;
+}
+
+/*logout */
+.logout {
+  margin-top: auto;
+  color: #ff6b6b !important;
+}
+
+.logout:hover {
+  background: #2c1a1a;
+}
+
+/* logo trajetto*/
+.logoBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.logo {
+  max-width: 200px;
+  height: auto;
+}
+
+
+.mainContent {
+  flex: 1;
+  padding: 3rem;
+  margin-left: 260px;
+}
