@@ -56,9 +56,14 @@ export default function Footer() {
             />
 
             {/* CAPTCHA ativado */}
-            <input type="hidden" name="_captcha" value="true" />
+            <input type="hidden" name="_captcha" value="false" />
 
-            <button type="submit">
+            <button
+              onClick={() => {
+                alert("E-mail enviado com sucesso!");
+              }}
+              type="submit"
+            >
               <FiMail />
             </button>
           </form>
