@@ -10,6 +10,8 @@ export default function DocumentosPage() {
       if (id === 1) url = "http://127.0.0.1:5036/relatorio/veiculos";
       else if (id === 2) url = "http://127.0.0.1:5036/relatorio/motoristas";
       else if (id === 3) url = "http://127.0.0.1:5036/relatorio/cargas";
+      else if (id === 4) url = "http://127.0.0.1:5036/relatorio/empresa";
+      else if (id === 5) url = "http://127.0.0.1:5036/relatorio/faturamento";
       else return alert("Erro ao consultar");
 
       // 🔹 Busca o arquivo como blob (PDF)
@@ -27,6 +29,7 @@ export default function DocumentosPage() {
     }
   }
 
+
   return (
     <section>
 
@@ -36,19 +39,47 @@ export default function DocumentosPage() {
           <tr>
             <th className={styles.celula}>Documento Veículos</th>
             <th className={styles.celula}>
-              <button onClick={() => consulta(1)}>Consulta</button>
+              <div className={styles.div_button} >
+                <button onClick={() => consulta(1)}>Consulta</button>
+                <button onClick={() => alert("Em desenvolvimento")} > Enviar por email</button>
+              </div>
             </th>
           </tr>
           <tr>
             <th className={styles.celula}>Documento Motoristas</th>
             <th className={styles.celula}>
-              <button onClick={() => consulta(2)}>Consulta</button>
+              <div className={styles.div_button} >
+                <button onClick={() => consulta(2)}>Consulta</button>
+                <button onClick={() => alert("Em desenvolvimento")} > Enviar por email</button>
+              </div>
             </th>
           </tr>
           <tr>
             <th className={styles.celula}>Documento Cargas</th>
             <th className={styles.celula}>
-              <button onClick={() => consulta(3)}>Consulta</button>
+              <div className={styles.div_button} >
+                <button onClick={() => consulta(3)}>Consulta</button>
+                <button onClick={() => alert("Em desenvolvimento")} > Enviar por email</button>
+              </div>
+
+            </th>
+          </tr>
+          <tr>
+            <th className={styles.celula}>Documento Cliente</th>
+            <th className={styles.celula}>
+              <div className={styles.div_button} >
+                <button onClick={() => consulta(4)}>Consulta</button>
+                <button onClick={() => alert("Em desenvolvimento")} > Enviar por email</button>
+              </div>
+            </th>
+          </tr>
+          <tr>
+            <th className={styles.celula}>Documento financeiro</th>
+            <th className={styles.celula}>
+              <div className={styles.div_button} >
+                <button onClick={() => consulta(5)}>Consulta</button>
+                <button onClick={() => alert("Em desenvolvimento")} > Enviar por email</button>
+              </div>
             </th>
           </tr>
         </tbody>
