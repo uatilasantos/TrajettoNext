@@ -7,10 +7,9 @@ export const metadata = {
 
 export default function LoginLayout({ children }) {
   return (
-    <html lang="pt-BR">
-      <body className="login-body">
-        {children}
-      </body>
-    </html>
+    <div>
+      {children}
+    </div>
+
   );
 }
