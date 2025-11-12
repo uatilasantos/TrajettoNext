@@ -31,6 +31,7 @@ export default function DashboardLayout({ children }) {
 
         <h4>Painel</h4>
         <ul>
+          <li><a href="/dashboard/">Inicio</a></li>
           <li><a href="/dashboard/carga">Manifesto de Carga</a></li>
           <li><a href="/dashboard/veiculo">Veículos</a></li>
           <li><a href="/dashboard/motorista">Motoristas</a></li>

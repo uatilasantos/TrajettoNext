@@ -8,6 +8,9 @@ const usuariosApiUrl = "http://127.0.0.1:5036/clientes";
 const apiUrlMotoristas = "http://127.0.0.1:5036/motoristas";
 const apiUrlVeiculos = "http://127.0.0.1:5036/veiculos";
 
+
+
+
 // const [clientes, setClientes] = useState([]);
 // const [motoristas, setMotoristas] = useState([]);
 // const [veiculos, setVeiculos] = useState([]);

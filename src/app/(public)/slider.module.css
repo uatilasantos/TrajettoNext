@@ -1,0 +1,65 @@
+.slider {
+  margin: 0 auto;
+  width: 100%;
+  height: auto;
+  padding: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.sliderContent {
+  width: 400%;
+  height: auto;
+  display: flex;
+  transition: margin-left 1s;
+}
+
+.sliderContent input {
+  display: none;
+}
+
+.slideBox {
+  width: 25%;
+  height: auto;
+  position: relative;
+  text-align: center;
+  transition: 1s;
+}
+
+.imgDesktop {
+  width: 100%;
+  border-radius: 10px;
+}
+
+/* Botões */
+.navManual,
+.navAuto {
+  position: absolute;
+  width: 100%;
+  bottom: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.manualBtn,
+.navAuto div {
+  border: 1px solid #a5a3a1;
+  padding: 6px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: 0.2s;
+  background: transparent;
+}
+
+.manualBtn:not(:last-child),
+.navAuto div:not(:last-child) {
+  margin-right: 20px;
+}
+
+.manualBtn:hover {
+  background-color: #a5a3a1;
+}
+
+.active {
+  background-color: #a5a3a1;
+}
