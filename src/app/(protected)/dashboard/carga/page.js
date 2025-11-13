@@ -9,18 +9,14 @@ const apiUrlMotoristas = "http://127.0.0.1:5036/motoristas";
 const apiUrlVeiculos = "http://127.0.0.1:5036/veiculos";
 
 
-
-
-// const [clientes, setClientes] = useState([]);
-// const [motoristas, setMotoristas] = useState([]);
-// const [veiculos, setVeiculos] = useState([]);
-
-
-
 export default function CargasPage() {
   const [cargas, setCargas] = useState([]);
   const [editando, setEditando] = useState(null);
-  const [form, setForm] = useState({
+  const [clientes, setClientes] = useState([]);
+  const [veiculos, setVeiculos] = useState([]);
+  const [motoristas, setMotoristas] = useState([]);
+  const [cidadesSP, setCidadesSP] = useState([]);
+    const [form, setForm] = useState({
     tipo_carga: "",
     peso_carga: "",
     motorista_id: "",
@@ -40,6 +36,10 @@ export default function CargasPage() {
 
   useEffect(() => {
     carregarCargas();
+    carregarClientes();
+    carregarVeiculos();
+    carregarMotoristas();
+    carregarCidadesSP();
   }, []);
 
   async function carregarCargas() {
@@ -51,6 +51,52 @@ export default function CargasPage() {
       console.error("Erro ao carregar cargas:", error);
     }
   }
+
+  async function carregarClientes() {
+    try {
+      const resposta = await fetch(usuariosApiUrl);
+      const data = await resposta.json();
+      setClientes(data);
+    } catch (error) {
+      console.error("Erro ao carregar clientes:", error);
+    }
+  }
+
+  async function carregarVeiculos() {
+    try {
+      const resposta = await fetch(apiUrlVeiculos); 
+      const data = await resposta.json();
+      setVeiculos(data);
+    } catch (error) {
+      console.error("Erro ao carregar veículos:", error);
+    }
+  }
+
+  async function carregarMotoristas() {
+    try {
+      const resposta = await fetch(apiUrlMotoristas);
+      const data = await resposta.json();
+      setMotoristas(data);
+    }
+    catch (error) {
+      console.error("Erro ao carregar motoristas:", error);
+    }
+  }
+
+async function carregarCidadesSP() {
+    const apiIbgeUrl = "https://servicodados.ibge.gov.br/api/v1/localidades/estados/35/municipios";
+
+    try {
+        const response = await fetch(apiIbgeUrl);
+        let cidades = await response.json();
+        cidades.sort((a, b) => a.nome.localeCompare(b.nome));
+
+        setCidadesSP(cidades);
+
+    } catch (error) {
+        console.error("Erro ao carregar cidades:", error);
+    }
+}
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -124,52 +170,6 @@ export default function CargasPage() {
 }
 
 
-// Carrega clientes, motorista e veículo
-
-// useEffect(() => {
-//   carregarCargas();
-//   carregarClientes();
-//   carregarMotoristas();
-//   carregarVeiculos();
-// }, []);
-
-// async function carregarClientes() {
-//   try {
-//     const resposta = await fetch(usuariosApiUrl);
-//     const data = await resposta.json();
-//     setClientes(data);
-//   } catch (error) {
-//     console.error("Erro ao carregar clientes:", error);
-//   }
-// }
-
-// async function carregarMotoristas() {
-//   try {
-//     const resposta = await fetch(apiUrlMotoristas);
-//     const data = await resposta.json();
-//     setMotoristas(data);
-//   } catch (error) {
-//     console.error("Erro ao carregar motoristas:", error);
-//   }
-// }
-
-// async function carregarVeiculos() {
-//   try {
-//     const resposta = await fetch(apiUrlVeiculos);
-//     const data = await resposta.json();
-//     setVeiculos(data);
-//   } catch (error) {
-//     console.error("Erro ao carregar veículos:", error);
-//   }
-// }
-
-
-
-
-
-
-
-
   function limparFormulario() {
     setForm({
       tipo_carga: "",
@@ -193,17 +193,14 @@ export default function CargasPage() {
 
         <form onSubmit={handleSubmit} className={styles.formCarga}>
           <h3>Dados da Carga</h3>   
-          <input name="cliente_id" placeholder="Cliente" value={form.cliente_id} onChange={handleChange} />
-          <input name="tipo_carga" placeholder="Tipo Carga" value={form.tipo_carga} onChange={handleChange} required />
+          <select name="cliente_id" value={form.cliente_id} onChange={handleChange} required> <option value="">Selecione um cliente</option> {clientes.map((c) => ( <option key={c.id} value={c.id}> {c.id} - {c.razao_social} </option>))} </select>          
+          <select name="tipo_carga" value={form.tipo_carga} onChange={handleChange} required > <option value="">Selecione o tipo de carga</option> <option value="seca">Seca</option> <option value="refrigerada">Refrigerada</option> </select>          
           <input name="peso_carga" placeholder="Peso" value={form.peso_carga} onChange={handleChange} required />
-          <input name="motorista_id" placeholder="Motorista" value={form.motorista_id} onChange={handleChange} />  
-          <input name="veiculo_id" placeholder="Veículo" value={form.veiculo_id} onChange={handleChange} />
+          <select name="motorista_id" value={form.motorista_id} onChange={handleChange}> <option value="">Selecione um motorista</option> {motoristas.map((m) => (<option key={m.id} value={m.id}> {m.id} - {m.nome} </option> ))} </select>          
+          <select name="veiculo_id" value={form.veiculo_id} onChange={handleChange}> <option value="">Selecione um veículo</option> {veiculos.map((v) => (<option key={v.id} value={v.id}> {v.id} - {v.placa} - {v.peso_maximo_kg}kg </option> ))} </select>          
           <h3>Dados do Frete</h3>
-          <input name="origem_carga" placeholder="Origem Carga" value={form.origem_carga} onChange={handleChange} />
-          <input name="destino_carga" placeholder="Destino Carga" value={form.destino_carga} onChange={handleChange} />
-          <input name="valor_frete" placeholder="Valor do Frete" value={form.valor_frete} onChange={handleChange} />
-          <input name="valor_km" placeholder="Valor Km" value={form.valor_km} onChange={handleChange} />
-          <input name="distancia" placeholder="Distância" value={form.distancia} onChange={handleChange} />
+          <select name="origem_carga" value={form.origem_carga} onChange={handleChange} required> <option value="">Selecione uma cidade</option> {cidadesSP.map((c) => (<option key={c.id} value={c.nome}>{c.nome}</option> ))}</select>
+          <select name="destino_carga" value={form.destino_carga} onChange={handleChange} required> <option value="">Selecione uma cidade</option> {cidadesSP.map((c) => ( <option key={c.id} value={c.nome}>{c.nome}</option> ))} </select>
           <button id="btn-salvar" type="submit">
             {editando ? "Salvar Alterações" : "Cadastrar carga"}
           </button>
@@ -250,11 +247,11 @@ export default function CargasPage() {
             {cargas.map((v) => (
               <tr key={v.id}>
                 <td>{v.id}</td>
-                <td>{v.cliente_id}</td>
+                <td>{v.cliente}</td>
                 <td>{v.tipo_carga}</td>
                 <td>{v.peso_carga}</td>
-                <td>{v.motorista_id}</td>
-                <td>{v.veiculo_id}</td>
+                <td>{v.motorista}</td>
+                <td>{v.veiculo}</td>
                 <td>{v.origem_carga}</td>
                 <td>{v.destino_carga}</td>
                 <td>{v.valor_frete}</td>
