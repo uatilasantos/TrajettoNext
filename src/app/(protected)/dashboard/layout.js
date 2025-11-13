@@ -43,7 +43,7 @@ export default function DashboardLayout({ children }) {
 
         </ul>
         <ul>
-          <li><a href="/" className={styles.logout}>Logout</a></li>
+          <li><a href="/logout" className={styles.logout}>Logout</a></li>
         </ul>
       </aside>
 
