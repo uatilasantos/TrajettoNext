@@ -52,6 +52,32 @@ export default function motoristaPage() {
     setForm((prev) => ({ ...prev, [name]: value }));
   }
 
+  useEffect(() => {
+    const cep = form.cep.replace(/\D/g, "");
+
+    if (cep.length !== 8) return;
+
+    async function buscarCEP() {
+      try {
+        const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+        const dados = await response.json();
+
+        if (!dados.erro) {
+          setForm((prev) => ({
+            ...prev,
+            logradouro: dados.logradouro || "",
+            bairro: dados.bairro || "",
+            cidade: dados.localidade || "",
+            estado: dados.uf || "",
+          }));
+        }
+      } catch (error) {
+        console.error("Erro ao consultar CEP:", error);
+      }
+    }
+
+    buscarCEP();
+  }, [form.cep]);
 
 
   async function handleSubmit(e) {
@@ -163,13 +189,14 @@ export default function motoristaPage() {
           <input name="categoria_cnh" placeholder="Categoria CNH" value={form.categoria_cnh} onChange={handleChange} required />
           <input type="text" name="validade_cnh" placeholder="Validade CNH" value={form.validade_cnh} onFocus={(e) => (e.target.type = "date")} onBlur={(e) => { if (!e.target.value) e.target.type = "text"; }} onChange={handleChange} required/>
           <h3>Endereço</h3>
+          <input name="cep" placeholder="CEP" value={form.cep} onChange={handleChange} />          
           <input name="logradouro" placeholder="Logradouro" value={form.logradouro} onChange={handleChange} />
-          <input name="cep" placeholder="CEP" value={form.cep} onChange={handleChange} />
-          <input name="numero" placeholder="Número" value={form.numero} onChange={handleChange} />
-          <input name="complemento" placeholder="Complemento" value={form.complemento} onChange={handleChange} />
           <input name="bairro" placeholder="Bairro" value={form.bairro} onChange={handleChange} />
           <input name="cidade" placeholder="Cidade" value={form.cidade} onChange={handleChange} />
           <input name="estado" placeholder="UF" value={form.estado} onChange={handleChange} />
+          <input name="numero" placeholder="Número" value={form.numero} onChange={handleChange} />
+          <input name="complemento" placeholder="Complemento" value={form.complemento} onChange={handleChange} />
+
 
           <button id="btn-salvar" type="submit">
             {editando ? "Salvar Alterações" : "Cadastrar motorista"}
