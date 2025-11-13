@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState } from "react";
@@ -10,7 +9,7 @@ import Image from "next/image";
 import styles from "./login.module.css";
 
 // url da nossa api para o login
-const apiUrl = "http://127.0.0.1:5036/clientes/login";
+const apiUrl = "http://127.0.0.1:5036/usuario/login";
 
 export default function LoginPage() {
     const router = useRouter();

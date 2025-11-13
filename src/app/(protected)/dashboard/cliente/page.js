@@ -46,7 +46,34 @@ export default function ClientesPage() {
     setForm((prev) => ({ ...prev, [name]: value }));
   }
 
+  useEffect(() => {
+    const cep = form.cep.replace(/\D/g, "");
 
+    if (cep.length !== 8) return;
+
+    async function buscarCEP() {
+      try {
+        const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+        const dados = await response.json();
+
+        if (!dados.erro) {
+          setForm((prev) => ({
+            ...prev,
+            logradouro: dados.logradouro || "",
+            bairro: dados.bairro || "",
+            cidade: dados.localidade || "",
+            estado: dados.uf || "",
+          }));
+        }
+      } catch (error) {
+        console.error("Erro ao consultar CEP:", error);
+      }
+    }
+
+    buscarCEP();
+  }, [form.cep]);
+
+  
   async function handleSubmit(e) {
   e.preventDefault();
   const method = editando ? "PUT" : "POST";
@@ -143,13 +170,14 @@ export default function ClientesPage() {
           <input name="telefone" placeholder="Telefone" value={form.telefone} onChange={handleChange} />
           <input name="email" placeholder="E-mail" value={form.email} onChange={handleChange} />
           <h3>Endereço</h3>
-          <input name="logradouro" placeholder="Logradouro" value={form.logradouro} onChange={handleChange} />
           <input name="cep" placeholder="CEP" value={form.cep} onChange={handleChange} />
-          <input name="numero" placeholder="Número" value={form.numero} onChange={handleChange} />
-          <input name="complemento" placeholder="Complemento" value={form.complemento} onChange={handleChange} />
+          <input name="logradouro" placeholder="Logradouro" value={form.logradouro} onChange={handleChange} />
           <input name="bairro" placeholder="Bairro" value={form.bairro} onChange={handleChange} />
           <input name="cidade" placeholder="Cidade" value={form.cidade} onChange={handleChange} />
           <input name="estado" placeholder="UF" value={form.estado} onChange={handleChange} />
+          <input name="numero" placeholder="Número" value={form.numero} onChange={handleChange} />
+          <input name="complemento" placeholder="Complemento" value={form.complemento} onChange={handleChange} />
+
 
           <button id="btn-salvar" type="submit">
             {editando ? "Salvar Alterações" : "Cadastrar cliente"}
