@@ -172,10 +172,10 @@ export default function ClientesPage() {
           <h3>Endereço</h3>
           <input name="cep" placeholder="CEP" value={form.cep} onChange={handleChange} />
           <input name="logradouro" placeholder="Logradouro" value={form.logradouro} onChange={handleChange} />
+          <input name="numero" placeholder="Número" value={form.numero} onChange={handleChange} />
           <input name="bairro" placeholder="Bairro" value={form.bairro} onChange={handleChange} />
           <input name="cidade" placeholder="Cidade" value={form.cidade} onChange={handleChange} />
           <input name="estado" placeholder="UF" value={form.estado} onChange={handleChange} />
-          <input name="numero" placeholder="Número" value={form.numero} onChange={handleChange} />
           <input name="complemento" placeholder="Complemento" value={form.complemento} onChange={handleChange} />
 
 

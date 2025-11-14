@@ -49,7 +49,7 @@
 }
 
 .formCliente input[name="logradouro"] {
-  grid-column: 1 / -1;
+  grid-column: 2 / -1;
 }
 
 .formCliente input[name="email"] {

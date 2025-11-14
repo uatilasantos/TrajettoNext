@@ -190,7 +190,6 @@ async function carregarCidadesSP() {
     <div className={styles.pageContainer}>
       <div className={styles.container}>
         <h1>Manifesto de Carga</h1>
-
         <form onSubmit={handleSubmit} className={styles.formCarga}>
           <h3>Dados da Carga</h3>   
           <select name="cliente_id" value={form.cliente_id} onChange={handleChange} required> <option value="">Selecione um cliente</option> {clientes.map((c) => ( <option key={c.id} value={c.id}> {c.id} - {c.razao_social} </option>))} </select>          

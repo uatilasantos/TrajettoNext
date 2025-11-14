@@ -44,16 +44,16 @@ export default function DashboardPage() {
       <h2 className={styles.title2}>Resumo Cadastral</h2>
       <div className={styles.cardsContainer}>
         <div className={styles.card}>
-          <h3>Motoristas Cadastrados</h3>
-          <span>{motoristas || 4}</span>
-        </div>
-        <div className={styles.card}>
           <h3>Cargas Cadastradas</h3>
           <span>{cargas || 19}</span>
         </div>
         <div className={styles.card}>
           <h3>Clientes Cadastrados</h3>
           <span>{clientes || 8}</span>
+        </div>
+        <div className={styles.card}>
+          <h3>Motoristas Cadastrados</h3>
+          <span>{motoristas || 4}</span>
         </div>
       </div>
     </div><div className={styles.dashboardContainer}>

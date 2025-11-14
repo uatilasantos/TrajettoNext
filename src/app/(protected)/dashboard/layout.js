@@ -33,11 +33,12 @@ export default function DashboardLayout({ children }) {
         <ul>
           <li><a href="/dashboard/">Inicio</a></li>
           <li><a href="/dashboard/carga">Manifesto de Carga</a></li>
-          <li><a href="/dashboard/veiculo">Veículos</a></li>
+          <li><a href="/dashboard/cliente">Clientes</a></li>
           <li><a href="/dashboard/motorista">Motoristas</a></li>
+          <li><a href="/dashboard/veiculo">Veículos</a></li>
           <li><a href="/dashboard/documentos">Consulta documentos</a></li>
           <li><a href="/dashboard/faturamento">Faturamento</a></li>
-          <li><a href="/dashboard/cliente">Clientes</a></li>
+          
           {/* verificar viabilidade da rota destinatarios, talvez não seja necessaria */}
           <li><a href="/dashboard/destinatario">Destinatários</a></li>
         
