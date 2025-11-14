@@ -86,6 +86,10 @@
   .formMotorista {
     grid-template-columns: 1fr;
   }
+
+  .formMotorista input[name="logradouro"] {
+  grid-column: 1 / -1;
+  }
 }
 
 /*lista de veiculos(get)*/
