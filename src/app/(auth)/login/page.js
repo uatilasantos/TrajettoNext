@@ -26,121 +26,118 @@ export default function LoginPage() {
         setErrorMessage("");
 
         try {
-
-            // Verificando se o cliente está no BD
             const response = await fetch(apiUrl, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(formData)
             });
             const data = await response.json();
+            console.log(data);
 
-            console.log(data)
-
+            // resposta api bem sucedida
             if (response.ok) {
 
-                //Gerando Token
+                if (data.message === "senha invalida") {
+                    setErrorMessage("Senha inválida");
+                    return; // se a senha não está correta, não vamos gerar o token
+                }
+
                 const token = data.token;
                 if (token) {
                     setCookie("auth_token", token, {
-                        maxAge: 60*60, // duração do toke, aqui é uma hora
+                        maxAge: 60 * 60, // duração do toke, aqui é uma hora
                         path: "/"
                     });
-                    console.log("Usuario Logado")
                     router.push("/dashboard");
-
                 } else {
-                    // Caso dê algum erro com o Token
-                    setErrorMessage("Erro, token não recebido.")
-
+                    // caso o token não seja recebido por n motivos vamos exbir no console a mensagem de erro
+                    console.log("Erro, token não recebido.")
+                    setErrorMessage("Verifique suas credenciais")
                 }
+                
+            // se o response for diferente de OK
             } else {
-                // Vendo se a senha está correta
-                if (data.message === "senha invalida") {
-                    setErrorMessage("Senha inválida");
-                } else {
-                    // Se o login não foi bem-sucedido, exibe a mensagem de erro apropriada
-                    setErrorMessage(data.message || "ERRO AO REALIZAR LOGIN")
-                }
+                setErrorMessage(data.message || "ERRO AO REALIZAR LOGIN")
             }
-
+            
+        // Caso de um outro erro
         } catch (err) {
-            console.error("Erro ao realizer login:", err);
-            setErrorMessage("Não foi possível realizar o login, tente novamente mais tarde.")
+        console.error("Erro ao realizer login:", err);
+        setErrorMessage("Não foi possível realizar o login, tente novamente mais tarde.")
 
-        } finally {
-            setIsLoading(false);
-        }
-
-
+    } finally {
+        setIsLoading(false);
     }
 
-    return (
-        <div className={styles.loginContainer}>
-            {/* Lado com logo */}
-            <div className={styles.leftSide}>
-                <div className={styles.brand}>
-                    <Image
-                        src="/logobranco.png"
-                        alt="Trajetto Express"
-                        width={300}
-                        height={100}
-                        priority
-                    />
-                    <p>Conectando lugares, entregando confiança.</p>
-                </div>
-            </div>
 
-            {/* Lado do login */}
-            <div className={styles.rightSide}>
-                <div className={styles.formBox}>
-                    <h2 className={styles.title}>Faça login em sua conta</h2>
+}
 
-                    <form className={styles.form} onSubmit={handleLogin}>
-                        <label>E-mail</label>
-                        <input
-                            type="email"
-                            placeholder="seuemail@exemplo.com"
-                            value={formData.email}
-                            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                            required
-                        />
-
-                        <label>Senha</label>
-                        <input
-                            type="password"
-                            placeholder="Digite sua senha"
-                            value={formData.senha}
-                            onChange={(e) => setFormData({ ...formData, senha: e.target.value })}
-                            required
-                        />
-
-                        <div className={styles.actions}>
-                            <a href="/esqueciSenha" className={styles.smallLink}>
-                                Esqueci minha senha
-                            </a>
-                        </div>
-
-                        {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
-
-                        <p className={styles.subtitle}>
-                            <br />
-                            Ainda não tem conta?{" "}
-                            <a href="/conta" className={styles.linkHighlight}>
-                                Criar conta
-                            </a>
-                        </p>
-
-                        <button type="submit" className={styles.loginButton}>
-                            Entrar
-                        </button>
-
-                        <Link href="/" className={styles.backLink}>
-                            Voltar para página inicial
-                        </Link>
-                    </form>
-                </div>
+return (
+    <div className={styles.loginContainer}>
+        {/* Lado com logo */}
+        <div className={styles.leftSide}>
+            <div className={styles.brand}>
+                <Image
+                    src="/logobranco.png"
+                    alt="Trajetto Express"
+                    width={300}
+                    height={100}
+                    priority
+                />
+                <p>Conectando lugares, entregando confiança.</p>
             </div>
         </div>
-    );
+
+        {/* Lado do login */}
+        <div className={styles.rightSide}>
+            <div className={styles.formBox}>
+                <h2 className={styles.title}>Faça login em sua conta</h2>
+
+                <form className={styles.form} onSubmit={handleLogin}>
+                    <label>E-mail</label>
+                    <input
+                        type="email"
+                        placeholder="seuemail@exemplo.com"
+                        value={formData.email}
+                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        required
+                    />
+
+                    <label>Senha</label>
+                    <input
+                        type="password"
+                        placeholder="Digite sua senha"
+                        value={formData.senha}
+                        onChange={(e) => setFormData({ ...formData, senha: e.target.value })}
+                        required
+                    />
+
+                    <div className={styles.actions}>
+                        <a href="/esqueciSenha" className={styles.smallLink}>
+                            Esqueci minha senha
+                        </a>
+                    </div>
+
+                    {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+
+                    <p className={styles.subtitle}>
+                        <br />
+                        Ainda não tem conta?{" "}
+                        <a href="/conta" className={styles.linkHighlight}>
+                            Criar conta
+                        </a>
+                    </p>
+
+                    <button type="submit" className={styles.loginButton}>
+                        Entrar
+                    </button>
+
+                    <Link href="/" className={styles.backLink}>
+                        Voltar para página inicial
+                    </Link>
+                </form>
+            </div>
+        </div>
+    </div>
+);
 }
