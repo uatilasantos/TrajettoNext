@@ -7,6 +7,7 @@ export default function DashboardPage() {
   const [motoristas, setMotoristas] = useState(0);
   const [cargas, setCargas] = useState(0);
   const [clientes, setClientes] = useState(0);
+  const [frete, setFretes] = useState(0);
 
 //Descomenta o bloco abaixo quando quiser integrar com a API Flask
 /*
@@ -38,8 +39,9 @@ export default function DashboardPage() {
   */
 
   return (
-    <div className={styles.dashboardContainer}>
+    <><div className={styles.dashboardContainer}>
       <h1 className={styles.title}>Painel de Controle</h1>
+      <h2 className={styles.title2}>Resumo Cadastral</h2>
       <div className={styles.cardsContainer}>
         <div className={styles.card}>
           <h3>Motoristas Cadastrados</h3>
@@ -54,6 +56,19 @@ export default function DashboardPage() {
           <span>{clientes || 8}</span>
         </div>
       </div>
-    </div>
+    </div><div className={styles.dashboardContainer}>
+        <h2 className={styles.title2}>Dados de Frete</h2>
+        <div className={styles.cardsContainer}>
+          <div className={styles.card}>
+            <h3>Frete Total Faturado</h3>
+            <span>{motoristas || 4}</span>
+          </div>
+          <div className={styles.card}>
+            <h3>Total de Km's Rodados</h3>
+            <span>{cargas || 19}</span>
+          </div>
+        </div>
+      </div></>
+    
   );
 }
