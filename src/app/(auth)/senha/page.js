@@ -52,7 +52,7 @@ export default function MudancaSenhaPage() {
 
         
         } catch (err) {
-            console.error("Erro ao realizar troca de senha:", error);
+            console.error("Erro ao realizar troca de senha:", err);
             setErrorMessage("Não foi possivel alterar a senha: " || data.message)
     
     } finally {
