@@ -2,69 +2,59 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { setCookie } from "cookies-next";
+
 
 import Link from "next/link";
 import Image from "next/image";
-import styles from "./login.module.css";
+import styles from "./senha.module.css";
 
-// url da nossa api para o login
-const apiUrl = "http://127.0.0.1:5036/usuario/login";
+// url da nossa api para a mudança de senha
+const apiUrl = "http://127.0.0.1:5036/usuario/mudancaSenha";
 
-export default function LoginPage() {
+export default function MudancaSenhaPage() {
     const router = useRouter();
 
     const [formData, setFormData] = useState({
         email: "",
-        senha: ""
+        senha: "",
+        confirma_senha: ""
     });
 
     const [errorMessage, setErrorMessage] = useState("");
     const [isLoading, setIsLoading] = useState(false);
-    const handleLogin = async (e) => {
+
+    const handleMudancaSenha = async (e) => {
         e.preventDefault();
         setErrorMessage("");
 
         try {
+            if (FormData.email != FormData.confirma_senha) {
+                setErrorMessage("As senhas precisam ser iguais")
+                return;
+            }
             const response = await fetch(apiUrl, {
-                method: "POST",
+                method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(formData)
             });
             const data = await response.json();
             console.log(data);
 
-            // resposta api bem sucedida
-            if (response.ok) {
-
-                if (data.message === "senha invalida") {
-                    setErrorMessage("Senha inválida");
-                    return; // se a senha não está correta, não vamos gerar o token
-                }
-
-                const token = data.token;
-                if (token) {
-                    setCookie("auth_token", token, {
-                        maxAge: 60 * 60, // duração do toke, aqui é uma hora
-                        path: "/"
-                    });
-                    router.push("/dashboard");
-                } else {
-                    // caso o token não seja recebido por n motivos vamos exbir no console a mensagem de erro
-                    console.log("Erro, token não recebido.")
-                    setErrorMessage("Verifique suas credenciais")
-                }
-                
-            // se o response for diferente de OK
-            } else {
-                setErrorMessage(data.message || "ERRO AO REALIZAR LOGIN")
-            }
+            if(response.ok){
+                alert("Senha alterada com sucesso");
+                router.push("/dashboard");
             
-        // Caso de um outro erro
-        } catch (err) {
-        console.error("Erro ao realizer login:", err);
-        setErrorMessage("Não foi possível realizar o login, tente novamente mais tarde.")
 
+            } else{
+                setErrorMessage(data.message)
+            }
+
+
+        
+        } catch (err) {
+            console.error("Erro ao realizar troca de senha:", error);
+            setErrorMessage("Não foi possivel alterar a senha: " || data.message)
+    
     } finally {
         setIsLoading(false);
     }
@@ -88,12 +78,12 @@ return (
             </div>
         </div>
 
-        {/* Lado do login */}
+        {/* Mudança de senha aqui */}
         <div className={styles.rightSide}>
             <div className={styles.formBox}>
-                <h2 className={styles.title}>Faça login em sua conta</h2>
+                <h2 className={styles.title}>Redefina sua senha</h2>
 
-                <form className={styles.form} onSubmit={handleLogin}>
+                <form className={styles.form} onSubmit={handleMudancaSenha}>
                     <label>E-mail</label>
                     <input
                         type="email"
@@ -106,30 +96,26 @@ return (
                     <label>Senha</label>
                     <input
                         type="password"
-                        placeholder="Digite sua senha"
+                        placeholder="Digite a nova senha"
                         value={formData.senha}
                         onChange={(e) => setFormData({ ...formData, senha: e.target.value })}
                         required
                     />
 
-                    <div className={styles.actions}>
-                        <a href="/senha" className={styles.smallLink}>
-                            Esqueci minha senha
-                        </a>
-                    </div>
+                    <label>Confirme sua senha</label>
+                    <input
+                        type="password"
+                        placeholder="Confirme a nova senha"
+                        value={formData.senha}
+                        onChange={(e) => setFormData({ ...formData, senha: e.target.value })}
+                        required
+                    />
 
+              
                     {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
 
-                    <p className={styles.subtitle}>
-                        <br />
-                        Ainda não tem conta?{" "}
-                        <a href="/conta" className={styles.linkHighlight}>
-                            Criar conta
-                        </a>
-                    </p>
-
                     <button type="submit" className={styles.loginButton}>
-                        Entrar
+                        Redefinir
                     </button>
 
                     <Link href="/" className={styles.backLink}>
