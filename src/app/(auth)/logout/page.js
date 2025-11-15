@@ -39,7 +39,7 @@ export default function LoginPage() {
 
 
     return (
-        <div className={styles.logoutContainer}>
+        <div className={styles.loginContainer}>
             {/* Lado com logo */}
             <div className={styles.leftSide}>
                 <div className={styles.brand}>
@@ -52,25 +52,26 @@ export default function LoginPage() {
                     />
                     <p>Conectando lugares, entregando confiança.</p>
                 </div>
-
             </div>
+            
+            {/*Logout*/}
             <div className={styles.rightSide}>
                 <div className={styles.formBox}>
+                    <h2 className={styles.title}>Deseja sair da sua conta?</h2>
+                    
+                    <form className={styles.form} onSubmit={handleLogout}>
+                        <button type='submit' className={styles.loginButton}>
+                            Sair
+                        </button>
+                        {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
 
-                    <p className={styles.title}>Deseja sair da sua conta?</p>
+                        <Link href="/dashboard" className={styles.backLink}>
+                            Voltar para página inicial
+                        </Link>
 
-                    {/*Arrumar o FRONT depois*/}
-                    <div className={styles.logoutButton}>
-                        <button className={styles.loginButton} onClick={handleLogout}>Sair</button>
-                    </div>
-
-                    <Link href="/dashboard" className={styles.backLink}>
-                        Voltar para página inicial
-                    </Link>
+                    </form>
                 </div>
-                {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
             </div>
-
         </div >
 
     );

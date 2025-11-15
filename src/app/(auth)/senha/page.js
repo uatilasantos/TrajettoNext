@@ -28,7 +28,7 @@ export default function MudancaSenhaPage() {
         setErrorMessage("");
 
         try {
-            if (FormData.email != FormData.confirma_senha) {
+            if (formData.senha != formData.confirma_senha) {
                 setErrorMessage("As senhas precisam ser iguais")
                 return;
             }
@@ -106,12 +106,12 @@ return (
                     <input
                         type="password"
                         placeholder="Confirme a nova senha"
-                        value={formData.senha}
-                        onChange={(e) => setFormData({ ...formData, senha: e.target.value })}
+                        value={formData.confirma_senha}
+                        onChange={(e) => setFormData({ ...formData, confirma_senha: e.target.value })}
                         required
                     />
+                    <br></br>
 
-              
                     {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
 
                     <button type="submit" className={styles.loginButton}>
