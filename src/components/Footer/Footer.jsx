@@ -26,44 +26,10 @@ export default function Footer() {
         <div className="footer-right">
           <h4>Newsletter</h4>
           <h5>Preencha seu e-mail e seja notificado sobre novidades.</h5>
-          <form
-            className="newsletter"
-            action="https://formsubmit.co/trajetoexpress04@gmail.com"
-            method="POST"
-          >
-            <input
-              type="hidden"
-              id="mensagem"
-              name="mensagem"
-              value="Aqui vc vai receber as novidades TrajetoExpress"
-            />
+          <form className="newsletter">
 
-            <input
-              type="email"
-              name="_cc"
-              placeholder="Digite seu e-mail"
-              required
-            />
-
-            {/* Redireciona para página de obrigado após envio */}
-            <input type="hidden" name="_next" value="http://localhost:3000/" />
-
-            {/* Assunto do e-mail */}
-            <input
-              type="hidden"
-              name="_subject"
-              value="Nova inscrição newsletter"
-            />
-
-            {/* CAPTCHA ativado */}
-            <input type="hidden" name="_captcha" value="false" />
-
-            <button
-              onClick={() => {
-                alert("E-mail enviado com sucesso!");
-              }}
-              type="submit"
-            >
+            <input placeholder="Digite seu e-mail" required/>
+            <button onClick={() => {alert("Parabéns, agora você faz parte da lista de transmissão da nossa newssletter!");}} type="submit">
               <FiMail />
             </button>
           </form>
