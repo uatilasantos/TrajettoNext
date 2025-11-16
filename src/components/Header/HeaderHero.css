@@ -177,8 +177,18 @@
     color: #233241;
   }
 
-  .nav.open .nav-list {
+  .nav-list a {
+    color: #233241;
     display: flex;
+    gap: 2px;
+  }
+
+  /* .nav.open .nav-list {
+    display: flex;
+  } */
+
+  .hero-nav .nav-list {
+    color: #233241;
   }
 
   .menu-btn {
