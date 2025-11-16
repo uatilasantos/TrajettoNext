@@ -198,8 +198,8 @@ async function carregarCidadesSP() {
           <select name="motorista_id" value={form.motorista_id} onChange={handleChange}> <option value="">Selecione um motorista</option> {motoristas.map((m) => (<option key={m.id} value={m.id}> {m.id} - {m.nome} </option> ))} </select>          
           <select name="veiculo_id" value={form.veiculo_id} onChange={handleChange}> <option value="">Selecione um veículo</option> {veiculos.map((v) => (<option key={v.id} value={v.id}> {v.id} - {v.placa} - {v.peso_maximo_kg}kg </option> ))} </select>          
           <h3>Dados do Frete</h3>
-          <select name="origem_carga" value={form.origem_carga} onChange={handleChange} required> <option value="">Selecione uma cidade</option> {cidadesSP.map((c) => (<option key={c.id} value={c.nome}>{c.nome}</option> ))}</select>
-          <select name="destino_carga" value={form.destino_carga} onChange={handleChange} required> <option value="">Selecione uma cidade</option> {cidadesSP.map((c) => ( <option key={c.id} value={c.nome}>{c.nome}</option> ))} </select>
+          <select name="origem_carga" value={form.origem_carga} onChange={handleChange} required> <option value="">Selecione uma cidade de origem</option> {cidadesSP.map((c) => (<option key={c.id} value={c.nome}>{c.nome}</option> ))}</select>
+          <select name="destino_carga" value={form.destino_carga} onChange={handleChange} required> <option value="">Selecione uma cidade de destino</option> {cidadesSP.map((c) => ( <option key={c.id} value={c.nome}>{c.nome}</option> ))} </select>
           <button id="btn-salvar" type="submit">
             {editando ? "Salvar Alterações" : "Cadastrar carga"}
           </button>
@@ -231,7 +231,7 @@ async function carregarCidadesSP() {
             <tr>
               <th>ID</th>
               <th>Cliente</th>
-              <th>Tipo de Carga</th>
+              <th>Tipo</th>
               <th>Peso</th>
               <th>Motorista</th>
               <th>Veículo</th>
