@@ -8,7 +8,7 @@ export default function Footer() {
     <footer className="footer">
       <div className="footer-container">
         <div className="footer-left">
-          <h3>TRAJETTO EXPRESS</h3>
+          <h3>TRAJETTO</h3>
           <p>Conectando lugares, entregando confiança.</p>
           <div className="social-icons">
             <a href="#">
@@ -38,7 +38,7 @@ export default function Footer() {
 
       <div className="footer-bottom">
         <p>
-          © 2025 Todos os direitos reservados - Trajetto Express - CNPJ:
+          © 2025 Todos os direitos reservados - Trajetto - CNPJ:
           00.111.222/0001-55
         </p>
       </div>

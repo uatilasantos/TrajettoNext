@@ -28,7 +28,7 @@
 }
 
 
-/* Bloco do menu */
+/*menu */
 
 .header-hero .nav-list {
   list-style: none;
@@ -53,8 +53,7 @@
 }
 
 
-
-/*login header hero */
+/*login hero */
 .hero-header .login-btn {
   background: rgba(255, 255, 255, 0.08);
   color: #fff;
@@ -67,7 +66,7 @@
   transition: background 0.18s ease, color 0.18s ease, transform 0.12s ease;
 }
 
-/* hover login header hero */
+/* hover login hero */
 .hero-header .login-btn:hover,
 .hero-header .login-btn:focus {
   background: rgba(255, 255, 255, 0.70);
@@ -99,8 +98,6 @@
   display: flex;
   gap: 0.8rem;
 }
-
-
 
 
 /* botão do menu hamburguer */
@@ -139,31 +136,6 @@
 
 
 /* Mobile */
-/* @media (max-width: 768px) {
-.nav-list {
-  background: white;
-  border: none;
-  padding-left: 2rem;
-  padding-top: 2rem;
-  padding-bottom: 2rem;
-  }
-
-.hero-content {
-  max-width: 480px;
-  margin-left: 2rem;
-  margin-bottom: 2rem;
- }
-
- .hero-header {
-  height: 480px;
-  background-image: url("/banner1_mobile.png");
-
- }
- 
-
-} */
-
-
 @media (max-width:768px) {
   .nav-list {
     display: none;
@@ -183,9 +155,6 @@
     gap: 2px;
   }
 
-  /* .nav.open .nav-list {
-    display: flex;
-  } */
 
   .hero-nav .nav-list {
     color: #233241;
