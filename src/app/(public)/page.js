@@ -16,7 +16,7 @@ export default function Slider() {
 
   return (
     <section className={styles.slider}>
-      <div className={styles.sliderContent}>
+      {/* <div className={styles.sliderContent}>
         <input type="radio" name="btn-radio" id="radio1" checked={current === 1} readOnly />
         <input type="radio" name="btn-radio" id="radio2" checked={current === 2} readOnly />
         <input type="radio" name="btn-radio" id="radio3" checked={current === 3} readOnly />
@@ -44,7 +44,23 @@ export default function Slider() {
           <button onClick={() => setCurrent(2)} className={styles.manualBtn}></button>
           <button onClick={() => setCurrent(3)} className={styles.manualBtn}></button>
         </div>
-      </div>
+      </div> */}
+
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+
+    
+                          
     </section>
   );
 }
