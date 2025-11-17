@@ -8,7 +8,6 @@ import Link from "next/link";
 import Image from "next/image";
 import styles from "./login.module.css";
 
-// url da nossa api para o login
 const apiUrl = "http://127.0.0.1:5036/usuario/login";
 
 export default function LoginPage() {
@@ -34,12 +33,11 @@ export default function LoginPage() {
             const data = await response.json();
             console.log(data);
 
-            // resposta api bem sucedida
-            if (response.ok) {
 
+            if (response.ok) {
                 if (data.message === "senha invalida") {
                     setErrorMessage("Senha inválida");
-                    return; // se a senha não está correta, não vamos gerar o token
+                    return;
                 }
 
                 const token = data.token;
@@ -48,96 +46,99 @@ export default function LoginPage() {
                         maxAge: 60 * 60, // duração do toke, aqui é uma hora
                         path: "/"
                     });
+                    
+                    // gambiarra para salvar o token, pq o token está salvando pelo next/front 
+                    if (typeof window !== "undefined") {
+                        localStorage.setItem("auth_token", token);
+                        router.push("/dashboard");
+                    }
+
                     router.push("/dashboard");
                 } else {
-                    // caso o token não seja recebido por n motivos vamos exbir no console a mensagem de erro
                     console.log("Erro, token não recebido.")
                     setErrorMessage("Verifique suas credenciais")
                 }
-                
-            // se o response for diferente de OK
             } else {
                 setErrorMessage(data.message || "ERRO AO REALIZAR LOGIN")
             }
-            
-        // Caso de um outro erro
-        } catch (err) {
-        console.error("Erro ao realizer login:", err);
-        setErrorMessage("Não foi possível realizar o login, tente novamente mais tarde.")
 
-    } finally {
-        setIsLoading(false);
+        } catch (err) {
+            console.error("Erro ao realizer login:", err);
+            setErrorMessage("Não foi possível realizar o login, tente novamente mais tarde.")
+
+        } finally {
+            setIsLoading(false);
+        }
+
+
     }
 
+    return (
+        <div className={styles.loginContainer}>
+            {/* Lado com logo */}
+            <div className={styles.leftSide}>
+                <div className={styles.brand}>
+                    <Image
+                        src="/logobranco.png"
+                        alt="Trajetto Express"
+                        width={300}
+                        height={100}
+                        priority
+                    />
+                    <p>Conectando lugares, entregando confiança.</p>
+                </div>
+            </div>
 
-}
+            {/* Lado do login */}
+            <div className={styles.rightSide}>
+                <div className={styles.formBox}>
+                    <h2 className={styles.title}>Faça login em sua conta</h2>
 
-return (
-    <div className={styles.loginContainer}>
-        {/* Lado com logo */}
-        <div className={styles.leftSide}>
-            <div className={styles.brand}>
-                <Image
-                    src="/logobranco.png"
-                    alt="Trajetto Express"
-                    width={300}
-                    height={100}
-                    priority
-                />
-                <p>Conectando lugares, entregando confiança.</p>
+                    <form className={styles.form} onSubmit={handleLogin}>
+                        <label>E-mail</label>
+                        <input
+                            type="email"
+                            placeholder="seuemail@exemplo.com"
+                            value={formData.email}
+                            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                            required
+                        />
+
+                        <label>Senha</label>
+                        <input
+                            type="password"
+                            placeholder="Digite sua senha"
+                            value={formData.senha}
+                            onChange={(e) => setFormData({ ...formData, senha: e.target.value })}
+                            required
+                        />
+
+                        <div className={styles.actions}>
+                            <a href="/senha" className={styles.smallLink}>
+                                Esqueci minha senha
+                            </a>
+                        </div>
+
+                        {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+
+                        <p className={styles.subtitle}>
+                            <br />
+                            Ainda não tem conta?{" "}
+                            <a href="/conta" className={styles.linkHighlight}>
+                                Criar conta
+                            </a>
+                        </p>
+
+                        <button type="submit" className={styles.loginButton}>
+                            Entrar
+                        </button>
+
+                        <Link href="/" className={styles.backLink}>
+                            Voltar para página inicial
+                        </Link>
+                    </form>
+                </div>
             </div>
         </div>
-
-        {/* Lado do login */}
-        <div className={styles.rightSide}>
-            <div className={styles.formBox}>
-                <h2 className={styles.title}>Faça login em sua conta</h2>
-
-                <form className={styles.form} onSubmit={handleLogin}>
-                    <label>E-mail</label>
-                    <input
-                        type="email"
-                        placeholder="seuemail@exemplo.com"
-                        value={formData.email}
-                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        required
-                    />
-
-                    <label>Senha</label>
-                    <input
-                        type="password"
-                        placeholder="Digite sua senha"
-                        value={formData.senha}
-                        onChange={(e) => setFormData({ ...formData, senha: e.target.value })}
-                        required
-                    />
-
-                    <div className={styles.actions}>
-                        <a href="/senha" className={styles.smallLink}>
-                            Esqueci minha senha
-                        </a>
-                    </div>
-
-                    {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
-
-                    <p className={styles.subtitle}>
-                        <br />
-                        Ainda não tem conta?{" "}
-                        <a href="/conta" className={styles.linkHighlight}>
-                            Criar conta
-                        </a>
-                    </p>
-
-                    <button type="submit" className={styles.loginButton}>
-                        Entrar
-                    </button>
-
-                    <Link href="/" className={styles.backLink}>
-                        Voltar para página inicial
-                    </Link>
-                </form>
-            </div>
-        </div>
-    </div>
-);
+    );
 }

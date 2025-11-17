@@ -2,32 +2,29 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { setCookie } from "cookies-next";
+//import { setCookie } from "cookies-next";
 
 import Link from "next/link";
 import Image from "next/image";
 import styles from "./logout.module.css";
-
-
 
 export default function LoginPage() {
     const router = useRouter()
     const [errorMessage, setErrorMessage] = useState("");
 
     const handleLogout = async (e) => {
+        e.preventDefault();
         try {
-            // removendo o token
             localStorage.removeItem("token")
 
-            // criando uma variavel para saber se o token ainda está visivel ou não
-            // se o token estiver null significa que o usuario foi deslogado
+         
             const token = localStorage.getItem("token")
+            localStorage.removeItem("userId");
+
             console.log(token)
 
             // exibindo um alert de confirmação que o logout funcionou
             alert("Você foi deslogado!")
-
-            // redirecionando para a home do nosso site
             router.push("/");
 
         } catch (err) {
@@ -65,7 +62,7 @@ export default function LoginPage() {
                         </button>
                         {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
 
-                        <Link href="/dashboard" className={styles.backLink}>
+                        <Link href="/" className={styles.backLink}>
                             Voltar para página inicial
                         </Link>
 
