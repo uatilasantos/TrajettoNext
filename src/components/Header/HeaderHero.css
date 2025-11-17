@@ -1,0 +1,179 @@
+.hero-header {
+  width: 100%;
+  height: 580px;
+  background-image: url("/banner1.png");
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  color: #fff;
+}
+
+.header-topbar {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.header-align {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0.5rem;
+}
+
+
+/*menu */
+
+.header-hero .nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-weight: bold;
+  background: pink;
+}
+
+.nav-list a {
+  color: #222;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.08rem;
+}
+
+.login-btn {
+  text-decoration: none;
+  font-weight: bold;
+  color: white;
+  font-size: 1.08rem;
+}
+
+
+/*login hero */
+.hero-header .login-btn {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.05rem;
+  padding: 0.35rem 0.9rem;
+  border-radius: 4px;
+  display: inline-block;
+  transition: background 0.18s ease, color 0.18s ease, transform 0.12s ease;
+}
+
+/* hover login hero */
+.hero-header .login-btn:hover,
+.hero-header .login-btn:focus {
+  background: rgba(255, 255, 255, 0.70);
+  color: #f77e1c;
+  transform: translateY(-1px);
+  outline: none;
+}
+
+
+/* bloco do menu */
+.hero-nav a {
+  color: white;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 0.45rem 1rem;
+  border-radius: 2px;
+  font-weight: 600;
+}
+
+.hero-nav a:hover {
+  background: rgba(255, 255, 255, 0.70);
+  color: #fff;
+}
+
+.nav-list a:hover {
+  color: #f77e1c !important;
+}
+
+.hero-nav {
+  display: flex;
+  gap: 0.8rem;
+}
+
+
+/* botão do menu hamburguer */
+.right-section .menu-btn {
+  color: #233241;
+}
+
+/* Conteúdo do hero */
+.hero-content {
+  max-width: 480px;
+  margin-left: 10rem;
+  margin-bottom: 2rem;
+}
+
+.hero-content h1 {
+  font-size: 2.3rem;
+  font-weight: 700;
+}
+
+.hero-content p {
+  margin-top: 0.6rem;
+  font-size: 1.1rem;
+  line-height: 1.4;
+}
+
+.hero-btn {
+  margin-top: 1.2rem;
+  display: inline-block;
+  padding: 0.7rem 1.4rem;
+  background: #ff7b00;
+  color: #fff;
+  font-weight: 600;
+  border-radius: 6px;
+}
+
+
+
+/* Mobile */
+@media (max-width:768px) {
+  .nav-list {
+    display: none;
+    position: absolute;
+    top: 70px;
+    left: 0;
+    right: 0;
+    background: #fff;
+    padding: 1rem;
+    flex-direction: column;
+    color: #233241;
+  }
+
+  .nav-list a {
+    color: #233241;
+    display: flex;
+    gap: 2px;
+  }
+
+
+  .hero-nav .nav-list {
+    color: #233241;
+  }
+
+  .menu-btn {
+    display: block;
+  }
+
+   .hero-header {
+  height: 480px;
+  background-image: url("/banner1_mobile.png");
+}
+
+  .hero-content {
+    max-width: 480px;
+    margin-left: 1rem;
+    margin-bottom: 2rem;
+}
+
+
+}
