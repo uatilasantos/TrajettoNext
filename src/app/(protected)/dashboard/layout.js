@@ -20,7 +20,7 @@ export default function DashboardLayout({ children }) {
       <aside className={`${styles.sidebar} ${menuOpen ? styles.open : ""}`}>
         <div className={styles.logoBox}>
           <Image
-            src="/logobranco.png"
+            src="/logobranco1.png"
             alt="Logo Trajetto Express"
             width={160}
             height={60}
