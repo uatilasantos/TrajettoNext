@@ -1,139 +1,197 @@
 "use client";
 
-import { jwtDecode } from "jwt-decode";
 import { useEffect, useState } from "react";
 import styles from "./dashboardcards.module.css";
-//import { useRouter } from "next/navigation";
-//import Link from "next/link";
-//import Image from "next/image";
-//import { getCookie } from "cookies-next";
 
+const apiCargas = "http://127.0.0.1:5036/cargas";
+const apiMotoristas = "http://127.0.0.1:5036/motoristas";
+const apiClientes = "http://127.0.0.1:5036/clientes";
 
-
-const apiUrlCargas = "http://127.0.0.1:5036/dashboard/cargasCadastradas";
-
-// pegar id do usuario a partir do token
-export function getIDUsuario(token) {
-  if (!token) return 0;
-
-  const decoded = jwtDecode(token);
-  console.log("DECODED:", decoded);
-  return decoded.id_usuario;
+function getIDUsuarioFromToken(token) {
+  if (!token) return null;
+  try {
+    const payload = token.split(".")[1];
+    if (!payload) return null;
+    const decoded = JSON.parse(atob(payload));
+    return decoded.id_usuario ?? null;
+  } catch {
+    return null;
+  }
 }
 
-// pegar nome do usuario a partir do token -> Caso for exibir Bem-vindo(a), Fulano!
-function getNomeUsuario(token) {
-  if (!token) return null;
-  const payload = JSON.parse(atob(token.split(".")[1]));
-  return payload.nome_usuario;
+function parseKm(distanciaStr) {
+  if (!distanciaStr) return 0;
+  return Number(String(distanciaStr).replace(" km", "").replace(",", ".").trim()) || 0;
+}
+
+function parseMoeda(valorStr) {
+  if (!valorStr) return 0;
+  return Number(String(valorStr).replace("R$", "").replace(/\./g, "").replace(",", ".").trim()) || 0;
 }
 
 export default function DashboardPage() {
-  const [token, setToken] = useState(null);
-  const [usuarioId, setUsuarioId] = useState("");
-  const [cargas, setCargas] = useState(0);
-  const [errorMessage, setErrorMessage] = useState("")
-
-  // NUM DE CADASTRO DE CARGAS --------------------------------------------------------------------------
-  useEffect(() => {
-    const pegandoToken = localStorage.getItem("auth_token");
-    if (pegandoToken) {
-      setToken(pegandoToken);
-      const id_usuario = getIDUsuario(pegandoToken);
-      setUsuarioId(id_usuario);
-    }
-  }), [];
+  const [usuarioId, setUsuarioId] = useState(null);
+  const [cargas, setCargas] = useState(null);
+  const [motoristas, setMotoristas] = useState(null);
+  const [clientes, setClientes] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
-    if (!usuarioId) {
-      return
-    };
-    const handleCargasCadastradas = async () => {
+    const token = localStorage.getItem("auth_token");
+    if (!token) return;
+    const id = getIDUsuarioFromToken(token);
+    setUsuarioId(id);
+  }, []);
+
+  useEffect(() => {
+    let mounted = true;
+
+    async function fetchStaticCounts() {
       try {
-        console.log("Requisição com ID Usuario: " + usuarioId)
+        setLoading(true);
+        const [motRes, cliRes] = await Promise.all([
+          fetch(apiMotoristas),
+          fetch(apiClientes)
+        ]);
 
-        const responseCargas = await fetch(`${apiUrlCargas}/${usuarioId}`, {
-          method: 'GET',
-          headers: { "Content-Type": "application/json" },
-        });
-        const data = await responseCargas.json();
-        setCargas(data["Cargas"]);
+        if (!mounted) return;
 
-      } catch (err) {
-        console.error("Erro ao buscar cargas:", err);
+        const motData = motRes.ok ? await motRes.json() : [];
+        const cliData = cliRes.ok ? await cliRes.json() : [];
 
+        setMotoristas(Array.isArray(motData) ? motData.length : 0);
+        setClientes(Array.isArray(cliData) ? cliData.length : 0);
+      } catch {
+        setErrorMessage("Erro ao carregar dados básicos.");
+        setMotoristas(0);
+        setClientes(0);
+      } finally {
+        if (mounted) setLoading(false);
       }
     }
-    // Para não dar loop infinito
-    handleCargasCadastradas();
 
-    // Para conseguir tem a troca de conta
-  }, [usuarioId])
+    fetchStaticCounts();
+    return () => { mounted = false; };
+  }, []);
 
-  const [motoristas, setMotoristas] = useState(0);
-  const [clientes, setClientes] = useState(0);
-  const [frete, setFretes] = useState(0);
+  useEffect(() => {
+    let mounted = true;
 
-  //Descomenta o bloco abaixo quando quiser integrar com a API Flask
-  /*
-    useEffect(() => {
-      async function fetchData() {
-        try {
-          const [motRes, carRes, cliRes] = await Promise.all([
-            fetch("http://127.0.0.1:5036/motoristas"),
-            fetch("http://127.0.0.1:5036/cargas"),
-            fetch("http://127.0.0.1:5036/clientes")
-          ]);
-  
-          const [motData, carData, cliData] = await Promise.all([
-            motRes.json(),
-            carRes.json(),
-            cliRes.json()
-          ]);
-  
-          setMotoristas(motData.length);
-          setCargas(carData.length);
-          setClientes(cliData.length);
-        } catch (error) {
-          console.error("Erro ao buscar dados do dashboard:", error);
+    async function fetchCargasAll() {
+      try {
+        setLoading(true);
+        const res = await fetch(apiCargas);
+        if (!mounted) return;
+
+        const data = res.ok ? await res.json() : [];
+
+        if (!Array.isArray(data)) {
+          setCargas([]);
+          return;
         }
+
+        let userCargas = data;
+        if (usuarioId !== null && data.some(c => c?.usuario_id !== undefined)) {
+          userCargas = data.filter(c => Number(c.usuario_id) === Number(usuarioId));
+        }
+
+        setCargas(userCargas);
+      } catch {
+        setErrorMessage("Erro ao carregar cargas.");
+        setCargas([]);
+      } finally {
+        if (mounted) setLoading(false);
       }
-  
-      fetchData();
-    }, []);
-    */
+    }
+
+    fetchCargasAll();
+    return () => { mounted = false; };
+  }, [usuarioId]);
+
+  const [freteTotal, kmTotal] = (() => {
+    if (!cargas || !Array.isArray(cargas) || cargas.length === 0) return [0, 0];
+    let ft = 0;
+    let km = 0;
+
+    for (const c of cargas) {
+      ft += parseMoeda(c.valor_frete);
+      km += parseKm(c.distancia);
+    }
+    return [ft, km];
+  })();
+
+  const formatCurrency = (n) =>
+    (n ?? 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+
+  const formatNumber = (n, decimals = 0) =>
+    (n ?? 0).toLocaleString("pt-BR", {
+      minimumFractionDigits: decimals,
+      maximumFractionDigits: decimals
+    });
 
   return (
-    <><div className={styles.dashboardContainer}>
-      <h1 className={styles.title}>Painel de Controle</h1>
-      <h2 className={styles.title2}>Resumo Cadastral</h2>
-      <div className={styles.cardsContainer}>
-        <div className={styles.card}>
-          <h3>Cargas Cadastradas</h3>
-          <span>{cargas || cargas}</span>
-        </div>
-        <div className={styles.card}>
-          <h3>Clientes Cadastrados</h3>
-          <span>{clientes || 8}</span>
-        </div>
-        <div className={styles.card}>
-          <h3>Motoristas Cadastrados</h3>
-          <span>{motoristas || 4}</span>
-        </div>
-      </div>
-    </div><div className={styles.dashboardContainer}>
-        <h2 className={styles.title2}>Dados de Frete</h2>
+    <>
+      <div className={styles.dashboardContainer}>
+        <h1 className={styles.title}>Painel de Controle</h1>
+        <h2 className={styles.title2}>Resumo Cadastral</h2>
+
+        {errorMessage && (
+          <div style={{ color: "red", marginBottom: 12 }}>{errorMessage}</div>
+        )}
+
         <div className={styles.cardsContainer}>
           <div className={styles.card}>
-            <h3>Frete Total Faturado</h3>
-            <span>{motoristas || 4}</span>
+            <h3>Cargas Cadastradas</h3>
+            <span>{Array.isArray(cargas) ? cargas.length : (cargas ?? 0)}</span>
+            <small style={{ display: "block", opacity: 0.7 }}>
+              {loading && "Carregando..."}
+            </small>
           </div>
+
           <div className={styles.card}>
-            <h3>Total de Km's Rodados</h3>
-            <span>{cargas || 19}</span>
+            <h3>Clientes Cadastrados</h3>
+            <span>{clientes ?? 0}</span>
+            <small style={{ display: "block", opacity: 0.7 }}>
+              {loading && "Carregando..."}
+            </small>
+          </div>
+
+          <div className={styles.card}>
+            <h3>Motoristas Cadastrados</h3>
+            <span>{motoristas ?? 0}</span>
+            <small style={{ display: "block", opacity: 0.7 }}>
+              {loading && "Carregando..."}
+            </small>
           </div>
         </div>
-      </div></>
+      </div>
 
+      <div className={styles.dashboardContainer} style={{ marginTop: 20 }}>
+        <h2 className={styles.title2}>Dados de Frete</h2>
+
+        <div className={styles.cardsContainer}>
+          <div className={styles.card}>
+            <h3>Frete Total Faturado(Bruto)</h3>
+            <span>{formatCurrency(freteTotal)}</span>
+            <small style={{ display: "block", opacity: 0.7 }}>
+              {Array.isArray(cargas)
+                ? `${cargas.length} viagens`
+                : loading
+                ? "Carregando..."
+                : "Nenhuma viagem"}
+            </small>
+          </div>
+
+          <div className={styles.card}>
+            <h3>Total de Km's Rodados</h3>
+            <span>{`${formatNumber(kmTotal, 2)} km`}</span>
+            <small style={{ display: "block", opacity: 0.7 }}>
+              {loading && "Carregando..."}
+            </small>
+          </div>
+        </div>
+      </div>
+    </>
   );
 }
