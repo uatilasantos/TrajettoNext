@@ -33,14 +33,6 @@
   gap: 1rem;
 }
 
-/* .formCarga input,
-.formCarga select {
-  padding: 0.6rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 1rem;
-} */
-
 .formCarga select {
   padding: 0.6rem;
   border: 1px solid #ccc;
@@ -73,7 +65,6 @@
 
 .formCarga button {
   grid-column: 1/ -1;
-  
   padding: 0.8rem;
   background: #0202a8;
   color: white;
