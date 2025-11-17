@@ -32,21 +32,26 @@ export default function PaginaFaturamento() {
     fetchCargas();
   }, []);
 
-  // conversores
+  // conversores 
   const parseKm = (distanciaStr) => {
     if (!distanciaStr) return 0;
-    return Number(distanciaStr.replace(" km", "").replace(",", "."));
+
+    return Number(
+      distanciaStr.replace(" km", "").replace(",", ".").trim()
+    );
   };
 
   const parseMoeda = (valorStr) => {
     if (!valorStr) return 0;
+
     return Number(
       valorStr.replace("R$", "").replace(".", "").replace(",", ".").trim()
     );
   };
 
-  // cálculos
+  // cálculos realistas
   const valorDiesel = 6.06;
+  const consumoMedio = 2.5; 
   const pedagioBase = 3.5;
 
   const calcularPedagio = (km) => {
@@ -55,41 +60,48 @@ export default function PaginaFaturamento() {
     return Math.floor(extra / 15) * pedagioBase;
   };
 
-  // gerar dados e totais
+  // totais por viagem
   let totalKm = 0;
   let totalCombustivel = 0;
   let totalPedagios = 0;
   let totalBruto = 0;
-  let totalLiquido = 0;
 
-  const dadosFaturamento = cargas.map((c) => {
-    const km = parseKm(c.distancia);
-    const valorFrete = parseMoeda(c.valor_frete);
+  // salários de todos os motoristas (apenas 1x)
+  const totalSalarios = motoristas.reduce(
+    (acc, m) => acc + Number(m.salario || 0),
+    0
+  );
 
-    const motorista = motoristas.find((m) => m.nome === c.motorista);
-    const salarioMotorista = motorista ? Number(motorista.salario) : 0;
+  // gera dados para gráfico
+  const dadosFaturamento = cargas
+    .filter(c => c && c.distancia && c.valor_frete)
+    .map((c) => {
+      const km = parseKm(c.distancia);
+      const valorFrete = parseMoeda(c.valor_frete);
 
-    const combustivel = km * valorDiesel;
-    const pedagios = calcularPedagio(km);
-    const liquido = valorFrete - combustivel - pedagios - salarioMotorista;
+      const litrosConsumidos = km / consumoMedio;
+      const combustivel = litrosConsumidos * valorDiesel;
 
-    // somatórios
-    totalKm += km;
-    totalCombustivel += combustivel;
-    totalPedagios += pedagios;
-    totalBruto += valorFrete;
-    totalLiquido += liquido;
+      const pedagios = calcularPedagio(km);
 
-    return {
-      nome: c.destino_carga,
-      bruto: valorFrete,
-      liquido: liquido,
-    };
-  });
+      const liquidoSemSalario = valorFrete - combustivel - pedagios;
 
-  // helper visual
-  const format = (n) =>
-    n.toLocaleString("pt-BR", { minimumFractionDigits: 2 });
+      totalKm += km;
+      totalCombustivel += combustivel;
+      totalPedagios += pedagios;
+      totalBruto += valorFrete;
+
+      return {
+        nome: c.destino_carga,
+        bruto: valorFrete,
+        liquido: liquidoSemSalario,
+      };
+    });
+
+  // faturamento líquido depois de descontar salários (apenas 1x)
+  const totalLiquido = totalBruto - totalCombustivel - totalPedagios - totalSalarios;
+
+  const format = (n) => n.toLocaleString("pt-BR", { minimumFractionDigits: 2 });
 
   return (
     <div style={{ padding: "20px" }}>
@@ -107,9 +119,10 @@ export default function PaginaFaturamento() {
         }}
       >
         <Card titulo="Total de Pedágios" valor={`R$ ${format(totalPedagios)}`} />
-        <Card titulo="Total Gasto com Combustível" valor={`R$ ${format(totalCombustivel)}`} />
+        <Card titulo="Gasto com Combustível" valor={`R$ ${format(totalCombustivel)}`} />
         <Card titulo="Total de KM Rodados" valor={`${format(totalKm)} km`} />
         <Card titulo="Faturamento Bruto Total" valor={`R$ ${format(totalBruto)}`} />
+        <Card titulo="Total gasto com salários" valor={`R$ ${format(totalSalarios)}`} />
         <Card titulo="Faturamento Líquido Total" valor={`R$ ${format(totalLiquido)}`} />
       </div>
 
