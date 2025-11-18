@@ -91,7 +91,7 @@ export default function PlanosPage() {
       </div>
 
       {/* Card abaixo dos planos */}
-      <div className={styles.infoExtra}>
+      {/* <div className={styles.infoExtra}>
         <div className={styles.infoTexto}>
           <h2>Por que escolher o Trajetto?</h2>
           <p>
@@ -109,7 +109,7 @@ export default function PlanosPage() {
         <div className={styles.infoImagem}>
           <img src="../cliente.png" alt="Cliente feliz" />
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

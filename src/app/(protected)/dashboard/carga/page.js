@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { jwtDecode } from "jwt-decode";
 import styles from "./carga.module.css";
 
 const apiUrl = "http://127.0.0.1:5036/cargas";
@@ -8,8 +9,15 @@ const usuariosApiUrl = "http://127.0.0.1:5036/clientes";
 const apiUrlMotoristas = "http://127.0.0.1:5036/motoristas";
 const apiUrlVeiculos = "http://127.0.0.1:5036/veiculos";
 
+export function getIDUsuario(token) {
+  if (!token) return 0;
+  const decoded = jwtDecode(token);
+  //console.log("DECODED:", decoded);
+  return decoded.id_usuario;
+}
 
 export default function CargasPage() {
+  const [token, setToken] = useState([]);
   const [cargas, setCargas] = useState([]);
   const [editando, setEditando] = useState(null);
   const [clientes, setClientes] = useState([]);
@@ -17,6 +25,22 @@ export default function CargasPage() {
   const [motoristas, setMotoristas] = useState([]);
   const [cidadesSP, setCidadesSP] = useState([]);
   const [usuarioId, setUsuarioId] = useState([]);
+
+  useEffect(() => {
+    const pegandoToken = localStorage.getItem("auth_token");
+    if (pegandoToken) {
+      setToken(pegandoToken);
+      const id_usuario = getIDUsuario(pegandoToken);
+      setUsuarioId(id_usuario);
+      console.log(id_usuario)
+      setForm((prev) => ({
+        ...prev,
+        usuario_id: id_usuario
+      }));
+    }
+  }, []);
+
+
   const [form, setForm] = useState({
     tipo_carga: "",
     peso_carga: "",
@@ -28,7 +52,7 @@ export default function CargasPage() {
     valor_frete: "",
     valor_km: "",
     distancia: "",
-    usuario_id: "" 
+    usuario_id: ""
   });
 
   const [visualizando, setVisualizando] = useState(null);
@@ -202,13 +226,7 @@ export default function CargasPage() {
           <h3>Dados do Frete</h3>
           <select name="origem_carga" value={form.origem_carga} onChange={handleChange} required> <option value="">Selecione uma cidade de origem</option> {cidadesSP.map((c) => (<option key={c.id} value={c.nome}>{c.nome}</option>))}</select>
           <select name="destino_carga" value={form.destino_carga} onChange={handleChange} required> <option value="">Selecione uma cidade de destino</option> {cidadesSP.map((c) => (<option key={c.id} value={c.nome}>{c.nome}</option>))} </select>
-          <input
-            name="usuario_id"
-            placeholder="Usuário"
-            value={form.usuario_id}
-            onChange={handleChange}
-            required
-          />
+
 
           <button id="btn-salvar" type="submit">
             {editando ? "Salvar Alterações" : "Cadastrar carga"}

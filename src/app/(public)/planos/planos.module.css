@@ -11,7 +11,7 @@
   margin-bottom: 3rem;
   font-size: 2rem;
   font-weight: 700;
-  color: #111;
+  color: #233241;
 }
 
 .planosGrid {
@@ -36,7 +36,7 @@
 }
 
 .card h2 {
-  color: #111;
+  color: #233241;
   font-size: 1.4rem;
   margin-bottom: 0.5rem;
 }
@@ -101,8 +101,12 @@
   background: #ddd;
 }
 
+
+
+
+
 /* Card informativo abaixo */
-.infoExtra {
+/* .infoExtra {
   margin-top: 5rem;
   background: #0070f3;
   color: white;
@@ -141,4 +145,4 @@
   border-radius: 12px;
   max-width: 280px;
   margin-bottom: 1rem;
-}
+} */

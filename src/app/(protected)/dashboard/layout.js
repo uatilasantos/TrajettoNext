@@ -20,7 +20,7 @@ export default function DashboardLayout({ children }) {
       <aside className={`${styles.sidebar} ${menuOpen ? styles.open : ""}`}>
         <div className={styles.logoBox}>
           <Image
-            src="/logobranco.png"
+            src="/logobranco1.png"
             alt="Logo Trajetto Express"
             width={160}
             height={60}
@@ -38,9 +38,6 @@ export default function DashboardLayout({ children }) {
           <li><a href="/dashboard/veiculo">Veículos</a></li>
           <li><a href="/dashboard/documentos">Consulta documentos</a></li>
           <li><a href="/dashboard/faturamento">Faturamento</a></li>
-          
-          {/* verificar viabilidade da rota destinatarios, talvez não seja necessaria */}
-          <li><a href="/dashboard/destinatario">Destinatários</a></li>
         
 
         </ul>
