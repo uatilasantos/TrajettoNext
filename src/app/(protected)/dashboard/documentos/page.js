@@ -21,8 +21,6 @@ export default function DocumentosPage() {
       if (id === 1) url = "http://127.0.0.1:5036/relatorio/veiculos";
       else if (id === 2) url = "http://127.0.0.1:5036/relatorio/motoristas";
       else if (id === 3) url = "http://127.0.0.1:5036/relatorio/cargas";
-      else if (id === 4) url = "http://127.0.0.1:5036/relatorio/empresa";
-      else if (id === 5) url = "http://127.0.0.1:5036/relatorio/faturamento";
       else return alert("Erro ao consultar");
 
       const response = await fetch(url);
@@ -93,7 +91,6 @@ export default function DocumentosPage() {
           <h2>Veículos</h2>
           <div className={styles.actions}>
             <button onClick={() => consulta(1)}>Emitir</button>
-            <button onClick={() => EnviarPorEmail(1)}>Enviar por e-mail</button>
           </div>
         </div>
 
@@ -105,7 +102,6 @@ export default function DocumentosPage() {
           <h2>Motoristas</h2>
           <div className={styles.actions}>
             <button onClick={() => consulta(2)}>Emitir</button>
-            <button onClick={() => EnviarPorEmail(2)}>Enviar por e-mail</button>
           </div>
         </div>
 
@@ -117,33 +113,9 @@ export default function DocumentosPage() {
           <h2>Cargas</h2>
           <div className={styles.actions}>
             <button onClick={() => consulta(3)}>Emitir</button>
-            <button onClick={() => EnviarPorEmail(3)}>Enviar por e-mail</button>
           </div>
         </div>
 
-        {/* Empresa (id = 4) */}
-        <div className={styles.card}>
-          <div className={styles.iconWrapper}>
-            <Image src="/empresa.png" width={48} height={48} alt="Empresa" />
-          </div>
-          <h2>Empresa</h2>
-          <div className={styles.actions}>
-            <button onClick={() => consulta(4)}>Emitir</button>
-            <button onClick={() => EnviarPorEmail(4)}>Enviar por e-mail</button>
-          </div>
-        </div>
-
-        {/* Financeiro (id = 5) */}
-        <div className={styles.card}>
-          <div className={styles.iconWrapper}>
-            <Image src="/financeiro.png" width={48} height={48} alt="Financeiro" />
-          </div>
-          <h2>Financeiro</h2>
-          <div className={styles.actions}>
-            <button onClick={() => consulta(5)}>Emitir</button>
-            <button onClick={() => EnviarPorEmail(5)}>Enviar por e-mail</button>
-          </div>
-        </div>
       </div>
     </section>
   );
