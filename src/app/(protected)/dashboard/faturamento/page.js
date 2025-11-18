@@ -1,7 +1,15 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid } from "recharts";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  Tooltip,
+  CartesianGrid,
+  ResponsiveContainer
+} from "recharts";
 
 export default function PaginaFaturamento() {
   const [cargas, setCargas] = useState([]);
@@ -32,26 +40,20 @@ export default function PaginaFaturamento() {
     fetchCargas();
   }, []);
 
-  // conversores 
   const parseKm = (distanciaStr) => {
     if (!distanciaStr) return 0;
-
-    return Number(
-      distanciaStr.replace(" km", "").replace(",", ".").trim()
-    );
+    return Number(distanciaStr.replace(" km", "").replace(",", ".").trim());
   };
 
   const parseMoeda = (valorStr) => {
     if (!valorStr) return 0;
-
     return Number(
       valorStr.replace("R$", "").replace(".", "").replace(",", ".").trim()
     );
   };
 
-  // cálculos realistas
   const valorDiesel = 6.06;
-  const consumoMedio = 2.5; 
+  const consumoMedio = 2.5;
   const pedagioBase = 3.5;
 
   const calcularPedagio = (km) => {
@@ -60,28 +62,24 @@ export default function PaginaFaturamento() {
     return Math.floor(extra / 15) * pedagioBase;
   };
 
-  // totais por viagem
   let totalKm = 0;
   let totalCombustivel = 0;
   let totalPedagios = 0;
   let totalBruto = 0;
 
-  // salários de todos os motoristas (apenas 1x)
   const totalSalarios = motoristas.reduce(
     (acc, m) => acc + Number(m.salario || 0),
     0
   );
 
-  // gera dados para gráfico
   const dadosFaturamento = cargas
-    .filter(c => c && c.distancia && c.valor_frete)
+    .filter((c) => c && c.distancia && c.valor_frete)
     .map((c) => {
       const km = parseKm(c.distancia);
       const valorFrete = parseMoeda(c.valor_frete);
 
       const litrosConsumidos = km / consumoMedio;
       const combustivel = litrosConsumidos * valorDiesel;
-
       const pedagios = calcularPedagio(km);
 
       const liquidoSemSalario = valorFrete - combustivel - pedagios;
@@ -98,10 +96,11 @@ export default function PaginaFaturamento() {
       };
     });
 
-  // faturamento líquido depois de descontar salários (apenas 1x)
-  const totalLiquido = totalBruto - totalCombustivel - totalPedagios - totalSalarios;
+  const totalLiquido =
+    totalBruto - totalCombustivel - totalPedagios - totalSalarios;
 
-  const format = (n) => n.toLocaleString("pt-BR", { minimumFractionDigits: 2 });
+  const format = (n) =>
+    n.toLocaleString("pt-BR", { minimumFractionDigits: 2 });
 
   return (
     <div style={{ padding: "20px" }}>
@@ -109,11 +108,11 @@ export default function PaginaFaturamento() {
         Faturamento
       </h1>
 
-      {/* CARDS DE TOTAIS */}
+      {/* cards */}
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(3, 1fr)",
+          gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
           gap: "20px",
           marginBottom: "30px",
         }}
@@ -126,7 +125,7 @@ export default function PaginaFaturamento() {
         <Card titulo="Faturamento Líquido Total" valor={`R$ ${format(totalLiquido)}`} />
       </div>
 
-      {/* Faturamento Bruto */}
+      {/* faturamento bruto */}
       <div
         style={{
           background: "#fff",
@@ -134,41 +133,51 @@ export default function PaginaFaturamento() {
           borderRadius: "12px",
           marginBottom: "30px",
           boxShadow: "0 3px 10px rgba(0,0,0,0.1)",
+          width: "100%",
         }}
       >
         <h2 style={{ marginBottom: "15px", fontSize: "20px" }}>
           Faturamento Bruto
         </h2>
 
-        <LineChart width={700} height={300} data={dadosFaturamento}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="nome" />
-          <YAxis />
-          <Tooltip />
-          <Line type="monotone" dataKey="bruto" stroke="blue" strokeWidth={2} />
-        </LineChart>
+        <div style={{ width: "100%", height: 300 }}>
+          <ResponsiveContainer>
+            <LineChart data={dadosFaturamento}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="nome" />
+              <YAxis />
+              <Tooltip />
+              <Line type="monotone" dataKey="bruto" stroke="blue" strokeWidth={2} />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
       </div>
 
-      {/* Faturamento Líquido */}
+      {/* faturamento liquido */}
       <div
         style={{
           background: "#fff",
           padding: "20px",
           borderRadius: "12px",
           boxShadow: "0 3px 10px rgba(0,0,0,0.1)",
+          width: "100%",
         }}
       >
         <h2 style={{ marginBottom: "15px", fontSize: "20px" }}>
           Faturamento Líquido
         </h2>
 
-        <LineChart width={700} height={300} data={dadosFaturamento}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="nome" />
-          <YAxis />
-          <Tooltip />
-          <Line type="monotone" dataKey="liquido" stroke="green" strokeWidth={2} />
-        </LineChart>
+        <div style={{ width: "100%", height: 300 }}>
+          <ResponsiveContainer>
+            <LineChart data={dadosFaturamento}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="nome" />
+              <YAxis />
+              <Tooltip />
+              <Line type="monotone" dataKey="liquido" stroke="green" strokeWidth={2} />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
       </div>
     </div>
   );
