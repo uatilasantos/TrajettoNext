@@ -1,13 +1,38 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { jwtDecode } from "jwt-decode";
 import styles from "./cliente.module.css";
 
 const apiUrl = "http://127.0.0.1:5036/clientes";
 
+export function getIDUsuario(token) {
+  if (!token) return 0;
+  const decoded = jwtDecode(token);
+  //console.log("DECODED:", decoded);
+  return decoded.id_usuario;
+}
+
 export default function ClientesPage() {
+  const [token, setToken] = useState([]);
   const [clientes, setClientes] = useState([]);
+  const [usuarioId, setUsuarioId] = useState([]);
   const [editando, setEditando] = useState(null);
+
+  useEffect(() => {
+    const pegandoToken = localStorage.getItem("auth_token");
+    if (pegandoToken) {
+      setToken(pegandoToken);
+      const id_usuario = getIDUsuario(pegandoToken);
+      setUsuarioId(id_usuario);
+      console.log("ID DO USUÁRIO:", id_usuario);
+      setForm((prev) => ({
+        ...prev,
+        usuario_id: id_usuario
+      }));
+    }
+  }, []);
+
   const [form, setForm] = useState({
     cnpj: "",
     razao_social: "",
@@ -20,11 +45,12 @@ export default function ClientesPage() {
     bairro: "",
     cidade: "",
     estado: "",
+    usuario_id: ""
   });
 
   const [visualizando, setVisualizando] = useState(null);
   const [mostrarPopup, setMostrarPopup] = useState(false);
-  
+
 
 
   useEffect(() => {
@@ -73,33 +99,39 @@ export default function ClientesPage() {
     buscarCEP();
   }, [form.cep]);
 
-  
+
   async function handleSubmit(e) {
-  e.preventDefault();
-  const method = editando ? "PUT" : "POST";
-  const url = editando ? `${apiUrl}/${editando}` : apiUrl;
+    e.preventDefault();
+    const method = editando ? "PUT" : "POST";
+    const url = editando ? `${apiUrl}/${editando}` : apiUrl;
 
-  try {
-    const response = await fetch(url, {
-      method,
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        ...form,
-      }),
-    });
+    try {
+      const response = await fetch(url, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...form,
+        }),
+      });
+      if (!response.ok) {
+        const erro = await response.text();
+        console.error("Erro retorno API:", erro);
+        alert("Erro ao salvar cliente. Veja o console.");
+        return;
+      }
 
-    if (!response.ok) {
-      alert("Erro ao salvar cliente.");
-      return;
+      if (!response.ok) {
+        alert("Erro ao salvar cliente.");
+        return;
+      }
+
+      limparFormulario();
+      carregarClientes();
+      alert(editando ? "Cliente atualizado!" : "Cliente cadastrado!");
+    } catch (error) {
+      console.error("Erro ao salvar cliente:", error);
     }
-
-    limparFormulario();
-    carregarClientes();
-    alert(editando ? "Cliente atualizado!" : "Cliente cadastrado!");
-  } catch (error) {
-    console.error("Erro ao salvar cliente:", error);
   }
-}
 
 
 
@@ -129,15 +161,15 @@ export default function ClientesPage() {
   }
 
   async function DetalhesCliente(id) {
-  try {
-    const response = await fetch(`${apiUrl}/${id}`);
-    const data = await response.json();
-    setVisualizando(data);
-    setMostrarPopup(true);
-  } catch (error) {
-    console.error("Erro ao visualizar cliente:", error);
+    try {
+      const response = await fetch(`${apiUrl}/${id}`);
+      const data = await response.json();
+      setVisualizando(data);
+      setMostrarPopup(true);
+    } catch (error) {
+      console.error("Erro ao visualizar cliente:", error);
+    }
   }
-}
 
 
   function limparFormulario() {
@@ -145,7 +177,6 @@ export default function ClientesPage() {
       cnpj: "",
       razao_social: "",
       email: "",
-      senha: "",
       telefone: "",
       cep: "",
       logradouro: "",
@@ -184,21 +215,21 @@ export default function ClientesPage() {
           </button>
         </form>
 
-          {mostrarPopup && visualizando && (
-            <div className={styles.popupOverlay}>
-              <div className={styles.popupContent}>
-                <h3>Detalhes do Cliente</h3>
-                <ul>
-                  {Object.entries(visualizando).map(([key, value]) => (
-                    <li key={key}>
-                      <strong>{key.replace("_", " ")}:</strong> {value || "—"}
-                    </li>
-                  ))}
-                </ul>
-                <button className={styles.btnFechar} onClick={() => setMostrarPopup(false)}>Fechar</button>
-              </div>
+        {mostrarPopup && visualizando && (
+          <div className={styles.popupOverlay}>
+            <div className={styles.popupContent}>
+              <h3>Detalhes do Cliente</h3>
+              <ul>
+                {Object.entries(visualizando).map(([key, value]) => (
+                  <li key={key}>
+                    <strong>{key.replace("_", " ")}:</strong> {value || "—"}
+                  </li>
+                ))}
+              </ul>
+              <button className={styles.btnFechar} onClick={() => setMostrarPopup(false)}>Fechar</button>
             </div>
-          )}
+          </div>
+        )}
 
       </div>
 
