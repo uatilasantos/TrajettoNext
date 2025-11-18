@@ -1,31 +1,82 @@
-.tabela {
-     height: 0vh;
-     border-collapse: separate;
-     font-family: Arial, sans-serif;
-     display: flex;
-     justify-content: center;
-     /* eixo horizontal */
-     align-items: center;
-     /* eixo vertical */
-     height: 10vh;
-     /* ocupa a tela toda, se quiser */
-     flex-direction: column;
-     padding: 20%
+/* container*/
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.celula {
-     border: 1px solid black;
-     background-color: rgb(173, 244, 255);
-     min-width: fit-content;
-     width: 20vw;
-
-
+.title {
+  font-size: 2rem;
+  margin-bottom: 40px;
+  text-align: center;
 }
 
-.div_button {
-     display: flex;
-     gap: 20px;
-     flex-direction: row;
-     justify-content: center;
+/* grid*/
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 30px;
+  width: 100%;
+}
 
+/* cards*/
+.card {
+  background: rgb(241, 241, 241);
+  border: 2px solid rgb(207, 205, 205);
+  border-radius: 12px;
+  padding: 20px;
+  display: grid;
+  grid-template-columns: 60px 1fr auto;
+  align-items: center;
+  gap: 20px;
+}
+
+/* icone */
+.iconWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* título do card */
+.card h2 {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+/* botões */
+.actions {
+  display: flex;
+  gap: 10px;
+}
+
+.actions button {
+  background: #0202a8;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+  font-size: 0.9rem;
+}
+
+.actions button:hover {
+  background: #0303ce;
+}
+
+/* Responsivo mobile*/
+@media (max-width: 650px) {
+  .card {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+    text-align: center;
+  }
+
+  .actions {
+    justify-content: center;
+  }
 }

@@ -1,13 +1,14 @@
 "use client";
 
 import styles from "./documentos.module.css";
+import Image from "next/image";
 
 export default function DocumentosPage() {
-  // 🔹 Função auxiliar: converte Blob → Base64
+  // Função auxiliar: converte Blob → Base64
   function blobToBase64(blob) {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
-      reader.onloadend = () => resolve(reader.result.split(",")[1]); // remove prefixo data:application/pdf;base64,
+      reader.onloadend = () => resolve(reader.result.split(",")[1]);
       reader.onerror = reject;
       reader.readAsDataURL(blob);
     });
@@ -25,6 +26,7 @@ export default function DocumentosPage() {
       else return alert("Erro ao consultar");
 
       const response = await fetch(url);
+      if (!response.ok) throw new Error("Erro na requisição: " + response.status);
       const blob = await response.blob();
       const fileURL = window.URL.createObjectURL(blob);
       window.open(fileURL, "_blank");
@@ -49,14 +51,13 @@ export default function DocumentosPage() {
       else return alert("Erro ao consultar");
 
       const response = await fetch(url);
+      if (!response.ok) throw new Error("Erro ao buscar arquivo: " + response.status);
       const blob = await response.blob();
       const base64PDF = await blobToBase64(blob);
 
       const envio = await fetch("http://127.0.0.1:5036/envia/Email", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           destinatario: destinatario,
           assunto: "Relatório solicitado",
@@ -80,57 +81,70 @@ export default function DocumentosPage() {
   }
 
   return (
-    <section className={styles.tabela}>
-      <h1>Consulta de Documentos</h1>
-      <table >
-        <tbody>
-          <tr>
-            <th className={styles.celula}>Documento Veículos</th>
-            <th className={styles.celula}>
-              <div className={styles.div_button}>
-                <button onClick={() => consulta(1)}>Consulta</button>
-                <button onClick={() => EnviarPorEmail(1)}>Enviar por e-mail</button>
-              </div>
-            </th>
-          </tr>
-          <tr>
-            <th className={styles.celula}>Documento Motoristas</th>
-            <th className={styles.celula}>
-              <div className={styles.div_button}>
-                <button onClick={() => consulta(2)}>Consulta</button>
-                <button onClick={() => EnviarPorEmail(2)}>Enviar por e-mail</button>
-              </div>
-            </th>
-          </tr>
-          <tr>
-            <th className={styles.celula}>Documento Cargas</th>
-            <th className={styles.celula}>
-              <div className={styles.div_button}>
-                <button onClick={() => consulta(3)}>Consulta</button>
-                <button onClick={() => EnviarPorEmail(3)}>Enviar por e-mail</button>
-              </div>
-            </th>
-          </tr>
-          <tr>
-            <th className={styles.celula}>Documento Empresa</th>
-            <th className={styles.celula}>
-              <div className={styles.div_button}>
-                <button onClick={() => consulta(4)}>Consulta</button>
-                <button onClick={() => EnviarPorEmail(4)}>Enviar por e-mail</button>
-              </div>
-            </th>
-          </tr>
-          <tr>
-            <th className={styles.celula}>Documento Financeiro</th>
-            <th className={styles.celula}>
-              <div className={styles.div_button}>
-                <button onClick={() => consulta(5)}>Consulta</button>
-                <button onClick={() => EnviarPorEmail(5)}>Enviar por e-mail</button>
-              </div>
-            </th>
-          </tr>
-        </tbody>
-      </table>
+    <section className={styles.container}>
+      <h1 className={styles.title}>Consulta de Documentos</h1>
+
+      <div className={styles.grid}>
+        {/* Veículos (id = 1) */}
+        <div className={styles.card}>
+          <div className={styles.iconWrapper}>
+            <Image src="/trucks.png" width={70} height={48} alt="Veículos" />
+          </div>
+          <h2>Veículos</h2>
+          <div className={styles.actions}>
+            <button onClick={() => consulta(1)}>Emitir</button>
+            <button onClick={() => EnviarPorEmail(1)}>Enviar por e-mail</button>
+          </div>
+        </div>
+
+        {/* Motoristas (id = 2) */}
+        <div className={styles.card}>
+          <div className={styles.iconWrapper}>
+            <Image src="/driver.png" width={48} height={48} alt="Motoristas" />
+          </div>
+          <h2>Motoristas</h2>
+          <div className={styles.actions}>
+            <button onClick={() => consulta(2)}>Emitir</button>
+            <button onClick={() => EnviarPorEmail(2)}>Enviar por e-mail</button>
+          </div>
+        </div>
+
+        {/* Cargas (id = 3) */}
+        <div className={styles.card}>
+          <div className={styles.iconWrapper}>
+            <Image src="/carga.png" width={48} height={48} alt="Cargas" />
+          </div>
+          <h2>Cargas</h2>
+          <div className={styles.actions}>
+            <button onClick={() => consulta(3)}>Emitir</button>
+            <button onClick={() => EnviarPorEmail(3)}>Enviar por e-mail</button>
+          </div>
+        </div>
+
+        {/* Empresa (id = 4) */}
+        <div className={styles.card}>
+          <div className={styles.iconWrapper}>
+            <Image src="/empresa.png" width={48} height={48} alt="Empresa" />
+          </div>
+          <h2>Empresa</h2>
+          <div className={styles.actions}>
+            <button onClick={() => consulta(4)}>Emitir</button>
+            <button onClick={() => EnviarPorEmail(4)}>Enviar por e-mail</button>
+          </div>
+        </div>
+
+        {/* Financeiro (id = 5) */}
+        <div className={styles.card}>
+          <div className={styles.iconWrapper}>
+            <Image src="/financeiro.png" width={48} height={48} alt="Financeiro" />
+          </div>
+          <h2>Financeiro</h2>
+          <div className={styles.actions}>
+            <button onClick={() => consulta(5)}>Emitir</button>
+            <button onClick={() => EnviarPorEmail(5)}>Enviar por e-mail</button>
+          </div>
+        </div>
+      </div>
     </section>
   );
 }
