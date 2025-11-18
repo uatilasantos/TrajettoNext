@@ -34,7 +34,7 @@ export default function LoginPage() {
             <div className={styles.leftSide}>
                 <div className={styles.brand}>
                     <Image
-                        src="/logobranco.png"
+                        src="/logobranco1.png"
                         alt="Trajetto Express"
                         width={300}
                         height={100}

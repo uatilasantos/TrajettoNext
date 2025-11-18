@@ -3,11 +3,6 @@
 import { jwtDecode } from "jwt-decode";
 import { useEffect, useState } from "react";
 import styles from "./dashboardcards.module.css";
-//import { useRouter } from "next/navigation";
-//import Link from "next/link";
-//import Image from "next/image";
-//import { getCookie } from "cookies-next";
-
 
 /* --------------------------------------------------------FUNÇÕES PARA INFORMAÇÕES DO USUÁRIO---------------------------------------------------------------*/
 function getIDUsuario(token) {
@@ -156,7 +151,7 @@ export default function DashboardPage() {
   }, [usuarioId]);
   /* ------------------------------------------------------------------------------------------------------------------------------------------- */
 
-   const [freteTotal, kmTotal] = (() => {
+  const [freteTotal, kmTotal] = (() => {
     if (!cargas || !Array.isArray(cargas) || cargas.length === 0) return [0, 0];
     let ft = 0;
     let km = 0;
@@ -177,39 +172,6 @@ export default function DashboardPage() {
       maximumFractionDigits: decimals
     });
 
-  const [frete, setFretes] = useState(0);
-
-  
-
-  //Descomenta o bloco abaixo quando quiser integrar com a API Flask
-  /*
-    useEffect(() => {
-      async function fetchData() {
-        try {
-          const [motRes, carRes, cliRes] = await Promise.all([
-            fetch("http://127.0.0.1:5036/motoristas"),
-            fetch("http://127.0.0.1:5036/cargas"),
-            fetch("http://127.0.0.1:5036/clientes")
-          ]);
-  
-          const [motData, carData, cliData] = await Promise.all([
-            motRes.json(),
-            carRes.json(),
-            cliRes.json()
-          ]);
-  
-          setMotoristas(motData.length);
-          setCargas(carData.length);
-          setClientes(cliData.length);
-        } catch (error) {
-          console.error("Erro ao buscar dados do dashboard:", error);
-        }
-      }
-  
-      fetchData();
-    }, []);
-    */
-
   return (
     <><div className={styles.dashboardContainer}>
 
@@ -217,6 +179,11 @@ export default function DashboardPage() {
 
       <h1 className={styles.title}>Painel de Controle</h1>
       <h2 className={styles.title2}>Resumo Cadastral</h2>
+
+      {errorMessage && (
+          <div style={{ color: "red", marginBottom: 12 }}>{errorMessage}</div>
+        )}
+        
       <div className={styles.cardsContainer}>
         <div className={styles.card}>
           <h3>Cargas Cadastradas</h3>
@@ -248,8 +215,8 @@ export default function DashboardPage() {
               {Array.isArray(cargas)
                 ? `${cargas.length} viagens`
                 : loading
-                  ? "Carregando..."
-                  : "Nenhuma viagem"}
+                ? "Carregando..."
+                : "Nenhuma viagem"}
             </small>
           </div>
 

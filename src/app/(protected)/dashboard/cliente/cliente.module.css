@@ -97,7 +97,12 @@
   .formCliente input[name="cnpj"] {
   grid-column: 1 / -1;
   }
+
+  .formCliente input[name='logradouro'] {
+    grid-column: 1/-1;
+  }
 }
+
 
 
 /*lista de cliente*/
