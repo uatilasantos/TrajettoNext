@@ -156,9 +156,7 @@ export default function DashboardPage() {
   }, [usuarioId]);
   /* ------------------------------------------------------------------------------------------------------------------------------------------- */
 
-  const [frete, setFretes] = useState(0);
-
-  const [freteTotal, kmTotal] = (() => {
+   const [freteTotal, kmTotal] = (() => {
     if (!cargas || !Array.isArray(cargas) || cargas.length === 0) return [0, 0];
     let ft = 0;
     let km = 0;
@@ -178,6 +176,10 @@ export default function DashboardPage() {
       minimumFractionDigits: decimals,
       maximumFractionDigits: decimals
     });
+
+  const [frete, setFretes] = useState(0);
+
+  
 
   //Descomenta o bloco abaixo quando quiser integrar com a API Flask
   /*
