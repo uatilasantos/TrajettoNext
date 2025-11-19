@@ -18,9 +18,10 @@ export default function DocumentosPage() {
     try {
       let url = "";
 
-      if (id === 1) url = "http://127.0.0.1:5036/relatorio/veiculos";
-      else if (id === 2) url = "http://127.0.0.1:5036/relatorio/motoristas";
-      else if (id === 3) url = "http://127.0.0.1:5036/relatorio/cargas";
+      let token = localStorage.getItem("auth_token");
+      if (id === 1) url = "http://127.0.0.1:5036/relatorio/veiculos?token=" + token;
+      else if (id === 2) url = "http://127.0.0.1:5036/relatorio/motoristas?token=" + token;
+      else if (id === 3) url = "http://127.0.0.1:5036/relatorio/cargas?token=" + token;
       else return alert("Erro ao consultar");
 
       const response = await fetch(url);
@@ -34,49 +35,7 @@ export default function DocumentosPage() {
     }
   }
 
-  async function EnviarPorEmail(id) {
-    try {
-      const destinatario = prompt("Digite o e-mail do destinatário:");
-      if (!destinatario) return;
 
-      let url = "";
-      let nome = "";
-      if (id === 1) { url = "http://127.0.0.1:5036/relatorio/veiculos"; nome = "veiculos.pdf"; }
-      else if (id === 2) { url = "http://127.0.0.1:5036/relatorio/motoristas"; nome = "motoristas.pdf"; }
-      else if (id === 3) { url = "http://127.0.0.1:5036/relatorio/cargas"; nome = "cargas.pdf"; }
-      else if (id === 4) { url = "http://127.0.0.1:5036/relatorio/empresa"; nome = "empresa.pdf"; }
-      else if (id === 5) { url = "http://127.0.0.1:5036/relatorio/faturamento"; nome = "faturamento.pdf"; }
-      else return alert("Erro ao consultar");
-
-      const response = await fetch(url);
-      if (!response.ok) throw new Error("Erro ao buscar arquivo: " + response.status);
-      const blob = await response.blob();
-      const base64PDF = await blobToBase64(blob);
-
-      const envio = await fetch("http://127.0.0.1:5036/envia/Email", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          destinatario: destinatario,
-          assunto: "Relatório solicitado",
-          mensagem: "Segue em anexo o relatório solicitado.",
-          arquivo_nome: nome,
-          arquivo_base64: base64PDF,
-        }),
-      });
-
-      const resultado = await envio.json();
-
-      if (envio.ok) {
-        alert("📨 E-mail enviado com sucesso!");
-      } else {
-        alert("❌ Erro ao enviar e-mail: " + (resultado.erro || "desconhecido"));
-      }
-    } catch (erro) {
-      console.error("Erro ao enviar por e-mail:", erro);
-      alert("Falha ao enviar o documento!");
-    }
-  }
 
   return (
     <section className={styles.container}>
