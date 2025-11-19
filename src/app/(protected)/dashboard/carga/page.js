@@ -67,40 +67,40 @@ export default function CargasPage() {
   const [mostrarPopup, setMostrarPopup] = useState(false);
 
 
-/* aqui */
-useEffect(() => {
-  if (!usuarioId) return; 
-  carregarCargas();
-  carregarClientes();
-  carregarVeiculos();
-  carregarMotoristas();
-  carregarCidadesSP();
-}, [usuarioId]);
+  /* aqui */
+  useEffect(() => {
+    if (!usuarioId) return;
+    carregarCargas();
+    carregarClientes();
+    carregarVeiculos();
+    carregarMotoristas();
+    carregarCidadesSP();
+  }, [usuarioId]);
 
 
-async function carregarCargas() {
-  try {
-    const response = await fetch(`${apiUrlCargas}/cargasCadastradas/${usuarioId}`, {
-      method: 'GET',
-      headers: { "Content-Type": "application/json" },
-    });
+  async function carregarCargas() {
+    try {
+      const response = await fetch(`${apiUrlCargas}/cargasCadastradas/${usuarioId}`, {
+        method: 'GET',
+        headers: { "Content-Type": "application/json" },
+      });
 
-    const data = await response.json();
-    console.log("RETORNO DA API:", data);
+      const data = await response.json();
+      console.log("RETORNO DA API:", data);
 
-    const lista = Array.isArray(data)
-      ? data
-      : data.Cargas || [];
+      const lista = Array.isArray(data)
+        ? data
+        : data.Cargas || [];
 
-    setCargas(lista);
+      setCargas(lista);
 
-  } catch (error) {
-    console.log("Erro ao carregar cargas:", error);
-    setCargas([]);
+    } catch (error) {
+      console.log("Erro ao carregar cargas:", error);
+      setCargas([]);
+    }
   }
-}
 
-/*até aqui*/
+  /*até aqui*/
 
   async function carregarClientes() {
     try {
