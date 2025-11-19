@@ -4,27 +4,37 @@ import { useState, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
 import styles from "./carga.module.css";
 
-const apiUrl = "http://127.0.0.1:5036/cargas";
-const usuariosApiUrl = "http://127.0.0.1:5036/clientes";
-const apiUrlMotoristas = "http://127.0.0.1:5036/motoristas";
-const apiUrlVeiculos = "http://127.0.0.1:5036/veiculos";
-
-export function getIDUsuario(token) {
+function getIDUsuario(token) {
   if (!token) return 0;
   const decoded = jwtDecode(token);
-  //console.log("DECODED:", decoded);
+  console.log("DECODED:", decoded.id_usuario);
   return decoded.id_usuario;
 }
+function getNomeUsuario(token) {
+  if (!token) return 0;
+  const decoded = jwtDecode(token);
+  console.log("DECODED:", decoded.nome_usuario);
+  return decoded.nome_usuario;
+}
+
+
+const apiUrlCargas = "http://127.0.0.1:5036/cargas";
+const usuariosapiUrlCargas = "http://127.0.0.1:5036/clientes";
+const apiUrlCargasMotoristas = "http://127.0.0.1:5036/motoristas";
+const apiUrlCargasVeiculos = "http://127.0.0.1:5036/veiculos";
+
 
 export default function CargasPage() {
-  const [token, setToken] = useState([]);
+  const [token, setToken] = useState("");
   const [cargas, setCargas] = useState([]);
   const [editando, setEditando] = useState(null);
+  const [usuarioId, setUsuarioId] = useState("");
+  const [usuarioNome, setUsuarioNome] = useState("")
   const [clientes, setClientes] = useState([]);
   const [veiculos, setVeiculos] = useState([]);
   const [motoristas, setMotoristas] = useState([]);
   const [cidadesSP, setCidadesSP] = useState([]);
-  const [usuarioId, setUsuarioId] = useState([]);
+
 
   useEffect(() => {
     const pegandoToken = localStorage.getItem("auth_token");
@@ -32,11 +42,9 @@ export default function CargasPage() {
       setToken(pegandoToken);
       const id_usuario = getIDUsuario(pegandoToken);
       setUsuarioId(id_usuario);
-      console.log(id_usuario)
-      setForm((prev) => ({
-        ...prev,
-        usuario_id: id_usuario
-      }));
+
+      const usuario_nome = getNomeUsuario(pegandoToken);
+      setUsuarioNome(usuario_nome);
     }
   }, []);
 
@@ -59,28 +67,44 @@ export default function CargasPage() {
   const [mostrarPopup, setMostrarPopup] = useState(false);
 
 
+/* aqui */
+useEffect(() => {
+  if (!usuarioId) return; 
+  carregarCargas();
+  carregarClientes();
+  carregarVeiculos();
+  carregarMotoristas();
+  carregarCidadesSP();
+}, [usuarioId]);
 
-  useEffect(() => {
-    carregarCargas();
-    carregarClientes();
-    carregarVeiculos();
-    carregarMotoristas();
-    carregarCidadesSP();
-  }, []);
 
-  async function carregarCargas() {
-    try {
-      const response = await fetch(apiUrl);
-      const data = await response.json();
-      setCargas(data);
-    } catch (error) {
-      console.error("Erro ao carregar cargas:", error);
-    }
+async function carregarCargas() {
+  try {
+    const response = await fetch(`${apiUrlCargas}/cargasCadastradas/${usuarioId}`, {
+      method: 'GET',
+      headers: { "Content-Type": "application/json" },
+    });
+
+    const data = await response.json();
+    console.log("RETORNO DA API:", data);
+
+    const lista = Array.isArray(data)
+      ? data
+      : data.Cargas || [];
+
+    setCargas(lista);
+
+  } catch (error) {
+    console.log("Erro ao carregar cargas:", error);
+    setCargas([]);
   }
+}
+
+/*até aqui*/
 
   async function carregarClientes() {
     try {
-      const resposta = await fetch(usuariosApiUrl);
+      const resposta = await fetch(usuariosapiUrlCargas);
       const data = await resposta.json();
       setClientes(data);
     } catch (error) {
@@ -90,7 +114,7 @@ export default function CargasPage() {
 
   async function carregarVeiculos() {
     try {
-      const resposta = await fetch(apiUrlVeiculos);
+      const resposta = await fetch(apiUrlCargasVeiculos);
       const data = await resposta.json();
       setVeiculos(data);
     } catch (error) {
@@ -100,7 +124,7 @@ export default function CargasPage() {
 
   async function carregarMotoristas() {
     try {
-      const resposta = await fetch(apiUrlMotoristas);
+      const resposta = await fetch(apiUrlCargasMotoristas);
       const data = await resposta.json();
       setMotoristas(data);
     }
@@ -133,7 +157,7 @@ export default function CargasPage() {
   async function handleSubmit(e) {
     e.preventDefault();
     const method = editando ? "PUT" : "POST";
-    const url = editando ? `${apiUrl}/${editando}` : apiUrl;
+    const url = editando ? `${apiUrlCargas}/${editando}` : apiUrlCargas;
 
     try {
       const response = await fetch(url, {
@@ -141,6 +165,7 @@ export default function CargasPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...form,
+          usuario_id: usuarioId /* aqui */
         }),
       });
 
@@ -161,7 +186,7 @@ export default function CargasPage() {
 
   async function carregarParaEdicao(id) {
     try {
-      const response = await fetch(`${apiUrl}/${id}`);
+      const response = await fetch(`${apiUrlCargas}/${id}`);
       const data = await response.json();
       setForm(data);
       setEditando(id);
@@ -175,7 +200,7 @@ export default function CargasPage() {
     if (!confirm("Tem certeza que deseja excluir este cliente?")) return;
 
     try {
-      const response = await fetch(`${apiUrl}/${id}`, { method: "DELETE" });
+      const response = await fetch(`${apiUrlCargas}/${id}`, { method: "DELETE" });
       if (!response.ok) throw new Error("Erro ao excluir");
       alert("Carga excluída com sucesso!");
       carregarCargas();
@@ -186,7 +211,7 @@ export default function CargasPage() {
 
   async function DetalhesCarga(id) {
     try {
-      const response = await fetch(`${apiUrl}/${id}`);
+      const response = await fetch(`${apiUrlCargas}/${id}`);
       const data = await response.json();
       setVisualizando(data);
       setMostrarPopup(true);
