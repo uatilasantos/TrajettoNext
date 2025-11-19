@@ -18,25 +18,12 @@ function getNomeUsuario(token) {
   return decoded.nome_usuario;
 }
 
-/*---------------------------------------------------------- FRETE ??????? ----------------------------------------------------------------------- */
-function parseKm(distanciaStr) {
-  if (!distanciaStr) return 0;
-  return Number(String(distanciaStr).replace(" km", "").replace(",", ".").trim()) || 0;
-}
-
-function parseMoeda(valorStr) {
-  if (!valorStr) return 0;
-  return Number(String(valorStr).replace("R$", "").replace(/\./g, "").replace(",", ".").trim()) || 0;
-}
 /* -------------------------------------------------------------- URL DAS APIS ----------------------------------------------------------------------- */
 const apiUrlCargas = "http://127.0.0.1:5036/dashboard/cargasCadastradas";
 const apiUrlMotoristas = "http://127.0.0.1:5036/dashboard/motoristasCadastrados";
 const apiUrlVeiculos = "http://127.0.0.1:5036/dashboard/veiculosCadastrados";
 const apiUrlClientes = "http://127.0.0.1:5036/dashboard/clientesCadastrados";
-
-const apiCargas = "http://127.0.0.1:5036/cargas";
-const apiMotoristas = "http://127.0.0.1:5036/motoristas";
-const apiClientes = "http://127.0.0.1:5036/clientes";
+const apiUrlTotais = "http://127.0.0.1:5036/dashboard/totaisCargas";
 
 export default function DashboardPage() {
   const [token, setToken] = useState(null);
@@ -80,6 +67,37 @@ export default function DashboardPage() {
     }
     handleCargasCadastradas();
   }, [usuarioId]);
+
+  /*-------------------------Totais de frete------------------*/
+
+const [totalFrete, setTotalFrete] = useState(0);
+const [totalKM, setTotalKM] = useState(0);
+
+useEffect(() => {
+  if (!usuarioId) return;
+
+  const fetchTotaisCargas = async () => {
+    try {
+      const response = await fetch(`${apiUrlTotais}/${usuarioId}`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
+
+      if (!response.ok) {
+        throw new Error("Erro ao buscar totais de cargas");
+      }
+
+      const data = await response.json();
+      setTotalFrete(data.TotalFrete);
+      setTotalKM(data.TotalKM);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  fetchTotaisCargas();
+}, [usuarioId]);
+
 
   /* --------------------------------------------------------- MOTORISTAS CADASTRADOS ---------------------------------------------------------- */
   const [motoristas, setMotoristas] = useState(0);
@@ -149,28 +167,9 @@ export default function DashboardPage() {
     }
     handleVeiculosCadastrados();
   }, [usuarioId]);
+  
   /* ------------------------------------------------------------------------------------------------------------------------------------------- */
 
-  const [freteTotal, kmTotal] = (() => {
-    if (!cargas || !Array.isArray(cargas) || cargas.length === 0) return [0, 0];
-    let ft = 0;
-    let km = 0;
-
-    for (const c of cargas) {
-      ft += parseMoeda(c.valor_frete);
-      km += parseKm(c.distancia);
-    }
-    return [ft, km];
-  })();
-
-  const formatCurrency = (n) =>
-    (n ?? 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-
-  const formatNumber = (n, decimals = 0) =>
-    (n ?? 0).toLocaleString("pt-BR", {
-      minimumFractionDigits: decimals,
-      maximumFractionDigits: decimals
-    });
 
   return (
     <><div className={styles.dashboardContainer}>
@@ -202,33 +201,19 @@ export default function DashboardPage() {
           <h3>Veículos Cadastrados</h3>
           <span>{veiculos}</span>
         </div>
+
+        <div className={styles.card}>
+          <h3>Total de faturamento</h3>
+          <span>R$ {totalFrete.toFixed(2)}</span>
+        </div>
+
+        <div className={styles.card}>
+          <h3>Total de KM rodados</h3>
+          <span>{totalKM}</span>
+        </div>
+        
       </div>
     </div>
-      <div className={styles.dashboardContainer} style={{ marginTop: 20 }}>
-        <h2 className={styles.title2}>Dados de Frete</h2>
-
-        <div className={styles.cardsContainer}>
-          <div className={styles.card}>
-            <h3>Frete Total Faturado(Bruto)</h3>
-            <span>{formatCurrency(freteTotal)}</span>
-            <small style={{ display: "block", opacity: 0.7 }}>
-              {Array.isArray(cargas)
-                ? `${cargas.length} viagens`
-                : loading
-                ? "Carregando..."
-                : "Nenhuma viagem"}
-            </small>
-          </div>
-
-          <div className={styles.card}>
-            <h3>Total de Km's Rodados</h3>
-            <span>{`${formatNumber(kmTotal, 2)} km`}</span>
-            <small style={{ display: "block", opacity: 0.7 }}>
-              {loading && "Carregando..."}
-            </small>
-          </div>
-        </div>
-      </div>
 
     </>
 
