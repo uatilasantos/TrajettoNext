@@ -1,12 +1,22 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { jwtDecode } from "jwt-decode";
 import styles from "./veiculo.module.css";
 
 const apiUrl = "http://127.0.0.1:5036/veiculos";
 
+function getIDUsuario(token) {
+  if (!token) return 0;
+  const decoded = jwtDecode(token);
+  console.log("DECODED:", decoded.id_usuario);
+  return decoded.id_usuario;
+}
+
 export default function VeiculoPage() {
+  const [token, setToken] = useState("");
   const [veiculos, setVeiculos] = useState([]);
+  const [usuarioId, setUsuarioId] = useState(0);
   const [editando, setEditando] = useState(null);
   const [form, setForm] = useState({
     placa: "",
@@ -21,19 +31,43 @@ export default function VeiculoPage() {
     ano_fabricacao: "",
   });
 
+
   useEffect(() => {
-    carregarVeiculos();
+    const tk = localStorage.getItem("auth_token");
+    if (tk) {
+      setToken(tk);
+      const id = getIDUsuario(tk);
+      setUsuarioId(id);
+    }
   }, []);
 
+
+  useEffect(() => {
+    if (usuarioId) carregarVeiculos();
+  }, [usuarioId]);
+
+
   async function carregarVeiculos() {
+    if (!usuarioId) return;
+
     try {
-      const response = await fetch(apiUrl);
+      const response = await fetch(
+        `http://127.0.0.1:5036/cargas/veiculosCadastrados/${usuarioId}`
+      );
       const data = await response.json();
-      setVeiculos(data);
+
+      if (Array.isArray(data)) {
+        setVeiculos(data);
+      } else if (Array.isArray(data.Veiculos)) {
+        setVeiculos(data.Veiculos);
+      } else {
+        setVeiculos([]);
+      }
     } catch (error) {
-      console.error("Erro ao carregar veículos:", error);
+      console.error("Erro ao carregar Veiculos:", error);
     }
   }
+
 
   function handleChange(e) {
     const { name, value } = e.target;

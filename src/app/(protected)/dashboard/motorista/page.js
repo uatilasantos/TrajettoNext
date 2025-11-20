@@ -13,12 +13,6 @@ function getIDUsuario(token) {
   console.log("DECODED:", decoded.id_usuario);
   return decoded.id_usuario;
 }
-function getNomeUsuario(token) {
-  if (!token) return 0;
-  const decoded = jwtDecode(token);
-  console.log("DECODED:", decoded.nome_usuario);
-  return decoded.nome_usuario;
-}
 
 
 export default function motoristaPage() {
