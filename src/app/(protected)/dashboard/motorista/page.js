@@ -1,12 +1,30 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { jwtDecode } from "jwt-decode";
 import styles from "./motorista.module.css";
 
 const apiUrl = "http://127.0.0.1:5036/motoristas";
 
+
+function getIDUsuario(token) {
+  if (!token) return 0;
+  const decoded = jwtDecode(token);
+  console.log("DECODED:", decoded.id_usuario);
+  return decoded.id_usuario;
+}
+function getNomeUsuario(token) {
+  if (!token) return 0;
+  const decoded = jwtDecode(token);
+  console.log("DECODED:", decoded.nome_usuario);
+  return decoded.nome_usuario;
+}
+
+
 export default function motoristaPage() {
+  const [token, setToken] = useState("");
   const [motoristas, setMotoristas] = useState([]);
+  const [usuarioId, setUsuarioId] = useState(0);
   const [editando, setEditando] = useState(null);
   const [form, setForm] = useState({
     nome: "",
@@ -32,20 +50,42 @@ export default function motoristaPage() {
   const [mostrarPopup, setMostrarPopup] = useState(false);
   
 
-
   useEffect(() => {
-    carregarMotoristas();
+    const tk = localStorage.getItem("auth_token");
+    if (tk) {
+      setToken(tk);
+      const id = getIDUsuario(tk);
+      setUsuarioId(id);
+    }
   }, []);
 
+
+  useEffect(() => {
+    if (usuarioId) carregarMotoristas();
+  }, [usuarioId]);
+
+
   async function carregarMotoristas() {
+    if (!usuarioId) return;
+
     try {
-      const response = await fetch(apiUrl);
+      const response = await fetch(
+        `http://127.0.0.1:5036/cargas/motoristasCadastrados/${usuarioId}`
+      );
       const data = await response.json();
-      setMotoristas(data);
+
+      if (Array.isArray(data)) {
+        setMotoristas(data);
+      } else if (Array.isArray(data.Motoristas)) {
+        setMotoristas(data.Motoristas);
+      } else {
+        setMotoristas([]);
+      }
     } catch (error) {
       console.error("Erro ao carregar motoristas:", error);
     }
   }
+
 
   function handleChange(e) {
     const { name, value } = e.target;
