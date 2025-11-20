@@ -6,18 +6,26 @@ import styles from "./cliente.module.css";
 
 const apiUrl = "http://127.0.0.1:5036/clientes";
 
-export function getIDUsuario(token) {
+function getIDUsuario(token) {
   if (!token) return 0;
   const decoded = jwtDecode(token);
-  //console.log("DECODED:", decoded);
+  console.log("DECODED:", decoded.id_usuario);
   return decoded.id_usuario;
 }
+function getNomeUsuario(token) {
+  if (!token) return 0;
+  const decoded = jwtDecode(token);
+  console.log("DECODED:", decoded.nome_usuario);
+  return decoded.nome_usuario;
+}
+
 
 export default function ClientesPage() {
-  const [token, setToken] = useState([]);
+  const [token, setToken] = useState("");
   const [clientes, setClientes] = useState([]);
   const [usuarioId, setUsuarioId] = useState([]);
   const [editando, setEditando] = useState(null);
+  const [usuarioNome, setUsuarioNome] = useState("");
 
   useEffect(() => {
     const pegandoToken = localStorage.getItem("auth_token");
@@ -25,11 +33,9 @@ export default function ClientesPage() {
       setToken(pegandoToken);
       const id_usuario = getIDUsuario(pegandoToken);
       setUsuarioId(id_usuario);
-      console.log("ID DO USUÁRIO:", id_usuario);
-      setForm((prev) => ({
-        ...prev,
-        usuario_id: id_usuario
-      }));
+
+      const usuario_nome = getNomeUsuario(pegandoToken);
+      setUsuarioNome(usuario_nome);
     }
   }, []);
 
@@ -52,20 +58,37 @@ export default function ClientesPage() {
   const [mostrarPopup, setMostrarPopup] = useState(false);
 
 
-
-  useEffect(() => {
+useEffect(() => {
+  if (usuarioId) {
     carregarClientes();
-  }, []);
-
-  async function carregarClientes() {
-    try {
-      const response = await fetch(apiUrl);
-      const data = await response.json();
-      setClientes(data);
-    } catch (error) {
-      console.error("Erro ao carregar clientes:", error);
-    }
   }
+}, [usuarioId]);
+
+
+async function carregarClientes() {
+  if (!usuarioId) return;
+
+  try {
+    const response = await fetch(
+      `http://127.0.0.1:5036/cargas/clientesCadastrados/${usuarioId}`
+    );
+
+    const data = await response.json();
+
+
+    if (Array.isArray(data)) {
+      setClientes(data); 
+    } else if (Array.isArray(data.Clientes)) {
+      setClientes(data.Clientes); 
+    } else {
+      setClientes([]);
+    }
+
+  } catch (error) {
+    console.error("Erro ao carregar clientes:", error);
+  }
+}
+
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -111,6 +134,7 @@ export default function ClientesPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...form,
+          usuario_id: usuarioId
         }),
       });
       if (!response.ok) {
@@ -251,7 +275,7 @@ export default function ClientesPage() {
             </tr>
           </thead>
           <tbody className={styles.tabelaCorpo} id="tabela-cliente">
-            {clientes.map((v) => (
+            {clientes.map((v)  => (
               <tr key={v.id}>
                 <td>{v.id}</td>
                 <td>{v.cnpj}</td>

@@ -17,11 +17,7 @@ function getNomeUsuario(token) {
   return decoded.nome_usuario;
 }
 
-
 const apiUrlCargas = "http://127.0.0.1:5036/cargas";
-const usuariosapiUrlCargas = "http://127.0.0.1:5036/clientes";
-const apiUrlCargasMotoristas = "http://127.0.0.1:5036/motoristas";
-const apiUrlCargasVeiculos = "http://127.0.0.1:5036/veiculos";
 
 
 export default function CargasPage() {
