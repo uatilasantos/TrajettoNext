@@ -102,36 +102,44 @@ export default function CargasPage() {
 
   /*até aqui*/
 
-  async function carregarClientes() {
-    try {
-      const resposta = await fetch(usuariosapiUrlCargas);
-      const data = await resposta.json();
-      setClientes(data);
-    } catch (error) {
-      console.error("Erro ao carregar clientes:", error);
-    }
-  }
+async function carregarClientes() {
+  if (!usuarioId) return;
 
-  async function carregarVeiculos() {
-    try {
-      const resposta = await fetch(apiUrlCargasVeiculos);
-      const data = await resposta.json();
-      setVeiculos(data);
-    } catch (error) {
-      console.error("Erro ao carregar veículos:", error);
-    }
+  try {
+    const resposta = await fetch(`${apiUrlCargas}/clientesCadastrados/${usuarioId}`);
+    const data = await resposta.json();
+    setClientes(data);
+  } catch (error) {
+    console.error("Erro ao carregar clientes:", error);
   }
+}
 
-  async function carregarMotoristas() {
-    try {
-      const resposta = await fetch(apiUrlCargasMotoristas);
-      const data = await resposta.json();
-      setMotoristas(data);
-    }
-    catch (error) {
-      console.error("Erro ao carregar motoristas:", error);
-    }
+
+async function carregarVeiculos() {
+  if (!usuarioId) return;
+
+  try {
+    const resposta = await fetch(`${apiUrlCargas}/veiculosCadastrados/${usuarioId}`);
+    const data = await resposta.json();
+    setVeiculos(data);
+  } catch (error) {
+    console.error("Erro ao carregar veículos:", error);
   }
+}
+
+
+async function carregarMotoristas() {
+  if (!usuarioId) return;
+
+  try {
+    const resposta = await fetch(`${apiUrlCargas}/motoristasCadastrados/${usuarioId}`);
+    const data = await resposta.json();
+    setMotoristas(data);
+  } catch (error) {
+    console.error("Erro ao carregar motoristas:", error);
+  }
+}
+
 
   async function carregarCidadesSP() {
     const apiIbgeUrl = "https://servicodados.ibge.gov.br/api/v1/localidades/estados/35/municipios";
