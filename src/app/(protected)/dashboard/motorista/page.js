@@ -126,6 +126,7 @@ export default function motoristaPage() {
       body: JSON.stringify({
         ...form,
         salario: parseFloat(form.salario) || 0,
+        usuario_id: usuarioId,
       }),
     });
 
