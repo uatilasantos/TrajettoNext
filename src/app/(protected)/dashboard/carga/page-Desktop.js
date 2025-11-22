@@ -17,7 +17,11 @@ function getNomeUsuario(token) {
   return decoded.nome_usuario;
 }
 
+
 const apiUrlCargas = "http://127.0.0.1:5036/cargas";
+const usuariosapiUrlCargas = "http://127.0.0.1:5036/clientes";
+const apiUrlCargasMotoristas = "http://127.0.0.1:5036/motoristas";
+const apiUrlCargasVeiculos = "http://127.0.0.1:5036/veiculos";
 
 
 export default function CargasPage() {
@@ -98,44 +102,36 @@ export default function CargasPage() {
 
   /*até aqui*/
 
-async function carregarClientes() {
-  if (!usuarioId) return;
-
-  try {
-    const resposta = await fetch(`${apiUrlCargas}/clientesCadastrados/${usuarioId}`);
-    const data = await resposta.json();
-    setClientes(data);
-  } catch (error) {
-    console.error("Erro ao carregar clientes:", error);
+  async function carregarClientes() {
+    try {
+      const resposta = await fetch(usuariosapiUrlCargas);
+      const data = await resposta.json();
+      setClientes(data);
+    } catch (error) {
+      console.error("Erro ao carregar clientes:", error);
+    }
   }
-}
 
-
-async function carregarVeiculos() {
-  if (!usuarioId) return;
-
-  try {
-    const resposta = await fetch(`${apiUrlCargas}/veiculosCadastrados/${usuarioId}`);
-    const data = await resposta.json();
-    setVeiculos(data);
-  } catch (error) {
-    console.error("Erro ao carregar veículos:", error);
+  async function carregarVeiculos() {
+    try {
+      const resposta = await fetch(apiUrlCargasVeiculos);
+      const data = await resposta.json();
+      setVeiculos(data);
+    } catch (error) {
+      console.error("Erro ao carregar veículos:", error);
+    }
   }
-}
 
-
-async function carregarMotoristas() {
-  if (!usuarioId) return;
-
-  try {
-    const resposta = await fetch(`${apiUrlCargas}/motoristasCadastrados/${usuarioId}`);
-    const data = await resposta.json();
-    setMotoristas(data);
-  } catch (error) {
-    console.error("Erro ao carregar motoristas:", error);
+  async function carregarMotoristas() {
+    try {
+      const resposta = await fetch(apiUrlCargasMotoristas);
+      const data = await resposta.json();
+      setMotoristas(data);
+    }
+    catch (error) {
+      console.error("Erro ao carregar motoristas:", error);
+    }
   }
-}
-
 
   async function carregarCidadesSP() {
     const apiIbgeUrl = "https://servicodados.ibge.gov.br/api/v1/localidades/estados/35/municipios";
@@ -187,32 +183,18 @@ async function carregarMotoristas() {
   }
 
 
-async function carregarParaEdicao(id) {
-  try {
-    const response = await fetch(`${apiUrlCargas}/${id}`);
-    const data = await response.json();
 
-    const dadosNormalizados = {
-      tipo_carga: data.tipo_carga,
-      peso_carga: data.peso_carga,
-      cliente_id: data.cliente_id,
-      motorista_id: data.motorista_id,
-      veiculo_id: data.veiculo_id,
-      origem_carga: data.origem_carga,
-      destino_carga: data.destino_carga,
-      valor_frete: data.valor_frete,
-      valor_km: data.valor_km,    
-      distancia: data.distancia    
-    };
-
-    setForm(dadosNormalizados);
-    setEditando(id);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  } catch (error) {
-    console.error("Erro ao carregar carga para edição:", error);
+  async function carregarParaEdicao(id) {
+    try {
+      const response = await fetch(`${apiUrlCargas}/${id}`);
+      const data = await response.json();
+      setForm(data);
+      setEditando(id);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } catch (error) {
+      console.error("Erro ao carregar carga para edição:", error);
+    }
   }
-}
-
 
   async function deletarCarga(id) {
     if (!confirm("Tem certeza que deseja excluir este cliente?")) return;
