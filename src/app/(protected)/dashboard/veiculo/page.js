@@ -88,6 +88,7 @@ export default function VeiculoPage() {
           peso_maximo_kg: parseInt(form.peso_maximo_kg) || 0,
           ano_modelo: parseInt(form.ano_modelo) || 0,
           ano_fabricacao: parseInt(form.ano_fabricacao) || 0,
+          usuario_id: usuarioId,
         }),
       });
 
