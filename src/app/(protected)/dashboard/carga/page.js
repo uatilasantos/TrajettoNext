@@ -187,18 +187,32 @@ async function carregarMotoristas() {
   }
 
 
+async function carregarParaEdicao(id) {
+  try {
+    const response = await fetch(`${apiUrlCargas}/${id}`);
+    const data = await response.json();
 
-  async function carregarParaEdicao(id) {
-    try {
-      const response = await fetch(`${apiUrlCargas}/${id}`);
-      const data = await response.json();
-      setForm(data);
-      setEditando(id);
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    } catch (error) {
-      console.error("Erro ao carregar carga para edição:", error);
-    }
+    const dadosNormalizados = {
+      tipo_carga: data.tipo_carga,
+      peso_carga: data.peso_carga,
+      cliente_id: data.cliente_id,
+      motorista_id: data.motorista_id,
+      veiculo_id: data.veiculo_id,
+      origem_carga: data.origem_carga,
+      destino_carga: data.destino_carga,
+      valor_frete: data.valor_frete,
+      valor_km: data.valor_km,    
+      distancia: data.distancia    
+    };
+
+    setForm(dadosNormalizados);
+    setEditando(id);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  } catch (error) {
+    console.error("Erro ao carregar carga para edição:", error);
   }
+}
+
 
   async function deletarCarga(id) {
     if (!confirm("Tem certeza que deseja excluir este cliente?")) return;
