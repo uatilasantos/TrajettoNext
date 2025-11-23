@@ -22,6 +22,7 @@ export default function DocumentosPage() {
       if (id === 1) url = "http://127.0.0.1:5036/relatorio/veiculos?token=" + token;
       else if (id === 2) url = "http://127.0.0.1:5036/relatorio/motoristas?token=" + token;
       else if (id === 3) url = "http://127.0.0.1:5036/relatorio/cargas?token=" + token;
+      else if (id === 4) url = "http://127.0.0.1:5036/relatorio/clientes?token=" + token; 
       else return alert("Erro ao consultar");
 
       const response = await fetch(url);
@@ -74,6 +75,17 @@ export default function DocumentosPage() {
             <button onClick={() => consulta(3)}>Emitir</button>
           </div>
         </div>
+
+        {/* Clientes (id = 4) */}
+        <div className={styles.card}>
+          <div className={styles.iconWrapper}>
+            <Image src="/clients.png" width={48} height={48} alt="Clientes" />
+          </div>
+          <h2>Clientes</h2>
+          <div className={styles.actions}>
+            <button onClick={() => consulta(4)}>Emitir</button>
+          </div>
+        </div>
 
       </div>
     </section>
