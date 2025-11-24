@@ -1,200 +1,126 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  Tooltip,
-  CartesianGrid,
-  ResponsiveContainer
-} from "recharts";
+import { jwtDecode } from "jwt-decode";
+import { useEffect, useState } from "react";
+import styles from "./faturamento.module.css";
 
-export default function PaginaFaturamento() {
-  const [cargas, setCargas] = useState([]);
-  const [motoristas, setMotoristas] = useState([]);
+// URL da API de faturamento
+const apiUrlFaturamento = "http://127.0.0.1:5036/dashboard/faturamento";
+
+export default function FaturamentoPage() {
+  const [usuarioId, setUsuarioId] = useState(null);
+  const [faturamento, setFaturamento] = useState(null);
+  const [usuarioNome, setUsuarioNome] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState(null);
+
+  function getIDUsuario(token) {
+    if (!token) return null;
+    const decoded = jwtDecode(token);
+    return decoded.id_usuario;
+  }
+
+  function getNomeUsuario(token) {
+    if (!token) return "";
+    const decoded = jwtDecode(token);
+    return decoded.nome_usuario;
+  }
 
   useEffect(() => {
-    async function fetchMotoristas() {
-      try {
-        const res = await fetch("http://127.0.0.1:5036/motoristas");
-        const data = await res.json();
-        setMotoristas(data);
-      } catch (err) {
-        console.error("Erro ao carregar motoristas", err);
-      }
+    const token = localStorage.getItem("auth_token");
+    if (token) {
+      setUsuarioId(getIDUsuario(token));
+      setUsuarioNome(getNomeUsuario(token));
     }
-
-    async function fetchCargas() {
-      try {
-        const res = await fetch("http://127.0.0.1:5036/cargas");
-        const data = await res.json();
-        setCargas(data);
-      } catch (err) {
-        console.error("Erro ao carregar cargas", err);
-      }
-    }
-
-    fetchMotoristas();
-    fetchCargas();
   }, []);
 
-  const parseKm = (distanciaStr) => {
-    if (!distanciaStr) return 0;
-    return Number(distanciaStr.replace(" km", "").replace(",", ".").trim());
-  };
+  useEffect(() => {
+    if (!usuarioId) return;
 
-  const parseMoeda = (valorStr) => {
-    if (!valorStr) return 0;
-    return Number(
-      valorStr.replace("R$", "").replace(".", "").replace(",", ".").trim()
-    );
-  };
+    const fetchFaturamento = async () => {
+      try {
+        const response = await fetch(`${apiUrlFaturamento}/${usuarioId}`, {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        });
 
-  const valorDiesel = 6.06;
-  const consumoMedio = 2.5;
-  const pedagioBase = 3.5;
+        if (!response.ok) {
+          throw new Error("Erro ao buscar faturamento");
+        }
 
-  const calcularPedagio = (km) => {
-    if (km <= 60) return 0;
-    const extra = km - 60;
-    return Math.floor(extra / 15) * pedagioBase;
-  };
+        const data = await response.json();
+        setFaturamento(data);
+      } catch (err) {
+        setErrorMessage(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  let totalKm = 0;
-  let totalCombustivel = 0;
-  let totalPedagios = 0;
-  let totalBruto = 0;
+    fetchFaturamento();
+  }, [usuarioId]);
 
-  const totalSalarios = motoristas.reduce(
-    (acc, m) => acc + Number(m.salario || 0),
-    0
-  );
-
-  const dadosFaturamento = cargas
-    .filter((c) => c && c.distancia && c.valor_frete)
-    .map((c) => {
-      const km = parseKm(c.distancia);
-      const valorFrete = parseMoeda(c.valor_frete);
-
-      const litrosConsumidos = km / consumoMedio;
-      const combustivel = litrosConsumidos * valorDiesel;
-      const pedagios = calcularPedagio(km);
-
-      const liquidoSemSalario = valorFrete - combustivel - pedagios;
-
-      totalKm += km;
-      totalCombustivel += combustivel;
-      totalPedagios += pedagios;
-      totalBruto += valorFrete;
-
-      return {
-        nome: c.destino_carga,
-        bruto: valorFrete,
-        liquido: liquidoSemSalario,
-      };
-    });
-
-  const totalLiquido =
-    totalBruto - totalCombustivel - totalPedagios - totalSalarios;
-
-  const format = (n) =>
-    n.toLocaleString("pt-BR", { minimumFractionDigits: 2 });
+  if (loading) return <p className="text-center mt-10 text-lg">Carregando...</p>;
+  if (errorMessage)
+    return <p className="text-center mt-10 text-red-500">{errorMessage}</p>;
+  if (!faturamento) return null;
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h1 style={{ fontSize: "28px", fontWeight: "bold", marginBottom: "20px" }}>
-        Faturamento
-      </h1>
+    <div className={styles.dashboardContainer}>
+      <h1 className={styles.title}>Faturamento</h1>
+      <h2 className={styles.title2}>Usuário: {usuarioNome}</h2>
 
-      {/* cards */}
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-          gap: "20px",
-          marginBottom: "30px",
-        }}
-      >
-        <Card titulo="Total de Pedágios" valor={`R$ ${format(totalPedagios)}`} />
-        <Card titulo="Gasto com Combustível" valor={`R$ ${format(totalCombustivel)}`} />
-        <Card titulo="Total de KM Rodados" valor={`${format(totalKm)} km`} />
-        <Card titulo="Faturamento Bruto Total" valor={`R$ ${format(totalBruto)}`} />
-        <Card titulo="Total gasto com salários" valor={`R$ ${format(totalSalarios)}`} />
-        <Card titulo="Faturamento Líquido Total" valor={`R$ ${format(totalLiquido)}`} />
-      </div>
+      {errorMessage && (
+        <div style={{ color: "red", marginBottom: 12 }}>{errorMessage}</div>
+      )}
 
-      {/* faturamento bruto */}
-      <div
-        style={{
-          background: "#fff",
-          padding: "20px",
-          borderRadius: "12px",
-          marginBottom: "30px",
-          boxShadow: "0 3px 10px rgba(0,0,0,0.1)",
-          width: "100%",
-        }}
-      >
-        <h2 style={{ marginBottom: "15px", fontSize: "20px" }}>
-          Faturamento Bruto
-        </h2>
+      {/* CARDS PRINCIPAIS */}
+      <div className={styles.cardsContainer}>
+        <div className={styles.card}>
+          <h3>Total Bruto</h3>
+          <span>R$ {faturamento.total_bruto.toFixed(2)}</span>
+        </div>
 
-        <div style={{ width: "100%", height: 300 }}>
-          <ResponsiveContainer>
-            <LineChart data={dadosFaturamento}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="nome" />
-              <YAxis />
-              <Tooltip />
-              <Line type="monotone" dataKey="bruto" stroke="blue" strokeWidth={2} />
-            </LineChart>
-          </ResponsiveContainer>
+        <div className={styles.card}>
+          <h3>Total Líquido</h3>
+          <span>R$ {faturamento.total_liquido.toFixed(2)}</span>
+        </div>
+
+        <div className={styles.card}>
+          <h3>Total de Salários</h3>
+          <span>R$ {faturamento.total_salarios.toFixed(2)}</span>
+        </div>
+
+        <div className={styles.card}>
+          <h3>Total de Combustível</h3>
+          <span>R$ {faturamento.total_combustivel.toFixed(2)}</span>
+        </div>
+
+        <div className={styles.card}>
+          <h3>Total de Pedágios</h3>
+          <span>R$ {faturamento.total_pedagios.toFixed(2)}</span>
+        </div>
+
+        <div className={styles.card}>
+          <h3>Total de KM Rodados</h3>
+          <span>{faturamento.total_km.toFixed(1)} km</span>
         </div>
       </div>
 
-      {/* faturamento liquido */}
-      <div
-        style={{
-          background: "#fff",
-          padding: "20px",
-          borderRadius: "12px",
-          boxShadow: "0 3px 10px rgba(0,0,0,0.1)",
-          width: "100%",
-        }}
-      >
-        <h2 style={{ marginBottom: "15px", fontSize: "20px" }}>
-          Faturamento Líquido
-        </h2>
+      {/* DETALHAMENTO POR CARGA */}
+      <h2 className={styles.title2} style={{ marginTop: 40 }}>
+        Detalhamento por carga
+      </h2>
 
-        <div style={{ width: "100%", height: 300 }}>
-          <ResponsiveContainer>
-            <LineChart data={dadosFaturamento}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="nome" />
-              <YAxis />
-              <Tooltip />
-              <Line type="monotone" dataKey="liquido" stroke="green" strokeWidth={2} />
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
+      <div className={styles.cardsContainer}>
+        {faturamento.detalhado.map((carga, index) => (
+          <div key={index} className={styles.card}>
+            <h3>{carga.nome}</h3>
+            <span>Bruto: R$ {carga.bruto.toFixed(2)}</span>
+            <span> Líquido: R$ {carga.liquido.toFixed(2)}</span>
+          </div>
+        ))}
       </div>
-    </div>
-  );
-}
-
-function Card({ titulo, valor }) {
-  return (
-    <div
-      style={{
-        background: "#ffffff",
-        padding: "20px",
-        borderRadius: "12px",
-        boxShadow: "0 3px 10px rgba(0,0,0,0.1)",
-      }}
-    >
-      <p style={{ fontSize: "14px", opacity: 0.7 }}>{titulo}</p>
-      <h3 style={{ fontSize: "22px", marginTop: "5px" }}>{valor}</h3>
     </div>
   );
 }
