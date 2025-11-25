@@ -68,8 +68,7 @@ export default function FaturamentoPage() {
   return (
     <div className={styles.dashboardContainer}>
       <h1 className={styles.title}>Faturamento</h1>
-      <h2 className={styles.title2}>Usuário: {usuarioNome}</h2>
-
+      
       {errorMessage && (
         <div style={{ color: "red", marginBottom: 12 }}>{errorMessage}</div>
       )}
@@ -112,9 +111,9 @@ export default function FaturamentoPage() {
         Detalhamento por carga
       </h2>
 
-      <div className={styles.cardsContainer}>
+      <div className={styles.cardsContainerCargas}>
         {faturamento.detalhado.map((carga, index) => (
-          <div key={index} className={styles.card}>
+          <div key={index} className={styles.cardCarga}>
             <h3>{carga.nome}</h3>
             <span>Bruto: R$ {carga.bruto.toFixed(2)}</span>
             <span> Líquido: R$ {carga.liquido.toFixed(2)}</span>
