@@ -209,7 +209,7 @@ useEffect(() => {
 
         <div className={styles.card}>
           <h3>Total de KM rodados</h3>
-          <span>{totalKM}</span>
+          <span>{totalKM.toFixed(2)}</span>
         </div>
         
       </div>
