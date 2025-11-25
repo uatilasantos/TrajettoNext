@@ -77,15 +77,15 @@ export default function DocumentosPage() {
         </div>
 
         {/* Clientes (id = 4) */}
-        <div className={styles.card}>
-          <div className={styles.iconWrapper}>
-            <Image src="/clients.png" width={48} height={48} alt="Clientes" />
-          </div>
-          <h2>Clientes</h2>
-          <div className={styles.actions}>
-            <button onClick={() => consulta(4)}>Emitir</button>
-          </div>
-        </div>
+        <div className={styles.card}>
+          <div className={styles.iconWrapper}>
+            <Image src="/cliente.png" width={48} height={48} alt="Clientes" />
+          </div>
+          <h2>Clientes</h2>
+          <div className={styles.actions}>
+            <button onClick={() => consulta(4)}>Emitir</button>
+          </div>
+          </div>
 
       </div>
     </section>
