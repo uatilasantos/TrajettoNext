@@ -41,6 +41,7 @@ export default function LoginPage() {
                 }
 
                 const token = data.token;
+                localStorage.setItem("auth_token", token);
                 if (token) {
                     setCookie("auth_token", token, {
                         maxAge: 60 * 60, // duração do toke, aqui é uma hora
