@@ -11,60 +11,6 @@
      box-sizing: border-box;
 }
 
-/* ==== GRÁFICO ==== */
-.graficoContainer {
-     width: 100%;
-     height: 420px;
-     background: #ffffff;
-     border-radius: 16px;
-     padding: 28px;
-     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-     transition: all 0.25s ease;
-     border: 1px solid #e2e8f0;
-}
-
-.graficoContainer:hover {
-     transform: translateY(-4px);
-     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-}
-
-/* ==== TABELAS ==== */
-.tabela,
-.tabelaZebrada {
-     width: 100%;
-     border-collapse: collapse;
-     text-align: center;
-     font-size: 0.95rem;
-     border-radius: 10px;
-     overflow: hidden;
-     background-color: #fff;
-}
-
-.tabela th,
-.tabela td,
-.tabelaZebrada th,
-.tabelaZebrada td {
-     border: 1px solid #e5e7eb;
-     padding: 12px 14px;
-     transition: background 0.2s ease;
-}
-
-.tabela th,
-.tabelaZebrada th {
-     background: linear-gradient(90deg, #f3f4f6 0%, #e5e7eb 100%);
-     color: #1e3a8a;
-     font-weight: 600;
-     text-transform: uppercase;
-     font-size: 0.85rem;
-     letter-spacing: 0.5px;
-}
-
-.tabela td,
-.tabelaZebrada td {
-     color: #334155;
-}
-
-/* Efeito zebrado + hover */
 .linhaPar {
      background-color: #f9fafb;
 }
@@ -79,12 +25,46 @@
 }
 
 /* ==== CARDS ==== */
+.title {
+     padding-bottom: 20px;
+     color: #2c3e50;
+}
+
+.title2 {
+     padding-bottom: 20px;
+     color: #2c3e50;
+}
+
+
 .cardsContainer {
      display: flex;
      gap: 20px;
      flex-wrap: wrap;
      justify-content: space-evenly;
 }
+
+.cardsContainerCargas {
+     display: flex;
+     flex-wrap: wrap;
+     gap: 10px;
+     padding-bottom: 20px;
+}
+
+.cardCarga {
+     background: #ffffff;
+     border: 2px solid #e9e9e9;
+     border-radius: 14px;
+     height: 100px;
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     justify-content: center;
+     cursor: pointer;
+     transition: transform 0.2s ease, box-shadow 0.2s ease;
+     flex: 1 1 calc((100% / 3)  - 20px); 
+     color: #2c3e50;
+}
+
 
 .card {
      background: #ffffff;
@@ -96,23 +76,20 @@
      min-width: 180px;
      transition: all 0.25s ease;
      border: 1px solid #e2e8f0;
+     color: #2c3e50;
 }
 
-.card:hover {
-     transform: translateY(-5px);
-     box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
-}
 
 .card h3 {
      margin: 0;
-     color: #1d4ed8;
+     color: #2c3e50;
      font-size: 1.1rem;
      font-weight: 600;
 }
 
 .card p {
      margin-top: 10px;
-     color: #0f172a;
+     color: #2c3e50;
      font-weight: 700;
      font-size: 1.05rem;
 }
@@ -189,131 +166,7 @@
      font-weight: 500;
 }
 
-/* ==== TABELAS CONTAINER ==== */
-.containerTabelas {
-     display: flex;
-     flex-wrap: wrap;
-     justify-content: space-between;
-     gap: 24px;
-     width: 100%;
-     margin-top: 20px;
-}
 
-.tabelaWrapper {
-     flex: 1 1 calc(50% - 20px);
-     background-color: #ffffff;
-     border-radius: 14px;
-     padding: 20px;
-     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-     transition: all 0.25s ease;
-     min-width: 350px;
-     border: 1px solid #e2e8f0;
-}
-
-.tabelaWrapper:hover {
-     transform: translateY(-5px);
-     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-}
-
-.tabelaWrapper h2 {
-     text-align: center;
-     color: #1e3a8a;
-     font-size: 1.15rem;
-     margin-bottom: 14px;
-     border-bottom: 2px solid #06b6d4;
-     padding-bottom: 8px;
-     font-weight: 600;
-}
-
-
-/* ==== CONJUNTOS DE TABELAS ==== */
-.containerTabelas {
-     display: flex;
-     flex-wrap: wrap;
-     justify-content: space-between;
-     gap: 24px;
-     width: 100%;
-     margin-top: 20px;
-}
-
-/* 3 tabelas por linha em telas grandes */
-.tabelaWrapper {
-     flex: 1 1 calc(33.333% - 24px);
-     background-color: #ffffff;
-     border-radius: 14px;
-     padding: 20px;
-     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-     transition: all 0.25s ease;
-     min-width: 320px;
-     border: 1px solid #e2e8f0;
-     box-sizing: border-box;
-}
-
-.tabelaWrapper:hover {
-     transform: translateY(-5px);
-     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-}
-
-.tabelaWrapper h2 {
-     text-align: center;
-     color: #1e3a8a;
-     font-size: 1.1rem;
-     margin-bottom: 12px;
-     border-bottom: 2px solid #06b6d4;
-     padding-bottom: 6px;
-     font-weight: 600;
-}
-
-.tabelaWrapper {
-     width: 100%;
-     margin-top: 2rem;
-}
-
-.tabela {
-     width: 100%;
-     border-collapse: collapse;
-     text-align: left;
-}
-
-.tabela th,
-.tabela td {
-     padding: 8px 12px;
-     border-bottom: 1px solid #ddd;
-}
-
-.barraFundo {
-     position: relative;
-     background-color: #eee;
-     border-radius: 8px;
-     height: 18px;
-     width: 100%;
-}
-
-.barraProgresso {
-     height: 100%;
-     border-radius: 8px;
-     transition: width 0.4s ease;
-}
-
-.valorSatisfacao {
-     position: absolute;
-     right: 8px;
-     top: 0;
-     font-size: 0.8rem;
-     color: #333;
-}
-
-
-
-
-/* ==== RESPONSIVIDADE ==== */
-@media (max-width: 1200px) {
-
-     /* 2 por linha */
-     .tabelaWrapper {
-          flex: 1 1 calc(50% - 20px);
-     }
-}
 
 @media (max-width: 800px) {
 
@@ -324,19 +177,25 @@
 }
 
 
-
 @media (max-width: 600px) {
      .graficoContainer {
           height: 320px;
-          padding: 16px;
+          padding: 10px;
      }
 
      .card {
           min-width: 150px;
      }
 
-     .tabela th,
-     .tabela td {
-          padding: 8px;
+}
+
+@media (max-width: 700px) {
+     .cardCarga {
+          flex: 1 1 100%;
+     }
+
+     .card {
+          flex: 1 1 100%;
      }
 }
+ 

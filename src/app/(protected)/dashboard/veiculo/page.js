@@ -40,7 +40,8 @@ export default function VeiculoPage() {
       setUsuarioId(id);
     }
   }, []);
-
+  const [visualizando, setVisualizando] = useState(null);
+  const [mostrarPopup, setMostrarPopup] = useState(false);
 
   useEffect(() => {
     if (usuarioId) carregarVeiculos();
@@ -130,6 +131,17 @@ export default function VeiculoPage() {
     }
   }
 
+  async function DetalhesVeiculo(id) {
+    try {
+      const response = await fetch(`${apiUrl}/${id}`);
+      const data = await response.json();
+      setVisualizando(data);
+      setMostrarPopup(true);
+    } catch (error) {
+      console.error("Erro ao visualizar veiculo:", error);
+    }
+  }
+
   function limparFormulario() {
     setForm({
       placa: "",
@@ -165,12 +177,30 @@ export default function VeiculoPage() {
           <h3>Capacidade de Carga</h3>
           <input name="peso_maximo_kg" placeholder="Peso Máximo (kg)" value={form.peso_maximo_kg} onChange={handleChange} />
           <input name="tipo" placeholder="Tipo de Veículo" value={form.tipo} onChange={handleChange} required />
-          
+
           <button id="btn-salvar" type="submit">
             {editando ? "Salvar Alterações" : "Cadastrar veículo"}
           </button>
         </form>
+
+        {mostrarPopup && visualizando && (
+          <div className={styles.popupOverlay}>
+            <div className={styles.popupContent}>
+              <h3>Detalhes do Veículo</h3>
+              <ul>
+                {Object.entries(visualizando).map(([key, value]) => (
+                  <li key={key}>
+                    <strong>{key.replace("_", " ")}:</strong> {value || "—"}
+                  </li>
+                ))}
+              </ul>
+              <button className={styles.btnFechar} onClick={() => setMostrarPopup(false)}>Fechar</button>
+            </div>
+          </div>
+        )}
+
       </div>
+
 
       <div className={styles.veiculoLista}>
         <h2>Lista de Veículos</h2>
@@ -212,6 +242,9 @@ export default function VeiculoPage() {
                   </button>
                   <button className={styles.btnExcluir} onClick={() => deletarVeiculo(v.id)}>
                     Excluir
+                  </button>
+                  <button className={styles.btnDetalhes} onClick={() => DetalhesVeiculo(v.id)}>
+                    Exibir
                   </button>
                 </td>
               </tr>
