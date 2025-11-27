@@ -35,7 +35,7 @@ export default function contaPage() {
       console.log(data)
 
       if (response.ok) {
-        router.push("/dashboard");
+        router.push("/");
       } else {
         setErrorMessage(data.message)
       }
