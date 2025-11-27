@@ -36,7 +36,8 @@ Uatila Santos
 
     ```bash
     git clone https://github.com/uatilasantos/TrajettoNext
-    cd TrajettoNext    ```
+    cd TrajettoNext
+    ```
 
 
 3.  Instale as dependências
