@@ -1,11 +1,18 @@
-Projeto de sistema para assistência logística Trajetto
+🚚 **Sistema de Gerenciamento Logístico**
+
+
+📌 **Visão Geral do Projeto**
+
+Nosso projeto consiste no desenvolvimento de um Sistema de Gerenciamento Logístico, que permitirá otimizar processos, organizar dados e melhorar a eficiência de operações logísticas.
+
+Durante toda a construção, utilizaremos Docker para criar, implantar e executar aplicações em containers, garantindo isolamento, portabilidade e eficiência no ambiente de desenvolvimento.
 
 ----------------------------------------------------------------
+```
+
 👥 Participantes
 
 Ana Beatriz
-
-João Pedro
 
 Luiz Otávio
 
@@ -13,33 +20,36 @@ Murillo Rodrigues
 
 Uatila Santos
 
+```
+
 ------------------------------------------------------------------
+🚀 **Como rodar o projeto**
 
-🚀 Como rodar o Front-End (Next.js)
+1. Execute a API localmente
+    
+    ```bash
+    Disponível no repositório:
+    https://github.com/luizotavio26/TrajettoAPI.git
+    ```
 
-Siga os passos abaixo para executar o projeto localmente:
+2.  Clone este repositório
 
-✅ 1. Instale as dependências
+    ```bash
+    git clone https://github.com/uatilasantos/TrajettoNext
+    cd TrajettoNext    ```
 
-No diretório do projeto, execute:
 
-npm install
+3.  Instale as dependências
 
-✅ 2. Inicie o servidor de desenvolvimento
-npm run dev
+    ```bash
+    npm install
+    ```
 
-🌐 3. Acesse no navegador
+4.  Inicie o servidor de desenvolvimento
 
-O projeto estará disponível em:
+    ```bash
+    npm run dev
+    ```
 
-http://localhost:3000
-
-🔄 Comandos úteis
-
-Instalar dependências: npm install
-
-Rodar em modo dev: npm run dev
-
-Build para produção: npm run build
-
-Iniciar build: npm start
+    O projeto estará disponível em:
+    http://localhost:3000
