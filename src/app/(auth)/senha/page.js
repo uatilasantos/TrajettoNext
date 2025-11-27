@@ -42,7 +42,7 @@ export default function MudancaSenhaPage() {
 
             if(response.ok){
                 alert("Senha alterada com sucesso");
-                router.push("/dashboard");
+                router.push("/");
             
 
             } else{
