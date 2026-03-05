@@ -29,6 +29,9 @@ export default function contaPage() {
   // =========================
   const handleConta = async (e) => {
     e.preventDefault();
+
+    if (isLoading) return; // evita múltiplos envios
+
     setErrorMessage("");
     setIsLoading(true);
 
@@ -43,7 +46,7 @@ export default function contaPage() {
       console.log(data);
 
       if (response.ok) {
-        setEtapaOtp(true); // mostra campo OTP
+        setEtapaOtp(true);
       } else {
         setErrorMessage(data.erro || "Erro ao enviar OTP");
       }
@@ -61,6 +64,9 @@ export default function contaPage() {
   // =========================
   const handleConfirmarOtp = async (e) => {
     e.preventDefault();
+
+    if (isLoading) return; // evita múltiplos envios
+
     setErrorMessage("");
     setIsLoading(true);
 
@@ -108,7 +114,7 @@ export default function contaPage() {
 
       <div className={styles.rightSide}>
         <div className={styles.formBox}>
-          <h2> Cadastro de Usuário</h2>
+          <h2>Cadastro de Usuário</h2>
 
           {/* FORM 1 - DADOS */}
           {!etapaOtp && (
@@ -118,7 +124,9 @@ export default function contaPage() {
                 type="text"
                 placeholder="Digite seu nome de usuário"
                 value={formData.nome_usuario}
-                onChange={(e) => setFormData({ ...formData, nome_usuario: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, nome_usuario: e.target.value })
+                }
                 required
               />
 
@@ -127,7 +135,9 @@ export default function contaPage() {
                 type="email"
                 placeholder="seuemail@exemplo.com"
                 value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, email: e.target.value })
+                }
                 required
               />
 
@@ -136,14 +146,20 @@ export default function contaPage() {
                 type="password"
                 placeholder="Digite a sua senha"
                 value={formData.senha}
-                onChange={(e) => setFormData({ ...formData, senha: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, senha: e.target.value })
+                }
                 required
               />
 
               {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
 
-              <button type="submit" className={styles.loginButton}>
-                Enviar código
+              <button
+                type="submit"
+                className={styles.loginButton}
+                disabled={isLoading}
+              >
+                {isLoading ? "Enviando..." : "Enviar código"}
               </button>
 
               <Link href="/" className={styles.backLink}>
@@ -166,8 +182,12 @@ export default function contaPage() {
 
               {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
 
-              <button type="submit" className={styles.loginButton}>
-                Confirmar cadastro
+              <button
+                type="submit"
+                className={styles.loginButton}
+                disabled={isLoading}
+              >
+                {isLoading ? "Confirmando..." : "Confirmar cadastro"}
               </button>
             </form>
           )}
@@ -176,9 +196,3 @@ export default function contaPage() {
     </div>
   );
 }
-
-
-
-
-
-
