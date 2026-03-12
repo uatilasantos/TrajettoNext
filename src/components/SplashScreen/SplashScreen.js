@@ -9,7 +9,7 @@ export default function SplashScreen() {
       <Image
         src="/logobranco1.png"
         alt="Trajetto Express"
-        width={220}
+        width={180}
         height={100}
         priority
         className="splash-logo"
