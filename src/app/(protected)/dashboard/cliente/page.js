@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
 import styles from "./cliente.module.css";
 
-const apiUrl = "http://127.0.0.1:5036/clientes";
+const apiUrl = "https://trajettoapi.onrender.com/clientes";
 
 function getIDUsuario(token) {
   if (!token) return 0;
@@ -70,7 +70,7 @@ async function carregarClientes() {
 
   try {
     const response = await fetch(
-      `http://127.0.0.1:5036/cargas/clientesCadastrados/${usuarioId}`
+      `https://trajettoapi.onrender.com/cargas/clientesCadastrados/${usuarioId}`
     );
 
     const data = await response.json();

@@ -19,11 +19,11 @@ function getNomeUsuario(token) {
 }
 
 /* -------------------------------------------------------------- URL DAS APIS ----------------------------------------------------------------------- */
-const apiUrlCargas = "http://127.0.0.1:5036/dashboard/cargasCadastradas";
-const apiUrlMotoristas = "http://127.0.0.1:5036/dashboard/motoristasCadastrados";
-const apiUrlVeiculos = "http://127.0.0.1:5036/dashboard/veiculosCadastrados";
-const apiUrlClientes = "http://127.0.0.1:5036/dashboard/clientesCadastrados";
-const apiUrlTotais = "http://127.0.0.1:5036/dashboard/totaisCargas";
+const apiUrlCargas = "https://trajettoapi.onrender.com/dashboard/cargasCadastradas";
+const apiUrlMotoristas = "https://trajettoapi.onrender.com/dashboard/motoristasCadastrados";
+const apiUrlVeiculos = "https://trajettoapi.onrender.com/dashboard/veiculosCadastrados";
+const apiUrlClientes = "https://trajettoapi.onrender.com/dashboard/clientesCadastrados";
+const apiUrlTotais = "https://trajettoapi.onrender.com/dashboard/totaisCargas";
 
 export default function DashboardPage() {
   const [token, setToken] = useState(null);

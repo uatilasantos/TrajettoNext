@@ -8,7 +8,7 @@ import Link from "next/link";
 import Image from "next/image";
 import styles from "./login.module.css";
 
-const apiUrl = "http://127.0.0.1:5036/usuario/login";
+const apiUrl = "https://trajettoapi.onrender.com/usuario/login";
 
 export default function LoginPage() {
     const router = useRouter();

@@ -9,7 +9,7 @@ import Image from "next/image";
 import styles from "./senha.module.css";
 
 // url da nossa api para a mudança de senha
-const apiUrl = "http://127.0.0.1:5036/usuario/mudancaSenha";
+const apiUrl = "https://trajettoapi.onrender.com/usuario/mudancaSenha";
 
 export default function MudancaSenhaPage() {
     const router = useRouter();

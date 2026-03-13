@@ -6,8 +6,8 @@ import styles from "./conta.module.css";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-const apiSolicitarOtp = "http://127.0.0.1:5036/usuario/solicitar-otp";
-const apiConfirmarOtp = "http://127.0.0.1:5036/usuario/confirmar-otp";
+const apiSolicitarOtp = "https://trajettoapi.onrender.com/usuario/solicitar-otp";
+const apiConfirmarOtp = "https://trajettoapi.onrender.com/usuario/confirmar-otp";
 
 export default function contaPage() {
   const router = useRouter();

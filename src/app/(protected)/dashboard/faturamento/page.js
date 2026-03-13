@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import styles from "./faturamento.module.css";
 
 // URL da API de faturamento
-const apiUrlFaturamento = "http://127.0.0.1:5036/dashboard/faturamento";
+const apiUrlFaturamento = "https://trajettoapi.onrender.com/dashboard/faturamento";
 
 export default function FaturamentoPage() {
   const [usuarioId, setUsuarioId] = useState(null);
