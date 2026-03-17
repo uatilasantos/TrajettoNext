@@ -4,7 +4,8 @@ import { useState, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
 import styles from "./veiculo.module.css";
 
-const apiUrl = "http://127.0.0.1:5036/veiculos";
+// const apiUrl = "http://127.0.0.1:5036/veiculos";
+const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/veiculos`;
 
 function getIDUsuario(token) {
   if (!token) return 0;
