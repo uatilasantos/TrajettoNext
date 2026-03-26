@@ -137,8 +137,10 @@ export default function LoginPage() {
                             className={styles.loginButton}
                             disabled={isLoading}
                         >
+                            
                             {isLoading ? "Entrando..." : "Entrar"}
                         </button>
+                        
 
                         <Link href="/" className={styles.backLink}>
                             Voltar para página inicial
