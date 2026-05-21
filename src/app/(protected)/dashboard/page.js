@@ -19,11 +19,11 @@ function getNomeUsuario(token) {
 }
 
 /* -------------------------------------------------------------- URL DAS APIS ----------------------------------------------------------------------- */
-const apiUrlCargas = "http://127.0.0.1:5036/dashboard/cargasCadastradas";
-const apiUrlMotoristas = "http://127.0.0.1:5036/dashboard/motoristasCadastrados";
-const apiUrlVeiculos = "http://127.0.0.1:5036/dashboard/veiculosCadastrados";
-const apiUrlClientes = "http://127.0.0.1:5036/dashboard/clientesCadastrados";
-const apiUrlTotais = "http://127.0.0.1:5036/dashboard/totaisCargas";
+const apiUrlCargas = "http://172.20.20.14:5036/dashboard/cargasCadastradas";
+const apiUrlMotoristas = "http://172.20.20.14:5036/dashboard/motoristasCadastrados";
+const apiUrlVeiculos = "http://172.20.20.14:5036/dashboard/veiculosCadastrados";
+const apiUrlClientes = "http://172.20.20.14:5036/dashboard/clientesCadastrados";
+const apiUrlTotais = "http://172.20.20.14:5036/dashboard/totaisCargas";
 
 export default function DashboardPage() {
   const [token, setToken] = useState(null);
