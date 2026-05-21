@@ -93,7 +93,7 @@ export default function LoginPage() {
             {/* Lado do login */}
             <div className={styles.rightSide}>
                 <div className={styles.formBox}>
-                    <h2 className={styles.title}>Faça login em sua conta</h2>
+                    <h2 className={styles.title}>Acesso Painel Administrativo</h2>
 
                     <form className={styles.form} onSubmit={handleLogin}>
                         <label>E-mail</label>
@@ -119,16 +119,17 @@ export default function LoginPage() {
                                 Esqueci minha senha
                             </a>
                         </div>
+                        <br></br>
 
                         {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
 
-                        <p className={styles.subtitle}>
+                        {/* <p className={styles.subtitle}>
                             <br />
                             Ainda não tem conta?{" "}
                             <a href="/conta" className={styles.linkHighlight}>
                                 Criar conta
                             </a>
-                        </p>
+                        </p> */}
 
                         <button type="submit" className={styles.loginButton}>
                             Entrar

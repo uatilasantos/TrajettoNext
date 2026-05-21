@@ -119,6 +119,12 @@ export default function LoginPage() {
                                 Esqueci minha senha
                             </a>
                         </div>
+                        
+                        <div className={styles.actions}>
+                            <a href="/loginAdm" className={styles.smallLink}>
+                                Login Administrativo
+                            </a>
+                        </div>
 
                         {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
 
@@ -129,6 +135,8 @@ export default function LoginPage() {
                                 Criar conta
                             </a>
                         </p>
+
+
 
                         <button type="submit" className={styles.loginButton}>
                             Entrar
