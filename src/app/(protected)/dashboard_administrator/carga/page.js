@@ -17,7 +17,7 @@ function getNomeUsuario(token) {
   return decoded.nome_usuario;
 }
 
-const apiUrlCargas = "http://127.0.0.1:5036//cargas";
+const apiUrlCargas = "http://localhost:5036/admin/cargas";
 
 
 export default function CargasPage() {
@@ -73,10 +73,11 @@ export default function CargasPage() {
     carregarCidadesSP();
   }, [usuarioId]);
 
+  // Limpar rota Lembrar
 
   async function carregarCargas() {
     try {
-      const response = await fetch(`${apiUrlCargas}/cargasCadastradas/${usuarioId}`, {
+      const response = await fetch(`${apiUrlCargas}`, {
         method: 'GET',
         headers: { "Content-Type": "application/json" },
       });
@@ -102,7 +103,7 @@ async function carregarClientes() {
   if (!usuarioId) return;
 
   try {
-    const resposta = await fetch(`${apiUrlCargas}/clientesCadastrados/${usuarioId}`);
+    const resposta = await fetch(`${apiUrlCargas}`);
     const data = await resposta.json();
     setClientes(data);
   } catch (error) {
@@ -256,43 +257,43 @@ async function carregarParaEdicao(id) {
   }
 
   return (
-    <div className={styles.pageContainer}>
-      <div className={styles.container}>
-        <h1>Manifesto de Carga</h1>
-        <form onSubmit={handleSubmit} className={styles.formCarga}>
-          <h3>Dados da Carga</h3>
-          <select name="cliente_id" value={form.cliente_id} onChange={handleChange} required> <option value="">Selecione um cliente</option> {clientes.map((c) => (<option key={c.id} value={c.id}> {c.id} - {c.razao_social} </option>))} </select>
-          <select name="tipo_carga" value={form.tipo_carga} onChange={handleChange} required > <option value="">Selecione o tipo de carga</option> <option value="seca">Seca</option> <option value="refrigerada">Refrigerada</option> </select>
-          <input name="peso_carga" placeholder="Peso" value={form.peso_carga} onChange={handleChange} required />
-          <select name="motorista_id" value={form.motorista_id} onChange={handleChange}> <option value="">Selecione um motorista</option> {motoristas.map((m) => (<option key={m.id} value={m.id}> {m.id} - {m.nome} </option>))} </select>
-          <select name="veiculo_id" value={form.veiculo_id} onChange={handleChange}> <option value="">Selecione um veículo</option> {veiculos.map((v) => (<option key={v.id} value={v.id}> {v.id} - {v.placa} - {v.peso_maximo_kg}kg </option>))} </select>
-          <h3>Dados do Frete</h3>
-          <select name="origem_carga" value={form.origem_carga} onChange={handleChange} required> <option value="">Selecione uma cidade de origem</option> {cidadesSP.map((c) => (<option key={c.id} value={c.nome}>{c.nome}</option>))}</select>
-          <select name="destino_carga" value={form.destino_carga} onChange={handleChange} required> <option value="">Selecione uma cidade de destino</option> {cidadesSP.map((c) => (<option key={c.id} value={c.nome}>{c.nome}</option>))} </select>
+    // <div className={styles.pageContainer}>
+    //   <div className={styles.container}>
+    //     <h1>Manifesto de Carga</h1>
+    //     <form onSubmit={handleSubmit} className={styles.formCarga}>
+    //       <h3>Dados da Carga</h3>
+    //       <select name="cliente_id" value={form.cliente_id} onChange={handleChange} required> <option value="">Selecione um cliente</option> {clientes.map((c) => (<option key={c.id} value={c.id}> {c.id} - {c.razao_social} </option>))} </select>
+    //       <select name="tipo_carga" value={form.tipo_carga} onChange={handleChange} required > <option value="">Selecione o tipo de carga</option> <option value="seca">Seca</option> <option value="refrigerada">Refrigerada</option> </select>
+    //       <input name="peso_carga" placeholder="Peso" value={form.peso_carga} onChange={handleChange} required />
+    //       <select name="motorista_id" value={form.motorista_id} onChange={handleChange}> <option value="">Selecione um motorista</option> {motoristas.map((m) => (<option key={m.id} value={m.id}> {m.id} - {m.nome} </option>))} </select>
+    //       <select name="veiculo_id" value={form.veiculo_id} onChange={handleChange}> <option value="">Selecione um veículo</option> {veiculos.map((v) => (<option key={v.id} value={v.id}> {v.id} - {v.placa} - {v.peso_maximo_kg}kg </option>))} </select>
+    //       <h3>Dados do Frete</h3>
+    //       <select name="origem_carga" value={form.origem_carga} onChange={handleChange} required> <option value="">Selecione uma cidade de origem</option> {cidadesSP.map((c) => (<option key={c.id} value={c.nome}>{c.nome}</option>))}</select>
+    //       <select name="destino_carga" value={form.destino_carga} onChange={handleChange} required> <option value="">Selecione uma cidade de destino</option> {cidadesSP.map((c) => (<option key={c.id} value={c.nome}>{c.nome}</option>))} </select>
 
 
-          <button id="btn-salvar" type="submit">
-            {editando ? "Salvar Alterações" : "Cadastrar carga"}
-          </button>
-        </form>
+    //       <button id="btn-salvar" type="submit">
+    //         {editando ? "Salvar Alterações" : "Cadastrar carga"}
+    //       </button>
+    //     </form>
 
-        {mostrarPopup && visualizando && (
-          <div className={styles.popupOverlay}>
-            <div className={styles.popupContent}>
-              <h3>Detalhes da Carga</h3>
-              <ul>
-                {Object.entries(visualizando).map(([key, value]) => (
-                  <li key={key}>
-                    <strong>{key.replace("_", " ")}:</strong> {value || "—"}
-                  </li>
-                ))}
-              </ul>
-              <button className={styles.btnFechar} onClick={() => setMostrarPopup(false)}>Fechar</button>
-            </div>
-          </div>
-        )}
+    //     {mostrarPopup && visualizando && (
+    //       <div className={styles.popupOverlay}>
+    //         <div className={styles.popupContent}>
+    //           <h3>Detalhes da Carga</h3>
+    //           <ul>
+    //             {Object.entries(visualizando).map(([key, value]) => (
+    //               <li key={key}>
+    //                 <strong>{key.replace("_", " ")}:</strong> {value || "—"}
+    //               </li>
+    //             ))}
+    //           </ul>
+    //           <button className={styles.btnFechar} onClick={() => setMostrarPopup(false)}>Fechar</button>
+    //         </div>
+    //       </div>
+    //     )}
 
-      </div>
+    //   </div>
 
       <div className={styles.cargasLista}>
         <h2>Lista de Cargas</h2>
@@ -342,6 +343,6 @@ async function carregarParaEdicao(id) {
           </tbody>
         </table>
       </div>
-    </div>
+    // </div>
   );
 }
