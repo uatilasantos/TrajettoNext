@@ -31,15 +31,16 @@ export default function DashboardLayout({ children }) {
 
         <h4>Painel</h4>
         <ul>
-          <li><a href="/dashboard/">Inicio</a></li>
-          <li><a href="/dashboard_administrator/usuarios">Usuários</a></li>
-          <li><a href="/dashboard_administrator/carga">- Manifesto de Carga</a></li>
-          <li><a href="/dashboard/cliente">- Clientes Totais</a></li>
-          <li><a href="/dashboard/motorista">- Motoristas</a></li>
-          <li><a href="/dashboard/veiculo">- Veículos</a></li>
-          <li><a href="/dashboard/documentos">Consulta documentos</a></li>
+          <li><a href="/dashboard_admin/">Inicio</a></li>
+          <li><a href="/dashboard_admin/usuarios">Usuários</a></li>
+          <li><a href="/dashboard_admin/carga">- Cargas cadastradas</a></li>
+          <li><a href="/dashboard_admin/cliente">- Clientes cadastrados</a></li>
+          <li><a href="/dashboard_admin/motorista">- Motoristas</a></li>
+          <li><a href="/dashboard_admin/veiculo">- Veículos</a></li>
+          {/* Esse bloco abaixo adicionar posteriormente faturamento e relatorios de usu da plataforma */}
+          {/* <li><a href="/dashboard/documentos">Consulta documentos</a></li>
           <li><a href="/dashboard/faturamento">Faturamento</a></li>
-          <li><a href="/dashboard/faturamento">Testes</a></li>
+          <li><a href="/dashboard/faturamento">Testes</a></li> */}
         
 
         </ul>

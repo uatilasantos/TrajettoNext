@@ -303,14 +303,14 @@ async function carregarParaEdicao(id) {
             <tr>
               <th>ID</th>
               <th>Cliente</th>
-              <th>Tipo</th>
-              <th>Peso</th>
+              {/* <th>Tipo</th>
+              <th>Peso</th> */}
               <th>Motorista</th>
               <th>Veículo</th>
               <th>Origem</th>
               <th>Destino</th>
-              <th>Valor frete</th>
-              <th>Valor KM</th>
+              {/* <th>Valor frete</th>
+              <th>Valor KM</th> */}
               <th>Ações</th>
             </tr>
           </thead>
@@ -319,24 +319,24 @@ async function carregarParaEdicao(id) {
               <tr key={v.id}>
                 <td>{v.id}</td>
                 <td>{v.cliente}</td>
-                <td>{v.tipo_carga}</td>
-                <td>{v.peso_carga}</td>
+                {/* <td>{v.tipo_carga}</td>
+                <td>{v.peso_carga}</td> */}
                 <td>{v.motorista}</td>
                 <td>{v.veiculo}</td>
                 <td>{v.origem_carga}</td>
                 <td>{v.destino_carga}</td>
-                <td>{v.valor_frete}</td>
-                <td>{v.valor_km}</td>
+                {/* <td>{v.valor_frete}</td>
+                <td>{v.valor_km}</td> */}
                 <td>
-                  <button className={styles.btnEditar} onClick={() => carregarParaEdicao(v.id)}>
+                  {/* <button className={styles.btnEditar} onClick={() => carregarParaEdicao(v.id)}>
                     Editar
-                  </button>
+                  </button> */}
                   <button className={styles.btnExcluir} onClick={() => deletarCarga(v.id)}>
                     Excluir
                   </button>
-                  <button className={styles.btnDetalhes} onClick={() => DetalhesCarga(v.id)}>
+                  {/* <button className={styles.btnDetalhes} onClick={() => DetalhesCarga(v.id)}>
                     Exibir
-                  </button>
+                  </button> */}
                 </td>
               </tr>
             ))}

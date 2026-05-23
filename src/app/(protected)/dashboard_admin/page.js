@@ -23,7 +23,7 @@ const apiUrlCargas = "http://127.0.0.1:5036/dashboard/cargasCadastradas";
 const apiUrlMotoristas = "http://127.0.0.1:5036/dashboard/motoristasCadastrados";
 const apiUrlVeiculos = "http://127.0.0.1:5036/dashboard/veiculosCadastrados";
 const apiUrlClientes = "http://127.0.0.1:5036/dashboard/clientesCadastrados";
-const apiUrlTotais = "http://127.0.0.1:5036/dashboard/totaisCargas";
+// const apiUrlTotais = "http://127.0.0.1:5036/dashboard/totaisCargas";
 
 export default function DashboardPage() {
   const [token, setToken] = useState(null);
@@ -49,7 +49,7 @@ export default function DashboardPage() {
   /*---------------------------------------------------------- CARGAS CADASTRADAS ------------------------------------------------------------- */
   const [cargas, setCargas] = useState(0);
   useEffect(() => {
-    if (!usuarioId) {
+    if (!apiUrlCargas) {
       return
     };
     const handleCargasCadastradas = async () => {
@@ -177,8 +177,8 @@ useEffect(() => {
 
       <h1 className={styles.title}>Bem-vindo(a), {usuarioNome}!</h1>
 
-      <h1 className={styles.title}>Painel de Controle</h1>
-      <h2 className={styles.title2}>Resumo Cadastral</h2>
+      <h1 className={styles.title}>Painel Administrativo</h1>
+      <h2 className={styles.title2}>Resumo Cadastral (Todos Clientes)</h2>
 
       {errorMessage && (
           <div style={{ color: "red", marginBottom: 12 }}>{errorMessage}</div>
@@ -203,15 +203,15 @@ useEffect(() => {
           <span>{veiculos}</span>
         </div>
 
-        <div className={styles.card}>
+        {/* <div className={styles.card}>
           <h3>Total de faturamento</h3>
           <span>R$ {totalFrete.toFixed(2)}</span>
-        </div>
+        </div> */}
 
-        <div className={styles.card}>
+        {/* <div className={styles.card}>
           <h3>Total de KM rodados</h3>
           <span>{totalKM.toFixed(2)}</span>
-        </div>
+        </div> */}
         
       </div>
     </div>
@@ -220,3 +220,7 @@ useEffect(() => {
 
   );
 }
+
+
+
+
