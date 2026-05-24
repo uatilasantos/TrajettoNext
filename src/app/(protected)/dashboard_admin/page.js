@@ -192,7 +192,7 @@ export default function DashboardPage() {
           <span>{clientes}</span>
         </div>
         <div className={styles.card}>
-          <h3>Totalotoristas Cadastrados</h3>
+          <h3>Total Motoristas Cadastrados</h3>
           <span>{motoristas}</span>
         </div>
 
