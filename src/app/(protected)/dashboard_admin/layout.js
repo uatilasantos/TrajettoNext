@@ -29,7 +29,7 @@ export default function DashboardLayout({ children }) {
           />
         </div>
 
-        <h4>Painel</h4>
+        <h4>Painel Administrativo</h4>
         <ul>
           <li><a href="/dashboard_admin/">Inicio</a></li>
           <li><a href="/dashboard_admin/usuarios">Usuários</a></li>

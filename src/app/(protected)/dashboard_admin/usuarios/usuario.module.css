@@ -27,36 +27,36 @@
   font-size: 26px;
 }
 
-.formCliente {
+.formUsuario {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 1rem;
 }
 
-.formCliente input {
+.formUsuario input {
   padding: 0.6rem;
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 1rem;
 }
 
-.formCliente input[name="razao_social"] {
+.formUsuario input[name="razao_social"] {
   grid-column: 1 / -1;
 }
 
-.formCliente input[name="cnpj"] {
+.formUsuario input[name="cnpj"] {
   grid-column: 3 / 1;
 }
 
-.formCliente input[name="logradouro"] {
+.formUsuario input[name="logradouro"] {
   grid-column: 2 / -1;
 }
 
-.formCliente input[name="email"] {
+.formUsuario input[name="email"] {
   grid-column: 1 / -1;
 }
 
-.formCliente button {
+.formUsuario button {
   grid-column: 1/ -1;
   
   padding: 0.8rem;
@@ -70,11 +70,11 @@
   transition: background 0.3s;
 }
 
-.formCliente button:hover {
+.formUsuario button:hover {
   background: #0303ce;
 }
 
-.formCliente h3 {
+.formUsuario h3 {
   grid-column: 1 / -1;
   color: #1c2233;
   font-size: 1.1rem;
@@ -86,19 +86,19 @@
 
 
 @media (max-width: 600px) {
-  .formCliente {
+  .formUsuario {
     grid-template-columns: 1fr;
   }
 
-  .formCliente input[name="razao_social"] {
+  .formUsuario input[name="razao_social"] {
   grid-column: 1 / -1;
   }
 
-  .formCliente input[name="cnpj"] {
+  .formUsuario input[name="cnpj"] {
   grid-column: 1 / -1;
   }
 
-  .formCliente input[name='logradouro'] {
+  .formUsuario input[name='logradouro'] {
     grid-column: 1/-1;
   }
 }
@@ -106,7 +106,7 @@
 
 
 /*lista de cliente*/
-.clientesLista {
+.usuariosLista {
   background-color: #fff;
   padding: 20px;
   border-radius: 10px;
@@ -116,7 +116,7 @@
   overflow-x: auto;
 }
 
-.clientesLista h2 {
+.usuariosLista h2 {
   margin-bottom: 15px;
   color: #2c3e50;
   text-align: center;
@@ -132,13 +132,13 @@
 }
 
 
-.tabelaClientes thead th {
+.tabelaUsuarios thead th {
   background-color: #bfbfc2;
   color: #000000;
 
 }
 
-.tabelaClientes {
+.tabelaUsuarios {
   width: 100%;
   border-collapse: collapse;
   text-align: center;
@@ -146,8 +146,8 @@
   font-size: 14px;
 }
 
-.tabelaClientes th,
-.tabelaClientes td {
+.tabelaUsuarios th,
+.tabelaUsuarios td {
   border: 1px solid #e9e9e9;
   padding: 8px;
 }
@@ -275,15 +275,15 @@
   }
 
   /* deixa o formulario com 1 coluna */
-  .formCliente {
+  .formUsuario {
     display: grid;
     grid-template-columns: 1fr !important;
     gap: 0.7rem;
   }
 
-  .formCliente input,
-  .formCliente select,
-  .formCliente textarea {
+  .formUsuario input,
+  .formUsuario select,
+  .formUsuario textarea {
     width: 100%;
     box-sizing: border-box;
     font-size: 0.95rem;
@@ -291,7 +291,7 @@
   }
 
 
-  .formCliente button {
+  .formUsuario button {
     grid-column: 1 / -1;
     width: 100%;
     padding: 0.7rem;
@@ -307,13 +307,13 @@
   }
 
  
-  .tabelaClientes {
+  .tabelaUsuarios {
     min-width: 700px; 
     font-size: 13px;
   }
 
-  .tabelaClientes th,
-  .tabelaClientes td {
+  .tabelaUsuarios th,
+  .tabelaUsuarios td {
     padding: 8px 6px;
   }
 
@@ -339,7 +339,7 @@
     font-size: 20px;
   }
 
-  .formCliente input {
+  .formUsuario input {
     font-size: 0.9rem;
     padding: 0.45rem;
   }
@@ -357,40 +357,40 @@
 /*Versão mais compacta*/
 @media (max-width: 768px) {
   /* Esconde colunas */
-  .tabelaClientes th:nth-child(n+4):not(:last-child),
-  .tabelaClientes td:nth-child(n+4):not(:last-child) {
+  .tabelaUsuarios th:nth-child(n+4):not(:last-child),
+  .tabelaUsuarios td:nth-child(n+4):not(:last-child) {
     display: none;
   }
 
   /* mostra id e cnpj e razão social */
-  .tabelaClientes th:nth-child(2),
-  .tabelaClientes td:nth-child(2),
-  .tabelaClientes th:nth-child(3),
-  .tabelaClientes td:nth-child(3) {
+  .tabelaUsuarios th:nth-child(2),
+  .tabelaUsuarios td:nth-child(2),
+  .tabelaUsuarios th:nth-child(3),
+  .tabelaUsuarios td:nth-child(3) {
     display: table-cell;
   }
 
   /* mostra os botões */
-  .tabelaClientes th:last-child,
-  .tabelaClientes td:last-child {
+  .tabelaUsuarios th:last-child,
+  .tabelaUsuarios td:last-child {
     display: table-cell;
   }
 
   
-  .tabelaClientes th,
-  .tabelaClientes td {
+  .tabelaUsuarios th,
+  .tabelaUsuarios td {
     padding: 8px 6px;
     font-size: 13px;
     text-align: left;
   }
 
-  .tabelaClientes {
+  .tabelaUsuarios {
     width: 100%;
     min-width: auto;
     table-layout: auto;
   }
 
-  .tabelaClientes tr {
+  .tabelaUsuarios tr {
     border-bottom: 1px solid #ddd;
   }
 

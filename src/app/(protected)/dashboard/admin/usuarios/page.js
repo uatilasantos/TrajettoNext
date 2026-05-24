@@ -2,9 +2,9 @@
 
 import { useState, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
-import styles from "./cliente.module.css";
+import styles from "./usuario.module.css";
 
-const apiUrl = "http://127.0.0.1:5036/admin/usuarios";
+const apiUrl = "http://127.0.0.1:5036/admin/usuario";
 
 function getIDUsuario(token) {
   if (!token) return 0;
@@ -20,9 +20,9 @@ function getNomeUsuario(token) {
 }
 
 
-export default function ClientesPage() {
+export default function UsuariosPage() {
   const [token, setToken] = useState("");
-  const [clientes, setClientes] = useState([]);
+  const [usuarios, setUsuarios] = useState([]);
   const [usuarioId, setUsuarioId] = useState([]);
   const [editando, setEditando] = useState(null);
   const [usuarioNome, setUsuarioNome] = useState("");
@@ -40,18 +40,18 @@ export default function ClientesPage() {
   }, []);
 
   const [form, setForm] = useState({
-    cnpj: "",
-    razao_social: "",
-    telefone: "",
+    nome_usuario: "",
     email: "",
-    cep: "",
-    logradouro: "",
-    numero: "",
-    complemento: "",
-    bairro: "",
-    cidade: "",
-    estado: "",
-    usuario_id: ""
+    // telefone: "",
+    // email: "",
+    // cep: "",
+    // logradouro: "",
+    // numero: "",
+    // complemento: "",
+    // bairro: "",
+    // cidade: "",
+    // estado: "",
+    // usuario_id: ""
   });
 
   const [visualizando, setVisualizando] = useState(null);
@@ -60,237 +60,91 @@ export default function ClientesPage() {
 
 useEffect(() => {
   if (usuarioId) {
-    carregarClientes();
+    carregarUsuarios();
   }
 }, [usuarioId]);
 
 
-async function carregarClientes() {
-  if (!usuarioId) return;
 
+async function carregarUsuarios() {
   try {
-          const response = await fetch(`${apiUrl}`, {
-        method: 'GET',
-        headers: { "Content-Type": "application/json" },}
-    );
+    const response = await fetch(apiUrl, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Erro ao buscar usuários");
+    }
 
     const data = await response.json();
 
+    console.log("USUÁRIOS:", data);
 
-    if (Array.isArray(data)) {
-      setClientes(data); 
-    } else if (Array.isArray(data.Clientes)) {
-      setClientes(data.Clientes); 
-    } else {
-      setClientes([]);
-    }
+    setUsuarios(data);
 
   } catch (error) {
-    console.error("Erro ao carregar clientes:", error);
+    console.error("Erro ao carregar usuários:", error);
   }
 }
 
 
-  function handleChange(e) {
-    const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
-  }
-
-  useEffect(() => {
-    const cep = form.cep.replace(/\D/g, "");
-
-    if (cep.length !== 8) return;
-
-    async function buscarCEP() {
-      try {
-        const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
-        const dados = await response.json();
-
-        if (!dados.erro) {
-          setForm((prev) => ({
-            ...prev,
-            logradouro: dados.logradouro || "",
-            bairro: dados.bairro || "",
-            cidade: dados.localidade || "",
-            estado: dados.uf || "",
-          }));
-        }
-      } catch (error) {
-        console.error("Erro ao consultar CEP:", error);
-      }
-    }
-
-    buscarCEP();
-  }, [form.cep]);
-
-//  **Bloco de edição e visualização, não corresponde a essa pagina
-  // async function handleSubmit(e) {
-  //   e.preventDefault();
-  //   const method = editando ? "PUT" : "POST";
-  //   const url = editando ? `${apiUrl}/${editando}` : apiUrl;
-
-  //   try {
-  //     const response = await fetch(url, {
-  //       method,
-  //       headers: { "Content-Type": "application/json" },
-  //       body: JSON.stringify({
-  //         ...form,
-  //         usuario_id: usuarioId
-  //       }),
-  //     });
-  //     if (!response.ok) {
-  //       const erro = await response.text();
-  //       console.error("Erro retorno API:", erro);
-  //       alert("Erro ao salvar cliente. Veja o console.");
-  //       return;
-  //     }
-
-  //     if (!response.ok) {
-  //       alert("Erro ao salvar cliente.");
-  //       return;
-  //     }
-
-  //     limparFormulario();
-  //     carregarClientes();
-  //     alert(editando ? "Cliente atualizado!" : "Cliente cadastrado!");
-  //   } catch (error) {
-  //     console.error("Erro ao salvar cliente:", error);
-  //   }
-  // }
 
 
 
-  // async function carregarParaEdicao(id) {
-  //   try {
-  //     const response = await fetch(`${apiUrl}/${id}`);
-  //     const data = await response.json();
-  //     setForm(data);
-  //     setEditando(id);
-  //     window.scrollTo({ top: 0, behavior: "smooth" });
-  //   } catch (error) {
-  //     console.error("Erro ao carregar cliente para edição:", error);
-  //   }
-  // }
 
-  async function deletarCliente(id) {
-    if (!confirm("Tem certeza que deseja excluir este cliente?")) return;
+  async function deletarUsuario(id) {
+    if (!confirm("Tem certeza que deseja excluir este usuário?")) return;
 
     try {
       const response = await fetch(`${apiUrl}/${id}`, { method: "DELETE" });
       if (!response.ok) throw new Error("Erro ao excluir");
-      alert("Cliente excluído com sucesso!");
-      carregarClientes();
+      alert("Usuário excluído com sucesso!");
+      carregarUsuarios();
     } catch (error) {
-      console.error("Erro ao excluir cliente:", error);
+      console.error("Erro ao excluir usuario:", error);
     }
   }
 
-  async function DetalhesCliente(id) {
+  async function DetalhesUsuario(id) {
     try {
       const response = await fetch(`${apiUrl}/${id}`);
       const data = await response.json();
       setVisualizando(data);
       setMostrarPopup(true);
     } catch (error) {
-      console.error("Erro ao visualizar cliente:", error);
+      console.error("Erro ao visualizar usuário:", error);
     }
   }
 
 
-  function limparFormulario() {
-    setForm({
-      cnpj: "",
-      razao_social: "",
-      email: "",
-      telefone: "",
-      cep: "",
-      logradouro: "",
-      numero: "",
-      complemento: "",
-      bairro: "",
-      cidade: "",
-      estado: ""
-    });
-    setEditando(null);
-  }
 
   return (
-    // <div className={styles.pageContainer}>
-    //   <div className={styles.container}>
-    //     <h1>Cadastro de Clientes</h1>
-
-    //     <form onSubmit={handleSubmit} className={styles.formCliente}>
-    //       <h3>Dados do Cliente</h3>
-    //       <input name="razao_social" placeholder="Razão Social" value={form.razao_social} onChange={handleChange} required />
-    //       <input name="cnpj" placeholder="CNPJ" value={form.cnpj} onChange={handleChange} required />
-    //       <input name="telefone" placeholder="Telefone" value={form.telefone} onChange={handleChange} />
-    //       <input name="email" placeholder="E-mail" value={form.email} onChange={handleChange} />
-    //       <h3>Endereço</h3>
-    //       <input name="cep" placeholder="CEP" value={form.cep} onChange={handleChange} />
-    //       <input name="logradouro" placeholder="Logradouro" value={form.logradouro} onChange={handleChange} />
-    //       <input name="numero" placeholder="Número" value={form.numero} onChange={handleChange} />
-    //       <input name="bairro" placeholder="Bairro" value={form.bairro} onChange={handleChange} />
-    //       <input name="cidade" placeholder="Cidade" value={form.cidade} onChange={handleChange} />
-    //       <input name="estado" placeholder="UF" value={form.estado} onChange={handleChange} />
-    //       <input name="complemento" placeholder="Complemento" value={form.complemento} onChange={handleChange} />
-
-
-    //       <button id="btn-salvar" type="submit">
-    //         {editando ? "Salvar Alterações" : "Cadastrar cliente"}
-    //       </button>
-    //     </form>
-
-    //     {mostrarPopup && visualizando && (
-    //       <div className={styles.popupOverlay}>
-    //         <div className={styles.popupContent}>
-    //           <h3>Detalhes do Cliente</h3>
-    //           <ul>
-    //             {Object.entries(visualizando).map(([key, value]) => (
-    //               <li key={key}>
-    //                 <strong>{key.replace("_", " ")}:</strong> {value || "—"}
-    //               </li>
-    //             ))}
-    //           </ul>
-    //           <button className={styles.btnFechar} onClick={() => setMostrarPopup(false)}>Fechar</button>
-    //         </div>
-    //       </div>
-    //     )}
-
-    //   </div>
-
-      <div className={styles.clientesLista}>
-        <h2>Lista de Usuários Ativos</h2>
+      <div className={styles.usuariosLista}>
+        <h2>Lista de Usuários Ativos na Plataforma</h2>
         {/*classe local na tabela */}
-        <table className={styles.tabelaClientes}>
+        <table className={styles.tabelaUsuarios}>
           <thead className={styles.tabelaCabecalho}>
             <tr>
               <th>ID</th>
-              <th>CNPJ</th>
-              <th>Razão Social</th>
+              <th>Nome</th>
               <th>Email</th>
-              <th>Telefone</th>
-              <th>CEP</th>
-              <th>Logradouro</th>
-              <th>Cidade</th>
               <th>Ações</th>
             </tr>
           </thead>
-          <tbody className={styles.tabelaCorpo} id="tabela-cliente">
-            {clientes.map((v)  => (
+          <tbody className={styles.tabelaCorpo} id="tabela-usuario">
+            {usuarios.map((v)  => (
               <tr key={v.id}>
                 <td>{v.id}</td>
-                <td>{v.cnpj}</td>
-                <td>{v.razao_social}</td>
+                <td>{v.nome_usuario}</td>
                 <td>{v.email}</td>
-                <td>{v.telefone}</td>
-                <td>{v.cep}</td>
-                <td>{v.logradouro}</td>
-                <td>{v.cidade}</td>
                 <td>
                   {/* <button className={styles.btnEditar} onClick={() => carregarParaEdicao(v.id)}>
                     Editar
                   </button> */}
-                  <button className={styles.btnExcluir} onClick={() => deletarCliente(v.id)}>
+                  <button className={styles.btnExcluir} onClick={() => deletarUsuario(v.id)}>
                     Excluir
                   </button>
                   {/* <button className={styles.btnDetalhes} onClick={() => DetalhesCliente(v.id)}>
