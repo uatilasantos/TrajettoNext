@@ -1,0 +1,71 @@
+.dashboardContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 2rem;
+  width: 100%;
+  padding-top: 3rem;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 2rem;
+  color: #2c3e50;
+}
+
+.title2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 2rem;
+  color: #2c3e50;
+}
+
+/* Agora os cards são organizados em grid */
+.cardsContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Responsivo */
+  gap: 2rem;
+  width: 100%;
+}
+
+
+/* Estilo dos cards */
+.card {
+  background: #ffffff;
+  border: 2px solid #e9e9e9;
+  border-radius: 14px;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Efeito ao passar o mouse */
+.card:hover {
+  transform: translateY(-1px);
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  color: #2c3e50;
+}
+
+.card span {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #2c3e50;
+}
+
+
+
+@media (max-width: 900px) {
+  .cardsContainer {
+    grid-template-columns: 1fr;
+  }
+}

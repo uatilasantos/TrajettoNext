@@ -51,10 +51,10 @@ export default function LoginPage() {
                     // gambiarra para salvar o token, pq o token está salvando pelo next/front 
                     if (typeof window !== "undefined") {
                         localStorage.setItem("auth_token", token);
-                        router.push("/dashboard_administrator");
+                        router.push("/dashboard_admin");
                     }
 
-                    router.push("/dashboard_administrator");
+                    router.push("/dashboard_admin");
                 } else {
                     console.log("Erro, token não recebido.")
                     setErrorMessage("Verifique suas credenciais")
