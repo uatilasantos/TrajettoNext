@@ -19,11 +19,11 @@ function getNomeUsuario(token) {
 }
 
 /* -------------------------------------------------------------- URL DAS APIS ----------------------------------------------------------------------- */
-const apiUrlCargas = "http://127.0.0.1:5036/dashboard/cargasCadastradas";
-const apiUrlMotoristas = "http://127.0.0.1:5036/dashboard/motoristasCadastrados";
-const apiUrlVeiculos = "http://127.0.0.1:5036/dashboard/veiculosCadastrados";
-const apiUrlClientes = "http://127.0.0.1:5036/dashboard/clientesCadastrados";
-// const apiUrlTotais = "http://127.0.0.1:5036/dashboard/totaisCargas";
+const apiUrlCargas = "http://127.0.0.1:5036/dashboard_admin/cargas";
+const apiUrlMotoristas = "http://127.0.0.1:5036/dashboard_admin/motoristas";
+const apiUrlVeiculos = "http://127.0.0.1:5036/dashboard_admin/veiculos";
+const apiUrlClientes = "http://127.0.0.1:5036/dashboard_admin/clientes";
+
 
 export default function DashboardPage() {
   const [token, setToken] = useState(null);
@@ -54,7 +54,7 @@ export default function DashboardPage() {
     };
     const handleCargasCadastradas = async () => {
       try {
-        const responseCargas = await fetch(`${apiUrlCargas}/${usuarioId}`, {
+        const responseCargas = await fetch(`${apiUrlCargas}`, {
           method: 'GET',
           headers: { "Content-Type": "application/json" },
         });
@@ -71,33 +71,33 @@ export default function DashboardPage() {
 
   /*-------------------------Totais de frete------------------*/
 
-const [totalFrete, setTotalFrete] = useState(0);
-const [totalKM, setTotalKM] = useState(0);
+// const [totalFrete, setTotalFrete] = useState(0);
+// const [totalKM, setTotalKM] = useState(0);
 
-useEffect(() => {
-  if (!usuarioId) return;
+// useEffect(() => {
+//   if (!usuarioId) return;
 
-  const fetchTotaisCargas = async () => {
-    try {
-      const response = await fetch(`${apiUrlTotais}/${usuarioId}`, {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-      });
+//   const fetchTotaisCargas = async () => {
+//     try {
+//       const response = await fetch(`${apiUrlTotais}/${usuarioId}`, {
+//         method: "GET",
+//         headers: { "Content-Type": "application/json" },
+//       });
 
-      if (!response.ok) {
-        throw new Error("Erro ao buscar totais de cargas");
-      }
+//       if (!response.ok) {
+//         throw new Error("Erro ao buscar totais de cargas");
+//       }
 
-      const data = await response.json();
-      setTotalFrete(data.TotalFrete);
-      setTotalKM(data.TotalKM);
-    } catch (err) {
-      console.error(err);
-    }
-  };
+//       const data = await response.json();
+//       setTotalFrete(data.TotalFrete);
+//       setTotalKM(data.TotalKM);
+//     } catch (err) {
+//       console.error(err);
+//     }
+//   };
 
-  fetchTotaisCargas();
-}, [usuarioId]);
+//   fetchTotaisCargas();
+// }, [usuarioId]);
 
 
   /* --------------------------------------------------------- MOTORISTAS CADASTRADOS ---------------------------------------------------------- */
@@ -108,7 +108,7 @@ useEffect(() => {
     };
     const handleMotoristasCadastrados = async () => {
       try {
-        const responseMotoristas = await fetch(`${apiUrlMotoristas}/${usuarioId}`, {
+        const responseMotoristas = await fetch(`${apiUrlMotoristas}`, {
           method: 'GET',
           headers: { "Content-Type": "application/json" },
         });
@@ -131,7 +131,7 @@ useEffect(() => {
     };
     const handleClientesCadastrados = async () => {
       try {
-        const responseClientes = await fetch(`${apiUrlClientes}/${usuarioId}`, {
+        const responseClientes = await fetch(`${apiUrlClientes}`, {
           method: 'GET',
           headers: { "Content-Type": "application/json" },
         });
@@ -154,7 +154,7 @@ useEffect(() => {
     };
     const handleVeiculosCadastrados = async () => {
       try {
-        const responseVeiculos = await fetch(`${apiUrlVeiculos}/${usuarioId}`, {
+        const responseVeiculos = await fetch(`${apiUrlVeiculos}`, {
           method: 'GET',
           headers: { "Content-Type": "application/json" },
         });
@@ -176,30 +176,28 @@ useEffect(() => {
     <><div className={styles.dashboardContainer}>
 
       <h1 className={styles.title}>Bem-vindo(a), {usuarioNome}!</h1>
-
       <h1 className={styles.title}>Painel Administrativo</h1>
       <h2 className={styles.title2}>Resumo Cadastral (Todos Clientes)</h2>
-
       {errorMessage && (
           <div style={{ color: "red", marginBottom: 12 }}>{errorMessage}</div>
         )}
         
       <div className={styles.cardsContainer}>
         <div className={styles.card}>
-          <h3>Cargas Cadastradas</h3>
+          <h3>Total Cargas Cadastradas</h3>
           <span>{cargas}</span>
         </div>
         <div className={styles.card}>
-          <h3>Clientes Cadastrados</h3>
+          <h3>Total Clientes Cadastrados</h3>
           <span>{clientes}</span>
         </div>
         <div className={styles.card}>
-          <h3>Motoristas Cadastrados</h3>
+          <h3>Totalotoristas Cadastrados</h3>
           <span>{motoristas}</span>
         </div>
 
         <div className={styles.card}>
-          <h3>Veículos Cadastrados</h3>
+          <h3>Total Veículos Cadastrados</h3>
           <span>{veiculos}</span>
         </div>
 
