@@ -9,7 +9,9 @@ import Image from "next/image";
 import styles from "./login.module.css";
 
 
-const apiUrl = "http://127.0.0.1:5036//usuario/login";
+//const apiUrl = "http://127.0.0.1:5036//usuario/login";
+
+const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/usuario/login`;
 
 
 export default function LoginPage() {
