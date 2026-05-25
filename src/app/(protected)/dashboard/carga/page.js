@@ -17,7 +17,10 @@ function getNomeUsuario(token) {
   return decoded.nome_usuario;
 }
 
+
 const apiUrlCargas = "http://127.0.0.1:5036//cargas";
+
+
 
 
 export default function CargasPage() {

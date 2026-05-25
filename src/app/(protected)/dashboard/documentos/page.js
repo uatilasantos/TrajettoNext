@@ -19,11 +19,15 @@ export default function DocumentosPage() {
       let url = "";
 
       let token = localStorage.getItem("auth_token");
+
       if (id === 1) url = "http://127.0.0.1:5036//relatorio/veiculos?token=" + token;
       else if (id === 2) url = "http://127.0.0.1:5036//relatorio/motoristas?token=" + token;
       else if (id === 3) url = "http://127.0.0.1:5036//relatorio/cargas?token=" + token;
       else if (id === 4) url = "http://127.0.0.1:5036/relatorio/clientes?token=" + token; 
+
       else return alert("Erro ao consultar");
+
+      
 
       const response = await fetch(url);
       if (!response.ok) throw new Error("Erro na requisição: " + response.status);

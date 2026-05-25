@@ -23,6 +23,13 @@ const usuariosapiUrlCargas = "http://127.0.0.1:5036/clientes";
 const apiUrlCargasMotoristas = "http://127.0.0.1:5036/motoristas";
 const apiUrlCargasVeiculos = "http://127.0.0.1:5036/veiculos";
 
+// const apiUrlCargas = `${process.env.NEXT_PUBLIC_API_URL}/cargas`;
+// const usuariosapiUrlCargas = `${process.env.NEXT_PUBLIC_API_URL}/clientes`;
+// const apiUrlCargasMotoristas = `${process.env.NEXT_PUBLIC_API_URL}/motoristas`;
+// const apiUrlCargasVeiculos = `${process.env.NEXT_PUBLIC_API_URL}/veiculos`;
+
+
+
 
 export default function CargasPage() {
   const [token, setToken] = useState("");

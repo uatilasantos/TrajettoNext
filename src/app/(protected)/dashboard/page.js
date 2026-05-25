@@ -25,6 +25,18 @@ const apiUrlVeiculos = "http://127.0.0.1:5036/dashboard/veiculosCadastrados";
 const apiUrlClientes = "http://127.0.0.1:5036/dashboard/clientesCadastrados";
 const apiUrlTotais = "http://127.0.0.1:5036/dashboard/totaisCargas";
 
+
+/*-----------------------conexões antigas-----------------------
+//const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+
+//const apiUrlCargas = `${BASE_URL}/dashboard/cargasCadastradas`;
+//const apiUrlMotoristas = `${BASE_URL}/dashboard/motoristasCadastrados`;
+//const apiUrlVeiculos = `${BASE_URL}/dashboard/veiculosCadastrados`;
+//const apiUrlClientes = `${BASE_URL}/dashboard/clientesCadastrados`;
+//const apiUrlTotais = `${BASE_URL}/dashboard/totaisCargas`;
+
+*/
+
 export default function DashboardPage() {
   const [token, setToken] = useState(null);
   const [usuarioId, setUsuarioId] = useState("");

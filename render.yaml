@@ -1,0 +1,35 @@
+# services:
+#   - type: web
+#     name: trajetto-next
+#     env: node
+#     buildCommand: npm install && npm run build
+#     startCommand: npm start
+#     branch: main
+
+
+# services:
+#   - type: web
+#     name: trajetto-next
+#     env: node
+#     plan: free
+#     branch: main
+#     buildCommand: npm install && npm run build
+#     startCommand: npm start
+#     autoDeploy: true
+
+
+services:
+  - type: web
+    name: trajetto-next
+    env: node
+    plan: free
+    branch: main
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+
+    envVars:
+      - key: NODE_ENV
+        value: production
+
+      - key: NEXT_PUBLIC_API_URL
+        value: https://trajettoapi.onrender.com
