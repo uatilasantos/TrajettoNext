@@ -8,9 +8,9 @@ import Link from "next/link";
 import Image from "next/image";
 import styles from "./login.module.css";
 
-const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/usuario/login`;
 
-console.log("API URL:", process.env.NEXT_PUBLIC_API_URL);
+const apiUrl = "http://127.0.0.1:5036//usuario/login";
+
 
 export default function LoginPage() {
     const router = useRouter();
@@ -119,6 +119,12 @@ export default function LoginPage() {
                                 Esqueci minha senha
                             </a>
                         </div>
+                        
+                        <div className={styles.actions}>
+                            <a href="/loginAdm" className={styles.smallLink}>
+                                Login Administrativo
+                            </a>
+                        </div>
 
                         {errorMessage && (
                             <p style={{ color: "red" }}>{errorMessage}</p>
@@ -132,13 +138,12 @@ export default function LoginPage() {
                             </a>
                         </p>
 
-                        <button
-                            type="submit"
-                            className={styles.loginButton}
-                            disabled={isLoading}
-                        >
-                            
-                            {isLoading ? "Entrando..." : "Entrar"}
+
+
+
+                        <button type="submit" className={styles.loginButton}>
+                            Entrar
+
                         </button>
                         
 
