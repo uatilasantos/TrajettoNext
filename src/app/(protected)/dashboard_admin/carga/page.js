@@ -302,6 +302,7 @@ async function carregarParaEdicao(id) {
           <thead className={styles.tabelaCabecalho}>
             <tr>
               <th>ID</th>
+              <th>Usuário</th>
               <th>Cliente</th>
               {/* <th>Tipo</th>
               <th>Peso</th> */}
@@ -318,6 +319,7 @@ async function carregarParaEdicao(id) {
             {cargas.map((v) => (
               <tr key={v.id}>
                 <td>{v.id}</td>
+                <td>{v.usuario_nome}</td>
                 <td>{v.cliente}</td>
                 {/* <td>{v.tipo_carga}</td>
                 <td>{v.peso_carga}</td> */}

@@ -265,6 +265,7 @@ async function carregarClientes() {
           <thead className={styles.tabelaCabecalho}>
             <tr>
               <th>ID</th>
+              <th>Usuário</th>
               <th>CNPJ</th>
               <th>Razão Social</th>
               <th>Email</th>
@@ -279,6 +280,7 @@ async function carregarClientes() {
             {clientes.map((v)  => (
               <tr key={v.id}>
                 <td>{v.id}</td>
+                <td>{v.usuario_nome}</td>
                 <td>{v.cnpj}</td>
                 <td>{v.razao_social}</td>
                 <td>{v.email}</td>

@@ -265,6 +265,7 @@ export default function motoristaPage() {
           <thead className={styles.tabelaCabecalho}>
             <tr>
               <th>ID</th>
+              <th>Usuário</th>
               <th>Nome</th>
               <th>CPF</th>
               <th>Categoria CNH</th>
@@ -278,6 +279,7 @@ export default function motoristaPage() {
             {motoristas.map((v) => (
               <tr key={v.id}>
                 <td>{v.id}</td>
+                <td>{v.usuario_nome}</td>
                 <td>{v.nome}</td>
                 <td>{v.cpf}</td>
                 <td>{v.categoria_cnh}</td>

@@ -209,6 +209,7 @@ export default function VeiculoPage() {
           <thead className={styles.tabelaCabecalho}>
             <tr>
               <th>ID</th>
+              <th>Usuário</th>
               <th>Placa</th>
               <th>Modelo</th>
               <th>Marca</th>
@@ -216,7 +217,6 @@ export default function VeiculoPage() {
               <th>Chassi</th>
               <th>Cor</th>
               <th>Tipo</th>
-              {/* <th>Peso Máx (kg)</th> */}
               <th>Ano Modelo</th>
               <th>Ano Fabricação</th>
               <th>Ações</th>
@@ -226,6 +226,7 @@ export default function VeiculoPage() {
             {veiculos.map((v) => (
               <tr key={v.id}>
                 <td>{v.id}</td>
+                <td>{v.usuario_nome}</td>
                 <td>{v.placa}</td>
                 <td>{v.modelo}</td>
                 <td>{v.marca}</td>
@@ -233,7 +234,6 @@ export default function VeiculoPage() {
                 <td>{v.chassi}</td>
                 <td>{v.cor}</td>
                 <td>{v.tipo}</td>
-                {/* <td>{v.peso_maximo_kg}</td> */}
                 <td>{v.ano_modelo}</td>
                 <td>{v.ano_fabricacao}</td>
                 <td>
