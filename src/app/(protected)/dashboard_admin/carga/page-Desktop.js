@@ -18,10 +18,10 @@ function getNomeUsuario(token) {
 }
 
 
-const apiUrlCargas = "${process.env.NEXT_PUBLIC_API_URL}/cargas";
-const usuariosapiUrlCargas = "${process.env.NEXT_PUBLIC_API_URL}/clientes";
-const apiUrlCargasMotoristas = "${process.env.NEXT_PUBLIC_API_URL}/motoristas";
-const apiUrlCargasVeiculos = "${process.env.NEXT_PUBLIC_API_URL}/veiculos";
+const apiUrlCargas = `${process.env.NEXT_PUBLIC_API_URL}/cargas`;
+const usuariosapiUrlCargas = `${process.env.NEXT_PUBLIC_API_URL}/clientes`;
+const apiUrlCargasMotoristas = `${process.env.NEXT_PUBLIC_API_URL}/motoristas`;
+const apiUrlCargasVeiculos = `${process.env.NEXT_PUBLIC_API_URL}/veiculos`;
 
 
 export default function CargasPage() {
