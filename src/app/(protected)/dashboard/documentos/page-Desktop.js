@@ -19,10 +19,10 @@ export default function DocumentosPage() {
       let url = "";
 
       let token = localStorage.getItem("auth_token");
-      if (id === 1) url = "http://127.0.0.1:5036/relatorio/veiculos?token=" + token;
-      else if (id === 2) url = "http://127.0.0.1:5036/relatorio/motoristas?token=" + token;
-      else if (id === 3) url = "http://127.0.0.1:5036/relatorio/cargas?token=" + token;
-      else if (id === 4) url = "http://127.0.0.1:5036/relatorio/clientes?token=" + token; 
+      if (id === 1) url = "${process.env.NEXT_PUBLIC_API_URL}/relatorio/veiculos?token=" + token;
+      else if (id === 2) url = "${process.env.NEXT_PUBLIC_API_URL}/relatorio/motoristas?token=" + token;
+      else if (id === 3) url = "${process.env.NEXT_PUBLIC_API_URL}/relatorio/cargas?token=" + token;
+      else if (id === 4) url = "${process.env.NEXT_PUBLIC_API_URL}/relatorio/clientes?token=" + token; 
       else return alert("Erro ao consultar");
 
 //      let token = localStorage.getItem("auth_token");

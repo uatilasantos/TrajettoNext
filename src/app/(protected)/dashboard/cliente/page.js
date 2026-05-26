@@ -5,7 +5,8 @@ import { jwtDecode } from "jwt-decode";
 import styles from "./cliente.module.css";
 
 
-const apiUrl = "http://127.0.0.1:5036//clientes";
+// const apiUrl = "http://127.0.0.1:5036//clientes";
+const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/clientes`;
 
 
 function getIDUsuario(token) {
@@ -72,7 +73,7 @@ async function carregarClientes() {
 
   try {
     const response = await fetch(
-      `http://127.0.0.1:5036/cargas/clientesCadastrados/${usuarioId}`
+      `${process.env.NEXT_PUBLIC_API_URL}/cargas/clientesCadastrados/${usuarioId}`
     );
 
     const data = await response.json();

@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
 import styles from "./motorista.module.css";
 
-const apiUrl = "http://127.0.0.1:5036/admin/motoristas";
+const apiUrl = "${process.env.NEXT_PUBLIC_API_URL}/admin/motoristas";
 
 
 function getIDUsuario(token) {
