@@ -19,11 +19,11 @@ function getNomeUsuario(token) {
 }
 
 /* -------------------------------------------------------------- URL DAS APIS ----------------------------------------------------------------------- */
-const apiUrlCargas = "http://127.0.0.1:5036/dashboard/cargasCadastradas";
-const apiUrlMotoristas = "http://127.0.0.1:5036/dashboard/motoristasCadastrados";
-const apiUrlVeiculos = "http://127.0.0.1:5036/dashboard/veiculosCadastrados";
-const apiUrlClientes = "http://127.0.0.1:5036/dashboard/clientesCadastrados";
-const apiUrlTotais = "http://127.0.0.1:5036/dashboard/totaisCargas";
+const apiUrlCargas = "${process.env.NEXT_PUBLIC_API_URL}/dashboard/cargasCadastradas";
+const apiUrlMotoristas = "${process.env.NEXT_PUBLIC_API_URL}/dashboard/motoristasCadastrados";
+const apiUrlVeiculos = "${process.env.NEXT_PUBLIC_API_URL}/dashboard/veiculosCadastrados";
+const apiUrlClientes = "${process.env.NEXT_PUBLIC_API_URL}/dashboard/clientesCadastrados";
+const apiUrlTotais = "${process.env.NEXT_PUBLIC_API_URL}/dashboard/totaisCargas";
 
 
 /*-----------------------conexões antigas-----------------------

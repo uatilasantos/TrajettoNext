@@ -17,7 +17,7 @@ function getNomeUsuario(token) {
   return decoded.nome_usuario;
 }
 
-const apiUrlCargas = "http://localhost:5036/admin/cargas";
+const apiUrlCargas = "${process.env.NEXT_PUBLIC_API_URL}/admin/cargas";
 
 
 export default function CargasPage() {

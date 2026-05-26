@@ -5,8 +5,8 @@ import { jwtDecode } from "jwt-decode";
 import styles from "./motorista.module.css";
 
 
-const apiUrl = "http://127.0.0.1:5036//motoristas";
-// const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/motoristas`;
+// const apiUrl = "http://127.0.0.1:5036//motoristas";
+const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/motoristas`;
 
 
 
@@ -67,7 +67,7 @@ export default function motoristaPage() {
 
     try {
       const response = await fetch(
-        `http://127.0.0.1:5036/cargas/motoristasCadastrados/${usuarioId}`
+        `${process.env.NEXT_PUBLIC_API_URL}/cargas/motoristasCadastrados/${usuarioId}`
       );
       const data = await response.json();
 
