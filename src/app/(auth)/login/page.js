@@ -63,8 +63,8 @@ export default function LoginPage() {
 
             console.log("REDIRECIONANDO...");
 
-            //router.push("/dashboard");
-            window.location.href = "/dashboard";
+            router.push("/dashboard");
+            //window.location.href = "/dashboard";
 
         } catch (err) {
             console.error("Erro ao realizar login:", err);
