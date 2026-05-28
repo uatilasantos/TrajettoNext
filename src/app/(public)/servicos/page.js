@@ -5,7 +5,7 @@ export default function ServicosPage() {
   return (
     <main className={styles.container}>
       <h1 className={styles.title}>Nossos Serviços</h1>
-      <h2 className={styles.descricao}>O sistema TRAJETTO é totalemente pensado e projetado para ganho de produtividade e eficianecia, 
+      <h2 className={styles.descricao}>O sistema TRAJETTO é totalemente pensado e projetado para ganho de produtividade e eficiência, 
                                         desenvolvido para auxiliar você a escalar sua operação. Nosso sistema oferece diversos recursos
                                         totalmente alinhados as mais rigidas normas de logisticas, fiscais e processuais.</h2>
 
