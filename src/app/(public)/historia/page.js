@@ -6,7 +6,7 @@ export default function HistoriaPage() {
     <main className={styles.container}>
       {/* <h1 className={styles.title}>Nossos Serviços</h1> */}
       <h3 className={styles.descricao}>A TRAJETTO é uma startup de mobilidade logistica, nascida a partir de um projeto de universitario,
-        onde uma grupo de amigos se uniram para desenvolver um projeto que combinava 3 materias que eram ministradas no semestre em questão.
+        onde um grupo de amigos se uniram para desenvolver um projeto que combinava 3 matérias que eram ministradas no semestre em questão.
         Focados e determinados a entregar algo diferente e que fizesse sentido, nasceu a TRAJETTO.
       </h3>
 
@@ -44,7 +44,7 @@ export default function HistoriaPage() {
         <div className={styles.text}>
           <h2>Visão</h2>
           <p>
-            Nossa visão é alcançar o posto mais alto em tecnologia, pesquisa e genciamento logistico, sendo referẽncia nacional e mundial
+            Nossa visão é alcançar o posto mais alto em tecnologia, pesquisa e gerenciamento logístico, sendo referência nacional e mundial
             no segmento.
           </p>
         </div>

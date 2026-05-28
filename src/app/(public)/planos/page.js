@@ -9,10 +9,10 @@ export default function PlanosPage() {
       id: 1,
       nome: "Essencial",
       preco: "R$139/mês",
-      descricao: "Ideal para quem trabalha com marktplaces." ,
+      descricao: "Ideal para quem trabalha com marketplaces." ,
       info_adicional: "Se você atende as entregas para Marketplaces (Mercado Livre, Shopee, Amazon, etc), esse plano é ideal para você.",
       recursos: [
-        "3 usuário",
+        "3 usuários",
         "1 GB de armazenamento",
         "Suporte por e-mail"
       ],
