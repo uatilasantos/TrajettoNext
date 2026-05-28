@@ -62,7 +62,7 @@ export default function Slider() {
         <div className={`${styles.card} ${styles.card2}`}>
           <img src="/truck2.png" alt="Veículos" className={styles.cardIcon} />
           <h3>Veículos</h3>
-          <p>Gerencie sua frota de veículos, saiba em tempo real onde cada veçulo está.</p>
+          <p>Gerencie sua frota de veículos, saiba em tempo real onde cada veiculo está.</p>
         </div>
 
         <div className={`${styles.card} ${styles.card3}`}>

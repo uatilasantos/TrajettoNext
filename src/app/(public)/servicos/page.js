@@ -24,9 +24,9 @@ export default function ServicosPage() {
           <h2>Gerenciamento de Cargas</h2>
           <p>
             Através do módulo de manifesto de carga, vocẽ terá total controle e
-            gerenciamento das cargas cadastradas, o módulo faz calculo automatico 
-            de frete já disponibilizando uma tabela de calculo de frete baseada
-            nas melhores praticas de pricing do mercado. Crie, edite e exclua uma
+            gerenciamento das cargas cadastradas, o módulo faz cálculo automatico 
+            de frete já disponibilizando uma tabela de cálculo de frete baseada
+            nas melhores práticas de pricing do mercado. Crie, edite e exclua uma
             carga quando quiser, total controle da carga no momento que quiser.
           </p>
         </div>
@@ -48,7 +48,7 @@ export default function ServicosPage() {
           <p>
             Nesse módulo você é capaz de gerenciar todo seu quadro de motoristas,
             tendo controle e acesso aos dados dos seus colaboradores sempre que
-            precisar de forma rápida e simplficada.
+            precisar de forma rápida e simplificada.
           </p>
         </div>
       </section>
@@ -69,7 +69,7 @@ export default function ServicosPage() {
           <p>
             Nesse módulo você gerencia toda sua frota de veículos, tem o controle
             cadastral do veículo junto aos orgãos de trânsito, mantendo sua frota 
-            em dia e regular com os mais altos padrões de segurança daa legislação
+            em dia e regular com os mais altos padrões de segurança da legislação
             de trânsito.
           </p>
         </div>
@@ -88,11 +88,9 @@ export default function ServicosPage() {
         <div className={styles.text}>
           <h2>Carteira de Clientes</h2>
           <p>
-            Nesse módulo você é capaz de gerenciar toda a sua carteira de clientes,
-            tendo todos os dados disponíveis a qualquer momento. Esse módulo é
-            totalmente integrado aos demais módulos do sistema, dessa forma você
-            consegue selecionar um cliente para determinado serviço dentro do respectivo
-            módulo que você estiver usando no momento.
+            O sistema TRAJETTO é totalmente pensado e projetado para ganho de produtividade e eficiência,
+             desenvolvido para auxiliar você a escalar sua operação. Nosso sistema oferece diversos 
+             recursos totalmente alinhados às mais rígidas normas logísticas, fiscais e processuais.
           </p>
         </div>
       </section>
